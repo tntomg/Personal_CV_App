@@ -28,8 +28,10 @@ const nav = isEn
       { id: 'achievements', label: 'Достижения' },
     ];
 
-const email = '79046374416@yandex.ru';
-const cv = isEn ? '/cv/Alexey-Pakhalko-CV-EN-2026.docx' : '/cv/Alexey-Pakhalko-CV-RU-2026.docx';
+const email = 't1tanium@yandex.ru';
+const telegram = '@t1tanium';
+const telegramUrl = 'https://t.me/t1tanium';
+const cv = isEn ? '/cv/Alexey-Pakhalko-CV-EN-2026.pdf' : '/cv/Alexey-Pakhalko-CV-RU-2026.pdf';
 
 const pathname = Astro.url.pathname;
 const isHome = isEn ? pathname === '/en/' : pathname === '/ru/';
@@ -92,7 +94,8 @@ if (pathname.startsWith('/ru/')) {
               <a class="lang-item" href={enPath} hreflang="en" lang="en" aria-label="English version">EN</a>
             )}
           </nav>
-          <a class="button button-ghost button-small" href={`mailto:${email}`}><Icon name="envelope" />{isEn ? 'Contact' : 'Написать'}</a>
+          <a class="button button-ghost button-small header-tg" href={telegramUrl} target="_blank" rel="noopener" aria-label="Telegram: @t1tanium" title="Telegram: @t1tanium"><Icon name="telegram" /><span class="header-tg-text">Telegram</span></a>
+          <a class="button button-ghost button-small header-mail" href={`mailto:${email}`} aria-label={isEn ? `Email: ${email}` : `Почта: ${email}`}><Icon name="envelope" /><span class="header-btn-text">{isEn ? 'Contact' : 'Написать'}</span></a>
         </div>
       </div>
     </header>
@@ -101,10 +104,21 @@ if (pathname.startsWith('/ru/')) {
       <div class="shell footer-main">
         <div>
           <h2>{isEn ? 'Questions about experience, projects, or applications' : 'Вопросы по опыту, проектам или приложениям'}</h2>
-          <a class="footer-mail" href={`mailto:${email}`}>{email}<Icon name="arrow-up-right" /></a>
+          <div class="footer-contacts">
+            <a class="footer-contact-link footer-mail" href={`mailto:${email}`} aria-label={`Email: ${email}`}>
+              <Icon name="envelope" />
+              <span>{email}</span>
+              <Icon name="arrow-up-right" class="icon-subtle" />
+            </a>
+            <a class="footer-contact-link footer-tg" href={telegramUrl} target="_blank" rel="noopener" aria-label={`Telegram: ${telegram}`}>
+              <Icon name="telegram" />
+              <span>{telegram}</span>
+              <Icon name="arrow-up-right" class="icon-subtle" />
+            </a>
+          </div>
         </div>
         <div class="footer-side">
-          <p>{isEn ? 'Saint Petersburg. Resume in a single DOCX file.' : 'Санкт-Петербург. Резюме одним файлом, формат DOCX.'}</p>
+          <p>{isEn ? 'Saint Petersburg. Resume in PDF format.' : 'Санкт-Петербург. Резюме в формате PDF.'}</p>
           <a class="button button-primary" href={cv} download><Icon name="download" class="icon-down" />{isEn ? 'Download CV' : 'Скачать CV'}</a>
         </div>
       </div>

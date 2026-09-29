@@ -19,7 +19,7 @@ const education = byKind('education');
 const papers = byKind('publication');
 const talks = byKind('talk');
 
-const cv = '/cv/Alexey-Pakhalko-CV-RU-2026.docx';
+const cv = '/cv/Alexey-Pakhalko-CV-RU-2026.pdf';
 
 // "Pakhalko A. G." + detail -> one period between them, never two.
 const joinSentences = (lead: string, detail?: string) => (detail ? `${lead}${lead.endsWith('.') ? '' : '.'} ${detail}` : lead);

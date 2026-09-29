@@ -1,10 +1,7 @@
 ---
 import { getCollection, type CollectionEntry } from 'astro:content';
 import BaseLayout from '../../../layouts/BaseLayout.astro';
-import FieldFlow from '../../../components/FieldFlow.astro';
 import Icon from '../../../components/Icon.astro';
-import Qapf from '../../../components/Qapf.astro';
-import Stereonet from '../../../components/Stereonet.astro';
 
 export async function getStaticPaths() {
   const products = (await getCollection('apps_en', ({ data }) => data.publicationState === 'published' && data.kind === 'product')).sort((a, b) => a.data.order - b.data.order);
@@ -21,17 +18,10 @@ interface Props {
 const { app, next } = Astro.props;
 const { data } = app;
 const isField = (data.slug ?? '').includes('field');
-const statusLabel: Record<string, string> = {
-  concept: 'Concept',
-  prototype: 'Prototype',
-  pilot: 'Pilot operation',
-  'in-use': 'In use',
-  released: 'Released',
-  unverified: 'Under review',
-};
+
 const caption: Record<string, string> = {
-  'field-flow': 'Rocksurv Field architectural workflow: office project setup (ArcGIS Pro / GeoPackage), 100% offline field traverses, and session export to Excel, ZIP, and JSON.',
-  stereonet: 'Schmidt net (lower hemisphere equal-area projection) and QAPF double triangle plotted according to mathematical formulas and field boundaries from the Rocksurv Classifier specification.',
+  field: 'Rocksurv Field interface on a rugged tablet: georeferenced GeoPackage layers, active observation session, and field navigation.',
+  classifier: 'Rocksurv Classifier smartphone interface: equal-area Schmidt net with intersection axis calculation (beta-axis) and IUGS Streckeisen QAPF double triangle.',
 };
 ---
 <BaseLayout title={`${data.title}: ${data.area.toLowerCase()} | Alexey Pakhalko`} description={data.summary} active="apps" theme="night" lang="en">
@@ -47,8 +37,7 @@ const caption: Record<string, string> = {
       <dl class="case-facts">
         {data.specVersion && <div><dt>Specification</dt><dd>version {data.specVersion}</dd></div>}
         {data.stack && <div><dt>Tech Stack</dt><dd>{data.stack}</dd></div>}
-        <div><dt>Status</dt><dd>{statusLabel[data.productStatus]}</dd></div>
-        <div><dt>Source</dt><dd>project specification</dd></div>
+        <div><dt>Operation</dt><dd>100% Offline-First</dd></div>
         <div>
           <dt>Presentation</dt>
           <dd>
@@ -68,22 +57,79 @@ const caption: Record<string, string> = {
           <span>Interactive app presentation ({isField ? '12 slides' : '10 slides'}) &rarr;</span>
         </a>
       </div>
-      {data.diagram === 'stereonet' ? (
-        <div class="net-wrap">
-          <Stereonet size={520} label="Schmidt net with example plane, pole and lineation" />
-          <div>
-            <Qapf size={190} lang="en" />
-            <div class="net-legend">
-              <span><i></i>plane 120/45</span>
-              <span><i class="dot"></i>its pole</span>
-              <span><i class="tri"></i>lineation in plane</span>
+      {isField ? (
+        <a href="/en/presentations/field/" class="app-showcase-link" aria-label="Open interactive presentation of Rocksurv Field">
+          <div class="showcase-device showcase-tablet">
+            <div class="device-bezel">
+              <div class="device-camera-dot"></div>
+              <div class="device-screen">
+                <img
+                  src="/presentations/field/01-1280.webp"
+                  srcset="/presentations/field/01-800.webp 800w, /presentations/field/01-1280.webp 1280w, /presentations/field/01-1920.webp 1920w"
+                  sizes="(max-width: 900px) 92vw, 560px"
+                  width="1280"
+                  height="705"
+                  alt="Rocksurv Field interface on a rugged field tablet: georeferenced GeoPackage layers, active observation session, and satellite navigation"
+                  loading="lazy"
+                  decoding="async"
+                  class="tablet-screen-img"
+                />
+                <div class="device-screen-overlay"></div>
+              </div>
+              <div class="showcase-chip-photo">
+                <img
+                  src="/presentations/field/11-640.webp"
+                  width="140"
+                  height="90"
+                  alt="Fieldwork with rugged tablet on outcrop"
+                  loading="lazy"
+                  decoding="async"
+                />
+                <div class="chip-text">
+                  <span class="chip-title">On Field Traverse</span>
+                  <span class="chip-sub">100% Offline-First</span>
+                </div>
+              </div>
             </div>
           </div>
-        </div>
+        </a>
       ) : (
-        <FieldFlow lang="en" />
+        <a href="/en/presentations/classifier/" class="app-showcase-link" aria-label="Open interactive presentation of Rocksurv Classifier">
+          <div class="showcase-device showcase-dual">
+            <div class="device-phone phone-primary">
+              <div class="phone-screen-wrap">
+                <span class="phone-tag">Schmidt Net (beta-axis)</span>
+                <img
+                  src="/presentations/classifier/08-1000.webp"
+                  srcset="/presentations/classifier/08-600.webp 600w, /presentations/classifier/08-1000.webp 1000w, /presentations/classifier/08-1600.webp 1600w"
+                  sizes="(max-width: 900px) 46vw, 280px"
+                  width="600"
+                  height="1200"
+                  alt="Rocksurv Classifier: equal-area Schmidt net with intersection of S0 and Fault planes, poles and calculated beta-axis"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </div>
+            </div>
+            <div class="device-phone phone-secondary">
+              <div class="phone-screen-wrap">
+                <span class="phone-tag">IUGS QAPF (Plutonic)</span>
+                <img
+                  src="/presentations/classifier/11-1000.webp"
+                  srcset="/presentations/classifier/11-600.webp 600w, /presentations/classifier/11-1000.webp 1000w, /presentations/classifier/11-1600.webp 1600w"
+                  sizes="(max-width: 900px) 46vw, 280px"
+                  width="600"
+                  height="1200"
+                  alt="Rocksurv Classifier: Streckeisen QAPF double triangle classification with monzogranite field"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </div>
+            </div>
+          </div>
+        </a>
       )}
-      <figcaption>{caption[data.diagram ?? 'field-flow']}</figcaption>
+      <figcaption>{caption[isField ? 'field' : 'classifier']}</figcaption>
     </figure>
 
     <section class="case-section" aria-labelledby="problem">
@@ -109,18 +155,6 @@ const caption: Record<string, string> = {
         </div>
       </section>
     )}
-
-    <section class="case-section" aria-labelledby="evidence">
-      <h2 id="evidence">Verification & Status</h2>
-      <div class="check">
-        <div class="check-note">
-          <strong>Description based on project specification</strong>
-          <p>This is not a demonstration of a packaged release. The feature set, targeted platforms, and engineering scope are documented from project specifications and working codebases.</p>
-        </div>
-        {data.pending.length > 0 && <ul>{data.pending.map((item) => <li>{item}</li>)}</ul>}
-        <p class="source-line">Source: {data.evidence.reference}.</p>
-      </div>
-    </section>
 
     <nav class="case-nav" aria-label="Other applications">
       <a href="/en/#apps"><Icon name="arrow-left" />All applications</a>

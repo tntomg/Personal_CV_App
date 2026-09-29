@@ -99,6 +99,20 @@ def main():
     cv_dir.mkdir(parents=True, exist_ok=True)
     copy2(CV_SOURCE, cv_dir / "Alexey-Pakhalko-CV-RU-2026.docx")
     copy2(CV_SOURCE_EN, cv_dir / "Alexey-Pakhalko-CV-EN-2026.docx")
+    try:
+        import win32com.client
+        word = win32com.client.Dispatch("Word.Application")
+        word.Visible = False
+        word.DisplayAlerts = False
+        try:
+            for src, dst_name in [(CV_SOURCE, "Alexey-Pakhalko-CV-RU-2026.pdf"), (CV_SOURCE_EN, "Alexey-Pakhalko-CV-EN-2026.pdf")]:
+                doc = word.Documents.Open(str(src.resolve()))
+                doc.SaveAs2(str((cv_dir / dst_name).resolve()), FileFormat=17)
+                doc.Close()
+        finally:
+            word.Quit()
+    except Exception as e:
+        print(f"Warning: could not export PDF via Word COM: {e}")
     print(f"{len(sizes)} experience photos ready; review CV personal data before public deployment")
 
 
