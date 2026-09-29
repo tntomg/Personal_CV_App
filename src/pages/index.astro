@@ -1,5 +1,5 @@
 ---
-// Language entry point. Only the Russian edition exists for now, so the page forwards to it.
+// Language entry point: detects browser language or saved preference, then routes to /ru/ or /en/.
 import '@fontsource-variable/geologica/shrp.css';
 import '../styles/global.css';
 ---
@@ -8,17 +8,45 @@ import '../styles/global.css';
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta http-equiv="refresh" content="0; url=/ru/" />
-    <link rel="canonical" href="/ru/" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <title>Алексей Пахалко, геолог</title>
-    <meta name="description" content="Геологическое картирование, петрография, качество полевых данных и геологические приложения." />
+    <title>Алексей Пахалко / Alexey Pakhalko</title>
+    <meta name="description" content="Геолог / Geologist: mapping, petrography, field data QA/QC, geological applications." />
+    <link rel="alternate" hreflang="ru" href="/ru/" />
+    <link rel="alternate" hreflang="en" href="/en/" />
+    <link rel="alternate" hreflang="x-default" href="/en/" />
+    <script is:inline>
+      (function() {
+        try {
+          var stored = localStorage.getItem('preferred-lang');
+          if (stored === 'en') {
+            window.location.replace('/en/');
+            return;
+          }
+          if (stored === 'ru') {
+            window.location.replace('/ru/');
+            return;
+          }
+        } catch (e) {}
+        var lang = (navigator.languages && navigator.languages[0]) || navigator.language || '';
+        if (/^ru\b|^be\b|^uk\b|^ky\b|^kk\b/i.test(lang)) {
+          window.location.replace('/ru/');
+        } else {
+          window.location.replace('/en/');
+        }
+      })();
+    </script>
+    <noscript>
+      <meta http-equiv="refresh" content="0; url=/ru/" />
+    </noscript>
   </head>
   <body>
     <main class="entry">
-      <h1>Алексей Пахалко</h1>
-      <p>Персональный сайт геолога.</p>
-      <p><a class="button button-primary" href="/ru/">Открыть русскую версию</a></p>
+      <h1>Алексей Пахалко / Alexey Pakhalko</h1>
+      <p>Персональный сайт геолога / Personal website of a geologist.</p>
+      <div style="display: flex; gap: 12px; justify-content: center; margin-top: 16px; flex-wrap: wrap;">
+        <a class="button button-primary" href="/ru/">Русская версия (RU)</a>
+        <a class="button button-ghost" href="/en/">English version (EN)</a>
+      </div>
     </main>
   </body>
 </html>

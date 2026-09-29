@@ -59,7 +59,8 @@ function setupGallery(root: HTMLElement): void {
     if (index === current) return;
     current = index;
     slides.forEach((slide, i) => slide.classList.toggle('is-current', i === index));
-    if (status) status.innerHTML = `<b>${index + 1}</b> из ${slides.length}`;
+    const ofWord = document.documentElement.lang === 'en' ? 'of' : 'из';
+    if (status) status.innerHTML = `<b>${index + 1}</b> ${ofWord} ${slides.length}`;
     dots.forEach((dot, i) => dot.classList.toggle('is-current', i === index));
     thumbs.forEach((thumb, i) => thumb.setAttribute('aria-current', String(i === index)));
     const thumb = thumbs[index];
@@ -221,7 +222,8 @@ function setupLightbox(): void {
     image = incoming;
     stage.append(incoming);
     caption.textContent = link.dataset.caption ?? '';
-    count.innerHTML = `<b>${index + 1}</b> из ${total}`;
+    const ofWord = document.documentElement.lang === 'en' ? 'of' : 'из';
+    count.innerHTML = `<b>${index + 1}</b> ${ofWord} ${total}`;
     prev.hidden = next.hidden = total < 2;
     if (outgoing) {
       if (dir === 0 || reduced.matches) {

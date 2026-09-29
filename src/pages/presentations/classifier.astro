@@ -5,11 +5,27 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <meta http-equiv="refresh" content="0; url=/ru/presentations/classifier/">
-  <link rel="canonical" href="/ru/presentations/classifier/">
-  <title>Redirecting...</title>
+  <title>Redirecting to Rocksurv Classifier presentation...</title>
+  <script is:inline>
+    (function() {
+      try {
+        var stored = localStorage.getItem('preferred-lang');
+        if (stored === 'en') { window.location.replace('/en/presentations/classifier/'); return; }
+        if (stored === 'ru') { window.location.replace('/ru/presentations/classifier/'); return; }
+      } catch (e) {}
+      var lang = (navigator.languages && navigator.languages[0]) || navigator.language || '';
+      if (/^ru\b|^be\b|^uk\b/i.test(lang)) {
+        window.location.replace('/ru/presentations/classifier/');
+      } else {
+        window.location.replace('/en/presentations/classifier/');
+      }
+    })();
+  </script>
+  <noscript>
+    <meta http-equiv="refresh" content="0; url=/ru/presentations/classifier/">
+  </noscript>
 </head>
 <body>
-  <p>Redirecting to <a href="/ru/presentations/classifier/">/ru/presentations/classifier/</a>...</p>
+  <p>Redirecting to <a href="/ru/presentations/classifier/">Russian</a> or <a href="/en/presentations/classifier/">English</a> presentation...</p>
 </body>
 </html>

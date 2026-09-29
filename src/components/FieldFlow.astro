@@ -5,8 +5,10 @@
 */
 interface Props {
   compact?: boolean;
+  lang?: 'ru' | 'en';
 }
-const { compact = false } = Astro.props;
+const { compact = false, lang = 'ru' } = Astro.props;
+const isEn = lang === 'en';
 
 const hill = (cx: number, cy: number, steps: number, gap: number, seed: number) =>
   Array.from({ length: steps }, (_, k) => {
@@ -27,7 +29,7 @@ const points = [route[1], route[3], route[4], route[6]];
 const line = route.map(([x, y], i) => `${i ? 'L' : 'M'}${x} ${y}`).join('');
 ---
 <div class="flow">
-  <svg class="flow-map diagram" viewBox="0 0 720 405" role="img" aria-label="Схематическая карта рельефа с маршрутом и точками наблюдения">
+  <svg class="flow-map diagram" viewBox="0 0 720 405" role="img" aria-label={isEn ? 'Schematic topographic map with traverse route and observation points' : 'Схематическая карта рельефа с маршрутом и точками наблюдения'}>
     <rect width="720" height="405" fill="#101812" />
     <g fill="none" stroke="#33443a">
       {contours.map((c) => <path d={c.d} stroke-width={c.index ? 1.4 : 0.7} />)}
@@ -40,14 +42,24 @@ const line = route.map(([x, y], i) => `${i ? 'L' : 'M'}${x} ${y}`).join('');
       </g>
     ))}
     <g fill="#aebab1" font-size="13">
-      <text x={points[1][0] + 14} y={points[1][1] + 4}>точка наблюдения</text>
+      <text x={points[1][0] + 14} y={points[1][1] + 4}>{isEn ? 'observation point' : 'точка наблюдения'}</text>
     </g>
   </svg>
   {!compact && (
     <ol class="flow-steps">
-      <li><small>Офис</small><strong>Проект в ArcGIS Pro</strong><span>Картооснова, стили и словари упакованы в GeoPackage.</span></li>
-      <li><small>Поле</small><strong>Работа без сети</strong><span>Карта, журнал, фото, GPS и компас на планшете.</span></li>
-      <li><small>Офис</small><strong>Камеральная обработка</strong><span>Excel, фото и validation_report.json в одном ZIP.</span></li>
+      {isEn ? (
+        <>
+          <li><small>Office</small><strong>Project in ArcGIS Pro</strong><span>Basemap, symbology and dictionaries packaged into GeoPackage.</span></li>
+          <li><small>Field</small><strong>100% Offline Work</strong><span>Map, log, photos, GPS and compass on the rugged tablet.</span></li>
+          <li><small>Office</small><strong>Post-Field Review</strong><span>Excel, photos and validation_report.json in a single ZIP.</span></li>
+        </>
+      ) : (
+        <>
+          <li><small>Офис</small><strong>Проект в ArcGIS Pro</strong><span>Картооснова, стили и словари упакованы в GeoPackage.</span></li>
+          <li><small>Поле</small><strong>Работа без сети</strong><span>Карта, журнал, фото, GPS и компас на планшете.</span></li>
+          <li><small>Офис</small><strong>Камеральная обработка</strong><span>Excel, фото и validation_report.json в одном ZIP.</span></li>
+        </>
+      )}
     </ol>
   )}
 </div>

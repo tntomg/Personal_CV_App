@@ -1,0 +1,130 @@
+---
+import { getCollection, type CollectionEntry } from 'astro:content';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import FieldFlow from '../../../components/FieldFlow.astro';
+import Icon from '../../../components/Icon.astro';
+import Qapf from '../../../components/Qapf.astro';
+import Stereonet from '../../../components/Stereonet.astro';
+
+export async function getStaticPaths() {
+  const products = (await getCollection('apps_en', ({ data }) => data.publicationState === 'published' && data.kind === 'product')).sort((a, b) => a.data.order - b.data.order);
+  return products.map((app, index) => ({
+    params: { slug: app.data.slug! },
+    props: { app, next: products[(index + 1) % products.length] },
+  }));
+}
+
+interface Props {
+  app: CollectionEntry<'apps_en'>;
+  next: CollectionEntry<'apps_en'>;
+}
+const { app, next } = Astro.props;
+const { data } = app;
+const isField = (data.slug ?? '').includes('field');
+const statusLabel: Record<string, string> = {
+  concept: 'Concept',
+  prototype: 'Prototype',
+  pilot: 'Pilot operation',
+  'in-use': 'In use',
+  released: 'Released',
+  unverified: 'Under review',
+};
+const caption: Record<string, string> = {
+  'field-flow': 'Rocksurv Field architectural workflow: office project setup (ArcGIS Pro / GeoPackage), 100% offline field traverses, and session export to Excel, ZIP, and JSON.',
+  stereonet: 'Schmidt net (lower hemisphere equal-area projection) and QAPF double triangle plotted according to mathematical formulas and field boundaries from the Rocksurv Classifier specification.',
+};
+---
+<BaseLayout title={`${data.title}: ${data.area.toLowerCase()} | Alexey Pakhalko`} description={data.summary} active="apps" theme="night" lang="en">
+  <article class="case shell">
+    <nav class="crumbs" aria-label="Breadcrumb navigation"><a href="/en/">Home</a><span aria-hidden="true">/</span><a href="/en/#apps">Apps</a><span aria-hidden="true">/</span><span aria-current="page">{data.title}</span></nav>
+
+    <header class="case-head">
+      <div>
+        <p class="app-stage">{data.stage}. {data.area}</p>
+        <h1 style={`view-transition-name: app-${data.slug}`}>{data.title}</h1>
+        <p class="case-lead">{data.summary}</p>
+      </div>
+      <dl class="case-facts">
+        {data.specVersion && <div><dt>Specification</dt><dd>version {data.specVersion}</dd></div>}
+        {data.stack && <div><dt>Tech Stack</dt><dd>{data.stack}</dd></div>}
+        <div><dt>Status</dt><dd>{statusLabel[data.productStatus]}</dd></div>
+        <div><dt>Source</dt><dd>project specification</dd></div>
+        <div>
+          <dt>Presentation</dt>
+          <dd>
+            <a href={`/en/presentations/${isField ? 'field' : 'classifier'}/`} class="case-pres-link">
+              <Icon name="presentation" />
+              <span>Open ({isField ? '12 slides' : '10 slides'})</span>
+            </a>
+          </dd>
+        </div>
+      </dl>
+    </header>
+
+    <figure class="case-figure" style={`view-transition-name: figure-${data.slug}`}>
+      <div class="figure-pres-bar">
+        <a href={`/en/presentations/${isField ? 'field' : 'classifier'}/`} class="figure-pres-btn">
+          <Icon name="presentation" />
+          <span>Interactive app presentation ({isField ? '12 slides' : '10 slides'}) &rarr;</span>
+        </a>
+      </div>
+      {data.diagram === 'stereonet' ? (
+        <div class="net-wrap">
+          <Stereonet size={520} label="Schmidt net with example plane, pole and lineation" />
+          <div>
+            <Qapf size={190} lang="en" />
+            <div class="net-legend">
+              <span><i></i>plane 120/45</span>
+              <span><i class="dot"></i>its pole</span>
+              <span><i class="tri"></i>lineation in plane</span>
+            </div>
+          </div>
+        </div>
+      ) : (
+        <FieldFlow lang="en" />
+      )}
+      <figcaption>{caption[data.diagram ?? 'field-flow']}</figcaption>
+    </figure>
+
+    <section class="case-section" aria-labelledby="problem">
+      <h2 id="problem">The Problem</h2>
+      <p>{data.problem}</p>
+    </section>
+
+    <section class="case-section" aria-labelledby="workflow">
+      <h2 id="workflow">Workflow</h2>
+      <ol class="steps">{data.workflow.map((step) => <li><p>{step}</p></li>)}</ol>
+    </section>
+
+    {data.capabilities.length > 0 && (
+      <section class="case-section" aria-labelledby="capabilities">
+        <h2 id="capabilities">Specification Scope</h2>
+        <div class="caps">
+          {data.capabilities.map((group) => (
+            <div class="cap">
+              <h3>{group.group}</h3>
+              <ul>{group.items.map((item) => <li>{item}</li>)}</ul>
+            </div>
+          ))}
+        </div>
+      </section>
+    )}
+
+    <section class="case-section" aria-labelledby="evidence">
+      <h2 id="evidence">Verification & Status</h2>
+      <div class="check">
+        <div class="check-note">
+          <strong>Description based on project specification</strong>
+          <p>This is not a demonstration of a packaged release. The feature set, targeted platforms, and engineering scope are documented from project specifications and working codebases.</p>
+        </div>
+        {data.pending.length > 0 && <ul>{data.pending.map((item) => <li>{item}</li>)}</ul>}
+        <p class="source-line">Source: {data.evidence.reference}.</p>
+      </div>
+    </section>
+
+    <nav class="case-nav" aria-label="Other applications">
+      <a href="/en/#apps"><Icon name="arrow-left" />All applications</a>
+      {next.id !== app.id && <a href={`/en/apps/${next.data.slug}/`}>{next.data.title}<Icon name="arrow-right" /></a>}
+    </nav>
+  </article>
+</BaseLayout>

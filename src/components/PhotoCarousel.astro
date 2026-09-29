@@ -10,19 +10,12 @@ interface Photo {
   caption: string;
 }
 
-const MONTHS = ['январь', 'февраль', 'март', 'апрель', 'май', 'июнь', 'июль', 'август', 'сентябрь', 'октябрь', 'ноябрь', 'декабрь'];
-// "2011-11" -> "ноябрь 2011", "2019" -> "2019".
-const dateLabel = (date?: string) => {
-  if (!date) return '';
-  const [year, month] = date.split('-');
-  return month ? `${MONTHS[Number(month) - 1]} ${year}` : year;
-};
-
 interface Props {
   id: string;
   label: string;
   photos: Photo[];
   note?: string;
+  lang?: 'ru' | 'en';
 }
 
 interface Size {
@@ -34,7 +27,20 @@ interface Size {
   fullHeight?: number;
 }
 
-const { id, label, photos, note } = Astro.props;
+const { id, label, photos, note, lang = 'ru' } = Astro.props;
+const isEn = lang === 'en';
+
+const MONTHS_RU = ['январь', 'февраль', 'март', 'апрель', 'май', 'июнь', 'июль', 'август', 'сентябрь', 'октябрь', 'ноябрь', 'декабрь'];
+const MONTHS_EN = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+const MONTHS = isEn ? MONTHS_EN : MONTHS_RU;
+
+// "2011-11" -> "ноябрь 2011", "2019" -> "2019".
+const dateLabel = (date?: string) => {
+  if (!date) return '';
+  const [year, month] = date.split('-');
+  return month ? `${MONTHS[Number(month) - 1]} ${year}` : year;
+};
+
 const sizes: Record<string, Size> = photoSizes;
 const missing = photos.filter((photo) => !sizes[photo.slug]).map((photo) => photo.slug);
 if (missing.length > 0) {
@@ -56,12 +62,12 @@ const viewerSrcset = (photo: Photo) => {
 ---
 <div class:list={['gallery', { 'is-single': count === 1 }]} data-gallery data-reveal="wipe" style={`--r-first:${ratio(photos[0])};--r-last:${ratio(photos[count - 1])}`}>
   <div class="gallery-frame">
-    <div class="gallery-viewport" id={viewportId} data-viewport role="region" aria-roledescription="карусель" aria-label={label} tabindex="0">
+    <div class="gallery-viewport" id={viewportId} data-viewport role="region" aria-roledescription={isEn ? "carousel" : "карусель"} aria-label={label} tabindex="0">
       {photos.map((photo, index) => {
         const { width, height, smallWidth, color } = sizes[photo.slug];
         const when = dateLabel(photo.date);
         return (
-          <figure class="gallery-slide" data-slide role="group" aria-roledescription="слайд" aria-label={`${index + 1} из ${count}`} style={`--c:${color};--r:${ratio(photo)}`}>
+          <figure class="gallery-slide" data-slide role="group" aria-roledescription={isEn ? "slide" : "слайд"} aria-label={isEn ? `${index + 1} of ${count}` : `${index + 1} из ${count}`} style={`--c:${color};--r:${ratio(photo)}`}>
             <a
               class:list={['gallery-media', `kind-${photo.kind}`, { 'fit-contain': matted(photo) }]}
               href={src(photo.slug, 1280)}
@@ -72,7 +78,7 @@ const viewerSrcset = (photo: Photo) => {
               data-width={width}
               data-height={height}
               data-srcset={viewerSrcset(photo)}
-              aria-label={`Открыть крупно: ${photo.alt}`}
+              aria-label={isEn ? `Enlarge: ${photo.alt}` : `Открыть крупно: ${photo.alt}`}
               draggable="false"
             >
               <img
@@ -97,16 +103,16 @@ const viewerSrcset = (photo: Photo) => {
   </div>
   {count > 1 && (
     <div class="gallery-controls" data-controls hidden>
-      <button type="button" class="round-button" data-prev aria-controls={viewportId} aria-label="Предыдущее фото"><Icon name="caret-left" /></button>
-      <button type="button" class="round-button" data-next aria-controls={viewportId} aria-label="Следующее фото"><Icon name="caret-right" /></button>
+      <button type="button" class="round-button" data-prev aria-controls={viewportId} aria-label={isEn ? "Previous photo" : "Предыдущее фото"}><Icon name="caret-left" /></button>
+      <button type="button" class="round-button" data-next aria-controls={viewportId} aria-label={isEn ? "Next photo" : "Следующее фото"}><Icon name="caret-right" /></button>
       {count < 4 && <div class="gallery-dots" aria-hidden="true">{photos.map(() => <span />)}</div>}
-      <p class="gallery-count" data-status aria-live="polite"><b>1</b> из {count}</p>
+      <p class="gallery-count" data-status aria-live="polite"><b>1</b> {isEn ? 'of' : 'из'} {count}</p>
     </div>
   )}
   {count >= 4 && (
     <div class="gallery-thumbs" data-thumbs hidden>
       {photos.map((photo, index) => (
-        <button type="button" data-thumb={index} aria-label={`Фото ${index + 1}: ${photo.caption}`} aria-current={index === 0 ? 'true' : 'false'} style={`--c:${sizes[photo.slug].color};--r:${ratio(photo)}`}>
+        <button type="button" data-thumb={index} aria-label={isEn ? `Photo ${index + 1}: ${photo.caption}` : `Фото ${index + 1}: ${photo.caption}`} aria-current={index === 0 ? 'true' : 'false'} style={`--c:${sizes[photo.slug].color};--r:${ratio(photo)}`}>
           <img src={src(photo.slug, 160)} alt="" width={Math.round(48 * Number(ratio(photo)))} height="48" loading="lazy" decoding="async" />
         </button>
       ))}

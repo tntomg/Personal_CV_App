@@ -62,7 +62,7 @@ if (header && hasIO) {
 // Current section in the main navigation (home page only).
 const navLinks = new Map(Array.from(document.querySelectorAll<HTMLAnchorElement>('[data-nav]')).map((link) => [link.dataset.nav ?? '', link]));
 const sections = Array.from(document.querySelectorAll<HTMLElement>('main section[id]')).filter((section) => navLinks.has(section.id));
-if (hasIO && sections.length > 0 && location.pathname === '/ru/') {
+if (hasIO && sections.length > 0 && (location.pathname === '/ru/' || location.pathname === '/en/')) {
   const spy = new IntersectionObserver(
     (entries) => {
       entries.forEach((entry) => {
@@ -99,3 +99,15 @@ if (hasIO && layers.size > 0) {
   );
   stages.forEach((stage) => column.observe(stage));
 }
+
+// Remember language choice when clicking language switch
+document.querySelectorAll<HTMLAnchorElement>('.lang-switch a[hreflang]').forEach((link) => {
+  link.addEventListener('click', () => {
+    const lang = link.getAttribute('hreflang');
+    if (lang) {
+      try {
+        localStorage.setItem('preferred-lang', lang);
+      } catch {}
+    }
+  });
+});

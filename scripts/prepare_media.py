@@ -24,6 +24,7 @@ SIZES_FILE = ROOT / "src" / "data" / "photo-sizes.json"
 PORTRAIT = ROOT / "photo" / "Personal" / "Летний сад-62.jpg"
 SCOPE_SOURCE = (ROOT / "materials" / "Pakhalko Herlany 2019.pptx", "ppt/media/image11.jpeg")
 CV_SOURCE = ROOT / "CV" / "CV Geologist Pakhalko RUS 2026.docx"
+CV_SOURCE_EN = ROOT / "CV" / "CV Geologist Pakhalko ENG 2026.docx"
 
 
 def open_rgb(path):
@@ -97,6 +98,7 @@ def main():
     cv_dir = ROOT / "public" / "cv"
     cv_dir.mkdir(parents=True, exist_ok=True)
     copy2(CV_SOURCE, cv_dir / "Alexey-Pakhalko-CV-RU-2026.docx")
+    copy2(CV_SOURCE_EN, cv_dir / "Alexey-Pakhalko-CV-EN-2026.docx")
     print(f"{len(sizes)} experience photos ready; review CV personal data before public deployment")
 
 

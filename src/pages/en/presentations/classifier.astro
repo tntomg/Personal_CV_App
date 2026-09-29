@@ -1,0 +1,1532 @@
+---
+// Standalone Presentation Mini-App: Rocksurv Classifier
+---
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Rocksurv Classifier — Interactive Petrographic & Structural Suite Presentation</title>
+  <meta name="description" content="Interactive presentation of Rocksurv Classifier: IUGS QAPF classification, Schmidt stereonet, structural verification, fault rocks and rock catalog.">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <style>
+    
+:root {
+  --paper: #f7fafd;
+  --ink: #0d1f2d;
+  --muted: #4b6377;
+  --accent: #0284c7;
+  --cyan: #38bdf8;
+  --line: #d3e0ec;
+  --gold: #d97706;
+  --closing-bg: #edf5fb;
+  --cover-bg: #0b1a28;
+}
+* { box-sizing: border-box; }
+html, body {
+  margin: 0;
+  width: 100%;
+  height: 100%;
+  background: #09131c;
+  color: var(--ink);
+  font-family: 'Segoe UI', system-ui, -apple-system, Arial, sans-serif;
+  overflow: hidden;
+}
+button { font: inherit; }
+
+#stage {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 1600px;
+  height: 900px;
+  transform: translate(-50%, -50%) scale(var(--scale, 1));
+  transform-origin: center;
+}
+
+.slide {
+  display: none;
+  position: relative;
+  width: 1600px;
+  height: 900px;
+  overflow: hidden;
+  background: var(--paper);
+  padding: 55px 70px;
+}
+.slide.active { display: block; }
+
+.brandline {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 18px;
+  font-weight: 650;
+  letter-spacing: 2px;
+}
+.brandline .brand {
+  font-size: 25px;
+  letter-spacing: -.5px;
+  font-weight: 750;
+  color: var(--ink);
+}
+.eyebrow {
+  color: var(--accent);
+  font-weight: 700;
+  letter-spacing: 2px;
+}
+
+h1, h2, p { margin: 0; }
+h2 {
+  font-weight: 700;
+  letter-spacing: -1.6px;
+  font-size: 50px;
+  line-height: 1.12;
+  margin: 22px 0 10px;
+  max-width: 960px;
+  color: var(--ink);
+}
+.lead {
+  font-size: 23px;
+  line-height: 1.34;
+  color: var(--muted);
+  max-width: 940px;
+}
+
+.feature-content {
+  position: relative;
+  margin-top: 22px;
+  display: block;
+}
+.copy {
+  padding-top: 2px;
+  max-width: 880px;
+}
+.point {
+  border-top: 1px solid var(--line);
+  padding-top: 13px;
+  margin-bottom: 17px;
+}
+.point h3 {
+  margin: 0 0 5px;
+  font-size: 24px;
+  font-weight: 650;
+  line-height: 1.14;
+  letter-spacing: -.5px;
+  color: var(--ink);
+}
+.point p {
+  font-size: 20px;
+  line-height: 1.32;
+  color: var(--muted);
+}
+
+.caption {
+  font-size: 18px;
+  line-height: 1.35;
+  color: var(--muted);
+}
+.footer {
+  position: absolute;
+  left: 70px;
+  right: 70px;
+  bottom: 22px;
+  border-top: 1px solid var(--line);
+  padding-top: 12px;
+  display: flex;
+  justify-content: space-between;
+  gap: 40px;
+  font-size: 16px;
+  letter-spacing: .4px;
+  color: var(--muted);
+}
+
+/* Portrait visual layout with Carousel */
+.portrait-slide h2 { max-width: 960px; }
+.portrait-slide .lead { max-width: 940px; }
+.portrait-slide .copy { max-width: 880px; }
+.portrait-slide .portrait-visual {
+  position: absolute;
+  right: 70px;
+  top: 110px;
+  width: 435px;
+}
+.portrait-slide > .caption {
+  position: absolute;
+  left: 70px;
+  bottom: 58px;
+  width: 900px;
+  margin: 0;
+}
+
+/* Modern Tablet Carousel Frame */
+.carousel {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 5 / 8;
+  border-radius: 14px;
+  overflow: hidden;
+  background: #091522;
+  box-shadow: 0 20px 48px rgba(13, 31, 45, 0.22);
+  outline: 1px solid #c2d5e6;
+  user-select: none;
+}
+.carousel-track {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+.carousel-item {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity .45s cubic-bezier(.4, 0, .2, 1), transform .45s cubic-bezier(.4, 0, .2, 1);
+  transform: translateX(18px) scale(0.985);
+}
+.carousel-item.active {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(0) scale(1);
+  z-index: 2;
+}
+.carousel-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+/* For screenshot items, contain cleanly */
+.carousel-item[data-contain="true"] img {
+  object-fit: contain;
+}
+
+/* Pill state badge on top */
+.state-badge {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  right: 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: rgba(11, 26, 40, 0.90);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(56, 189, 248, 0.45);
+  border-radius: 8px;
+  padding: 6px 12px;
+  color: #f0f7ff;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: .3px;
+  z-index: 5;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
+}
+.state-badge .badge-title {
+  color: var(--cyan);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.state-badge .badge-count {
+  color: #94a3b8;
+  font-size: 12px;
+  margin-left: 8px;
+  flex-shrink: 0;
+}
+
+/* Controls overlay at bottom */
+.carousel-nav {
+  position: absolute;
+  bottom: 12px;
+  left: 12px;
+  right: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  z-index: 6;
+  background: rgba(11, 26, 40, 0.88);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(211, 224, 236, 0.28);
+  border-radius: 20px;
+  padding: 4px 8px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
+}
+.carousel-btn {
+  background: transparent;
+  border: 0;
+  color: #e2e8f0;
+  cursor: pointer;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  transition: all .2s ease;
+}
+.carousel-btn:hover {
+  background: rgba(56, 189, 248, 0.25);
+  color: #38bdf8;
+}
+.carousel-dots {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+.carousel-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.35);
+  cursor: pointer;
+  transition: all .25s ease;
+  border: none;
+  padding: 0;
+}
+.carousel-dot.active {
+  width: 22px;
+  background: var(--cyan);
+}
+
+/* Auto-cycle indicator bar */
+.cycle-progress {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 3px;
+  background: var(--cyan);
+  width: 0%;
+  z-index: 7;
+  transition: width 0.1s linear;
+}
+
+/* Cover Slide (Deep Slate-Navy with Electric Cyan accents) */
+.cover {
+  background: linear-gradient(145deg, #0b1a28 0%, #11283e 100%);
+  color: #f0f7ff;
+}
+.cover .brandline .brand { color: #ffffff; font-size: 30px; }
+.cover .eyebrow, .cover .footer { color: #8bb2d4; }
+.cover .footer { border-color: #1e3a54; }
+.cover h1 {
+  font-size: 78px;
+  line-height: 1.05;
+  letter-spacing: -3px;
+  font-weight: 700;
+  position: absolute;
+  top: 205px;
+  left: 70px;
+  width: 720px;
+  color: #ffffff;
+}
+.cover h1 span {
+  display: block;
+  color: var(--cyan);
+}
+.cover .tagline {
+  position: absolute;
+  top: 435px;
+  left: 70px;
+  width: 680px;
+  font-size: 28px;
+  line-height: 1.45;
+  color: #d0e4f5;
+}
+.cover .portrait-visual {
+  position: absolute;
+  right: 70px;
+  top: 110px;
+  width: 435px;
+}
+.cover .carousel {
+  outline-color: #234b6e;
+  box-shadow: 0 24px 50px rgba(0, 0, 0, 0.6);
+  background: #081520;
+}
+.cover .cover-caption {
+  position: absolute;
+  left: 70px;
+  bottom: 58px;
+  width: 900px;
+  margin: 0;
+  color: #9abedc;
+  font-size: 18px;
+  line-height: 1.35;
+}
+.cover .cover-tag {
+  position: absolute;
+  left: 70px;
+  top: 605px;
+  width: 680px;
+  color: var(--cyan);
+  font-size: 20px;
+  line-height: 1.5;
+  letter-spacing: .3px;
+  font-weight: 600;
+}
+
+/* Closing Slide (Soft glacier slate-blue) */
+.closing { background: var(--closing-bg); }
+.closing .cta {
+  margin-top: 14px;
+  font-size: 23px;
+  line-height: 1.25;
+  font-weight: 700;
+  color: #0369a1;
+}
+.closing .point {
+  margin-bottom: 14px;
+  padding-top: 12px;
+  border-color: #c8dbeb;
+}
+.closing .point p { font-size: 20px; }
+.closing .caption { max-width: 920px; }
+
+/* Controls bar */
+.controls {
+  position: fixed;
+  bottom: 9px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 14px;
+  background: rgba(13, 31, 45, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(56, 189, 248, 0.3);
+  border-radius: 999px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+  z-index: 100;
+}
+.controls button {
+  background: transparent;
+  color: #e2e8f0;
+  border: 0;
+  font-size: 15px;
+  padding: 6px 10px;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: all .2s;
+}
+.controls button:hover {
+  background: rgba(56, 189, 248, 0.2);
+  color: var(--cyan);
+}
+.controls output {
+  color: #cbd5e1;
+  font-size: 14px;
+  font-weight: 600;
+  min-width: 60px;
+  text-align: center;
+}
+
+@media print {
+  @page {
+    size: 1600px 900px;
+    margin: 0;
+  }
+  html, body {
+    width: 1600px !important;
+    height: auto !important;
+    overflow: visible !important;
+    background: #ffffff !important;
+  }
+  #stage {
+    position: static !important;
+    transform: none !important;
+    width: 1600px !important;
+    height: auto !important;
+  }
+  .slide {
+    display: block !important;
+    position: relative !important;
+    width: 1600px !important;
+    height: 900px !important;
+    page-break-inside: avoid;
+    break-after: page;
+    page-break-after: always;
+  }
+  .slide:last-child {
+    break-after: auto;
+    page-break-after: auto;
+  }
+  .controls, .carousel-nav, .cycle-progress, .state-badge {
+    display: none !important;
+  }
+  .carousel-item {
+    display: none;
+  }
+  .carousel-item:first-child {
+    display: block !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    transform: none !important;
+  }
+}
+
+
+    /* Custom overrides & Top Bar */
+    :root {
+      --bar-bg: rgba(9, 19, 28, 0.94);
+      --cyan: #38bdf8;
+    }
+    html, body {
+      user-select: none;
+      -webkit-user-select: none;
+    }
+
+    .pres-bar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 52px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 16px;
+      background: var(--bar-bg);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(56, 189, 248, 0.2);
+      z-index: 100;
+      color: #f7fafd;
+      transition: opacity 0.25s ease;
+    }
+    .pres-bar-left, .pres-bar-right {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .pres-back {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 12px;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 6px;
+      color: #f7fafd;
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 500;
+      transition: all 0.2s ease;
+    }
+    .pres-back:hover {
+      background: rgba(56, 189, 248, 0.22);
+      border-color: var(--cyan);
+      color: #fff;
+    }
+    .pres-title-wrap {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .pres-app-title {
+      font-weight: 700;
+      font-size: 15px;
+      letter-spacing: -0.01em;
+      color: #fff;
+    }
+    .pres-chip {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      padding: 2px 7px;
+      background: rgba(56, 189, 248, 0.16);
+      color: var(--cyan);
+      border-radius: 4px;
+      font-weight: 600;
+    }
+    .tool-btn {
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      background: rgba(255, 255, 255, 0.06);
+      padding: 6px 10px;
+      border-radius: 6px;
+      color: #f7fafd;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .tool-btn:hover {
+      background: rgba(56, 189, 248, 0.2);
+      border-color: var(--cyan);
+    }
+
+    #pres-container {
+      position: absolute;
+      top: 52px;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      overflow: hidden;
+    }
+    #stage {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      width: 1600px;
+      height: 900px;
+      transform: translate(-50%, -50%) scale(var(--scale, 1));
+      transform-origin: center center;
+      transition: transform 0.08s ease-out;
+      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.6);
+    }
+
+    .controls {
+      position: fixed;
+      bottom: 16px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--bar-bg);
+      border: 1px solid rgba(56, 189, 248, 0.3);
+      padding: 6px 12px;
+      border-radius: 30px;
+      z-index: 90;
+      color: #f7fafd;
+      font-size: 13px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+      transition: opacity .25s ease;
+    }
+    .controls.quiet { opacity: 0.18; }
+    .controls:hover, .controls:focus-within { opacity: 1; }
+    .controls button {
+      color: inherit;
+      background: transparent;
+      border: 0;
+      padding: 6px 14px;
+      cursor: pointer;
+      border-radius: 20px;
+      font-weight: 600;
+      transition: background 0.18s ease;
+    }
+    .controls button:hover, .controls button:focus-visible {
+      background: #0c3350;
+      outline: 1px solid var(--cyan);
+    }
+    .controls output {
+      min-width: 60px;
+      text-align: center;
+      font-variant-numeric: tabular-nums;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+    }
+
+    .pres-progress {
+      position: fixed;
+      top: 52px;
+      left: 0;
+      height: 3px;
+      background: var(--cyan);
+      width: 0%;
+      transition: width 0.25s ease;
+      z-index: 101;
+    }
+    .keys-hint {
+      font-size: 11px;
+      color: #7d9cb3;
+      margin-left: 6px;
+      padding-left: 8px;
+      border-left: 1px solid rgba(255, 255, 255, 0.15);
+    }
+
+    @media print {
+      @page { size: 1600px 900px; margin: 0; }
+      html, body {
+        width: 1600px;
+        height: auto;
+        background: white;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
+      .pres-bar, .controls, .pres-progress { display: none !important; }
+      #pres-container { position: static; display: block; }
+      #stage { position: static; transform: none; width: 1600px; height: auto; }
+      .slide, .slide.active {
+        display: block !important;
+        break-after: page;
+        page-break-after: always;
+      }
+      .slide:last-child { break-after: auto; page-break-after: auto; }
+    }
+  </style>
+</head>
+<body>
+  <!-- Top Navigation Bar -->
+  <header class="pres-bar">
+    <div class="pres-bar-left">
+      <a href="/en/#apps" class="pres-back" id="back-link">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+        <span>Back to CV</span>
+      </a>
+      <div class="pres-title-wrap">
+        <span class="pres-app-title">Rocksurv Classifier</span>
+        <span class="pres-chip">10 slides · Carousels</span>
+      </div>
+    </div>
+    <div class="pres-bar-right">
+      <button class="tool-btn" id="full" title="Full screen (F)">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/></svg>
+      </button>
+      <button class="tool-btn" id="print" title="Print / PDF (P)">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9V2h12v7M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><path d="M6 14h12v8H6z"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <div class="pres-progress" id="progress-bar"></div>
+
+  <!-- Stage -->
+  <div id="pres-container">
+    <main id="stage">
+      
+
+<!-- SLIDE 1: COVER -->
+<section class="slide cover active" aria-label="1. Rocksurv Classifier">
+  <div class="brandline"><span class="brand">RS Classifier</span><span class="eyebrow">PRODUCT OVERVIEW</span></div>
+  <h1>Rocksurv<span>Classifier</span></h1>
+  <p class="tagline">Offline Precision Rock Classification<br>and Structural Field Analysis.</p>
+  <p class="cover-tag">Standardized IUGS, Dunham &amp; Sibson Petrography for Field Geology</p>
+  
+  <div class="portrait-visual">
+    <div class="carousel" data-slide="1">
+      <div class="state-badge">
+        <span class="badge-title"><span>✦</span> <span class="badge-label">Home Dashboard</span></span>
+        <span class="badge-count">1 / 2</span>
+      </div>
+      <div class="carousel-track">
+        <div class="carousel-item active" data-title="Home Dashboard" data-contain="true">
+          <img src="/presentations/classifier/01-1600.webp" srcset="/presentations/classifier/01-600.webp 600w, /presentations/classifier/01-1000.webp 1000w, /presentations/classifier/01-1600.webp 1600w" sizes="(max-width: 900px) 90vw, 430px" alt="Rocksurv Classifier Home Dashboard with petrology and structural modules" fetchpriority="high" loading="eager" decoding="async">
+        </div>
+        <div class="carousel-item" data-title="Navigation Architecture" data-contain="true">
+          <img src="/presentations/classifier/02-1600.webp" srcset="/presentations/classifier/02-600.webp 600w, /presentations/classifier/02-1000.webp 1000w, /presentations/classifier/02-1600.webp 1600w" sizes="(max-width: 900px) 90vw, 430px" alt="Navigation Drawer showing full 12-module petrological and structural hierarchy" fetchpriority="high" loading="eager" decoding="async">
+        </div>
+      </div>
+      <div class="carousel-nav">
+        <button class="carousel-btn prev" title="Previous state">❮</button>
+        <div class="carousel-dots">
+          <button class="carousel-dot active"></button>
+          <button class="carousel-dot"></button>
+        </div>
+        <button class="carousel-btn next" title="Next state">❯</button>
+      </div>
+      <div class="cycle-progress"></div>
+    </div>
+  </div>
+  
+  <p class="cover-caption">Fast, standardized field geology tool for rigorous rock classification, ternary projections, and structural recalculation.</p>
+  <footer class="footer"><span>Rocksurv Classifier · EN · September 2026</span><span>01 / 10</span></footer>
+</section>
+
+<!-- SLIDE 2: STRUCTURAL RECALCULATION & KINEMATICS -->
+<section class="slide portrait-slide" aria-label="2. Real-time strike &amp; dip recalculation.">
+  <div class="brandline"><span class="brand">RS Classifier</span><span class="eyebrow">01 / STRUCTURAL FIELDWORK</span></div>
+  <h2>Real-time strike &amp; dip recalculation.</h2>
+  <p class="lead">Instant RHR validation, error detection, and apparent-to-true dip conversion on outcrop.</p>
+  <div class="feature-content">
+    <div class="copy">
+      <div class="point">
+        <h3>Bi-directional Recalculation</h3>
+        <p>Converts between Dip Direction / Dip and Strike / Dip using Right-Hand Rule (RHR) conventions with instantaneous mathematical parity.</p>
+      </div>
+      <div class="point">
+        <h3>3D Kinematics &amp; Lineation Diagram</h3>
+        <p>Scroll down to inspect true calculated rake, deduced slip mechanisms (Dip-slip, Strike-slip, Oblique-slip), and interactive 3D block geometry.</p>
+      </div>
+      <div class="point">
+        <h3>Intelligent Validation Guard</h3>
+        <p>Real-time trigonometry checks flag out-of-plane plunge angles (Plunge &gt; Dip) and azimuth misalignments directly in the field.</p>
+      </div>
+    </div>
+  </div>
+  
+  <div class="portrait-visual">
+    <div class="carousel" data-slide="2">
+      <div class="state-badge">
+        <span class="badge-title"><span>✦</span> <span class="badge-label">Valid Recalculation (Success)</span></span>
+        <span class="badge-count">1 / 4</span>
+      </div>
+      <div class="carousel-track">
+        <div class="carousel-item active" data-title="Valid Recalculation (Success)" data-contain="true">
+          <img src="/presentations/classifier/03-1600.webp" srcset="/presentations/classifier/03-600.webp 600w, /presentations/classifier/03-1000.webp 1000w, /presentations/classifier/03-1600.webp 1600w" sizes="(max-width: 900px) 90vw, 430px" alt="Valid recalculation showing dip direction 130, dip 50, slickenline 130/50, dip-slip kinematics and all green validation badges" loading="lazy" decoding="async">
+        </div>
+        <div class="carousel-item" data-title="Scrolled: 3D Kinematics &amp; Rake" data-contain="true">
+          <img src="/presentations/classifier/04-1600.webp" srcset="/presentations/classifier/04-600.webp 600w, /presentations/classifier/04-1000.webp 1000w, /presentations/classifier/04-1600.webp 1600w" sizes="(max-width: 900px) 90vw, 430px" alt="Scrolled view showing Calculated Rake 90 deg, Deduced Mechanism Dip-slip, 3D fault block diagram, and kinematic description" loading="lazy" decoding="async">
+        </div>
+        <div class="carousel-item" data-title="Kinematic Error Guard" data-contain="true">
+          <img src="/presentations/classifier/05-1600.webp" srcset="/presentations/classifier/05-600.webp 600w, /presentations/classifier/05-1000.webp 1000w, /presentations/classifier/05-1600.webp 1600w" sizes="(max-width: 900px) 90vw, 430px" alt="Kinematic error detection highlighting impossible plunge angle exceeding dip angle with red alert badges" loading="lazy" decoding="async">
+        </div>
+        <div class="carousel-item" data-title="Field Reference Guide" data-contain="true">
+          <img src="/presentations/classifier/06-1600.webp" srcset="/presentations/classifier/06-600.webp 600w, /presentations/classifier/06-1000.webp 1000w, /presentations/classifier/06-1600.webp 1600w" sizes="(max-width: 900px) 90vw, 430px" alt="Structural data field reference sheet showing right-hand rule conventions and declination guidance" loading="lazy" decoding="async">
+        </div>
+      </div>
+      <div class="carousel-nav">
+        <button class="carousel-btn prev" title="Previous state">❮</button>
+        <div class="carousel-dots">
+          <button class="carousel-dot active"></button>
+          <button class="carousel-dot"></button>
+          <button class="carousel-dot"></button>
+          <button class="carousel-dot"></button>
+        </div>
+        <button class="carousel-btn next" title="Next state">❯</button>
+      </div>
+      <div class="cycle-progress"></div>
+    </div>
+  </div>
+  
+  <p class="caption">Outcrop verification ensures structural orientation data is flawless before recording into GIS or regional mapping databases.</p>
+  <footer class="footer"><span>Rocksurv Classifier · EN · September 2026</span><span>02 / 10</span></footer>
+</section>
+
+<!-- SLIDE 3: STEREONET PROJECTION -->
+<section class="slide portrait-slide" aria-label="3. Equal-area Schmidt stereonet in the palm of your hand.">
+  <div class="brandline"><span class="brand">RS Classifier</span><span class="eyebrow">02 / STEREOGRAPHIC PROJECTION</span></div>
+  <h2>Equal-area Schmidt stereonet in the palm of your hand.</h2>
+  <p class="lead">Lower-hemisphere projection of planar and linear structures with dynamic great circles and poles.</p>
+  <div class="feature-content">
+    <div class="copy">
+      <div class="point">
+        <h3>Dynamic Great Circles &amp; Poles</h3>
+        <p>Projects bedding, fault planes, and cleavage instantly with corresponding poles and rake markers.</p>
+      </div>
+      <div class="point">
+        <h3>Kinematic Intersections (&beta;-Axes)</h3>
+        <p>Instantly calculates intersection lineations and dihedral angles between intersecting structural surfaces.</p>
+      </div>
+      <div class="point">
+        <h3>Fold Mode &amp; Linear Fabric</h3>
+        <p>Interactive table displaying axial surfaces, fold limbs, hinge axis, striations, and mineral lineations simultaneously.</p>
+      </div>
+    </div>
+  </div>
+  
+  <div class="portrait-visual">
+    <div class="carousel" data-slide="3">
+      <div class="state-badge">
+        <span class="badge-title"><span>✦</span> <span class="badge-label">Single Plane Projection (S0)</span></span>
+        <span class="badge-count">1 / 4</span>
+      </div>
+      <div class="carousel-track">
+        <div class="carousel-item active" data-title="Single Plane Projection (S0)" data-contain="true">
+          <img src="/presentations/classifier/07-1600.webp" srcset="/presentations/classifier/07-600.webp 600w, /presentations/classifier/07-1000.webp 1000w, /presentations/classifier/07-1600.webp 1600w" sizes="(max-width: 900px) 90vw, 430px" alt="Stereonet projection of Bedding S0 plane trace and normal pole" loading="lazy" decoding="async">
+        </div>
+        <div class="carousel-item" data-title="Two Planes &amp; Beta-Axis" data-contain="true">
+          <img src="/presentations/classifier/08-1600.webp" srcset="/presentations/classifier/08-600.webp 600w, /presentations/classifier/08-1000.webp 1000w, /presentations/classifier/08-1600.webp 1600w" sizes="(max-width: 900px) 90vw, 430px" alt="Stereonet projection of intersecting Bedding and Fault planes with calculated beta-axis intersection lineation" loading="lazy" decoding="async">
+        </div>
+        <div class="carousel-item" data-title="Fold Analysis &amp; Data Table" data-contain="true">
+          <img src="/presentations/classifier/09-1600.webp" srcset="/presentations/classifier/09-600.webp 600w, /presentations/classifier/09-1000.webp 1000w, /presentations/classifier/09-1600.webp 1600w" sizes="(max-width: 900px) 90vw, 430px" alt="Stereonet fold analysis mode displaying axial plane, limbs, fold axis, and measurement data table" loading="lazy" decoding="async">
+        </div>
+        <div class="carousel-item" data-title="Structural Linear Fabric" data-contain="true">
+          <img src="/presentations/classifier/10-1600.webp" srcset="/presentations/classifier/10-600.webp 600w, /presentations/classifier/10-1000.webp 1000w, /presentations/classifier/10-1600.webp 1600w" sizes="(max-width: 900px) 90vw, 430px" alt="Stereonet projection of multiple linear fabric elements including mineral lineations and striations" loading="lazy" decoding="async">
+        </div>
+      </div>
+      <div class="carousel-nav">
+        <button class="carousel-btn prev" title="Previous state">❮</button>
+        <div class="carousel-dots">
+          <button class="carousel-dot active"></button>
+          <button class="carousel-dot"></button>
+          <button class="carousel-dot"></button>
+          <button class="carousel-dot"></button>
+        </div>
+        <button class="carousel-btn next" title="Next state">❯</button>
+      </div>
+      <div class="cycle-progress"></div>
+    </div>
+  </div>
+  
+  <p class="caption">Eliminates tracing paper and desktop delays by projecting 3D structural geometries directly at the outcrop.</p>
+  <footer class="footer"><span>Rocksurv Classifier · EN · September 2026</span><span>03 / 10</span></footer>
+</section>
+
+<!-- SLIDE 4: IUGS QAPF CLASSIFICATION -->
+<section class="slide portrait-slide" aria-label="4. Standardized IUGS QAPF classification.">
+  <div class="brandline"><span class="brand">RS Classifier</span><span class="eyebrow">03 / IGNEOUS PETROLOGY</span></div>
+  <h2>Standardized IUGS QAPF classification.</h2>
+  <p class="lead">Double triangle petrological diagram with automated mineral modal normalization.</p>
+  <div class="feature-content">
+    <div class="copy">
+      <div class="point">
+        <h3>Plutonic &amp; Volcanic Schemes</h3>
+        <p>Seamlessly toggle between intrusive and extrusive rock classification standards established by the IUGS.</p>
+      </div>
+      <div class="point">
+        <h3>Scrolled Petrographic Profiles</h3>
+        <p>Scroll down to reveal identified rock macro-photos, mineral formulas (oligoclase, microcline, biotite), and diagnostic characteristics.</p>
+      </div>
+      <div class="point">
+        <h3>Silica-Undersaturated FAP Fields</h3>
+        <p>Full support for feldspathoid-bearing alkaline magmatic suites (Nepheline Syenite, Phonolite) in the lower triangle.</p>
+      </div>
+    </div>
+  </div>
+  
+  <div class="portrait-visual">
+    <div class="carousel" data-slide="4">
+      <div class="state-badge">
+        <span class="badge-title"><span>✦</span> <span class="badge-label">Plutonic: Monzogranite</span></span>
+        <span class="badge-count">1 / 4</span>
+      </div>
+      <div class="carousel-track">
+        <div class="carousel-item active" data-title="Plutonic: Monzogranite" data-contain="true">
+          <img src="/presentations/classifier/11-1600.webp" srcset="/presentations/classifier/11-600.webp 600w, /presentations/classifier/11-1000.webp 1000w, /presentations/classifier/11-1600.webp 1600w" sizes="(max-width: 900px) 90vw, 430px" alt="IUGS QAPF intrusive diagram with Monzogranite field highlighted and normalized ratios" loading="lazy" decoding="async">
+        </div>
+        <div class="carousel-item" data-title="Scrolled: Specimen &amp; Petrography" data-contain="true">
+          <img src="/presentations/classifier/12-1600.webp" srcset="/presentations/classifier/12-600.webp 600w, /presentations/classifier/12-1000.webp 1000w, /presentations/classifier/12-1600.webp 1600w" sizes="(max-width: 900px) 90vw, 430px" alt="Scrolled view showing Monzogranite specimen photo, mineral formula, and petrological characteristics" loading="lazy" decoding="async">
+        </div>
+        <div class="carousel-item" data-title="Volcanic: Rhyolite" data-contain="true">
+          <img src="/presentations/classifier/13-1600.webp" srcset="/presentations/classifier/13-600.webp 600w, /presentations/classifier/13-1000.webp 1000w, /presentations/classifier/13-1600.webp 1600w" sizes="(max-width: 900px) 90vw, 430px" alt="IUGS QAPF extrusive diagram with Rhyolite field and volcanic parameters" loading="lazy" decoding="async">
+        </div>
+        <div class="carousel-item" data-title="Undersaturated: Foid Syenite" data-contain="true">
+          <img src="/presentations/classifier/14-1600.webp" srcset="/presentations/classifier/14-600.webp 600w, /presentations/classifier/14-1000.webp 1000w, /presentations/classifier/14-1600.webp 1600w" sizes="(max-width: 900px) 90vw, 430px" alt="IUGS QAPF diagram displaying silica-undersaturated Foid Syenite on the lower FAP triangle" loading="lazy" decoding="async">
+        </div>
+      </div>
+      <div class="carousel-nav">
+        <button class="carousel-btn prev" title="Previous state">❮</button>
+        <div class="carousel-dots">
+          <button class="carousel-dot active"></button>
+          <button class="carousel-dot"></button>
+          <button class="carousel-dot"></button>
+          <button class="carousel-dot"></button>
+        </div>
+        <button class="carousel-btn next" title="Next state">❯</button>
+      </div>
+      <div class="cycle-progress"></div>
+    </div>
+  </div>
+  
+  <p class="caption">Rigorous IUGS QAPF double triangle eliminates manual arithmetic errors and provides instantaneous rock naming.</p>
+  <footer class="footer"><span>Rocksurv Classifier · EN · September 2026</span><span>04 / 10</span></footer>
+</section>
+
+<!-- SLIDE 5: ULTRAMAFIC & GABBROIC -->
+<section class="slide portrait-slide" aria-label="5. Ternary classification for mafic and ultramafic rocks.">
+  <div class="brandline"><span class="brand">RS Classifier</span><span class="eyebrow">04 / MAFIC &amp; ULTRAMAFIC</span></div>
+  <h2>Ternary classification for mafic and ultramafic rocks.</h2>
+  <p class="lead">Dedicated Ol–Opx–Cpx and Plag–Pyx–Ol ternary diagrams when color index M &gt; 90%.</p>
+  <div class="feature-content">
+    <div class="copy">
+      <div class="point">
+        <h3>Ultramafic System (Ol–Opx–Cpx)</h3>
+        <p>Classify peridotites and pyroxenites into Dunite, Harzburgite, Lherzolite, Wehrlite, and Websterite fields.</p>
+      </div>
+      <div class="point">
+        <h3>Scrolled Mantle Peridotite Cards</h3>
+        <p>Scroll down to inspect authentic macro-specimens of olivine-rich mantle restites with full group taxonomy.</p>
+      </div>
+      <div class="point">
+        <h3>Gabbroic Layered Complexes</h3>
+        <p>Differentiate cumulate series into Anorthosite, Gabbro, Norite, Troctolite, and Gabbronorite variants.</p>
+      </div>
+    </div>
+  </div>
+  
+  <div class="portrait-visual">
+    <div class="carousel" data-slide="5">
+      <div class="state-badge">
+        <span class="badge-title"><span>✦</span> <span class="badge-label">Ultramafic: Lherzolite</span></span>
+        <span class="badge-count">1 / 4</span>
+      </div>
+      <div class="carousel-track">
+        <div class="carousel-item active" data-title="Ultramafic: Lherzolite" data-contain="true">
+          <img src="/presentations/classifier/15-1600.webp" srcset="/presentations/classifier/15-600.webp 600w, /presentations/classifier/15-1000.webp 1000w, /presentations/classifier/15-1600.webp 1600w" sizes="(max-width: 900px) 90vw, 430px" alt="Ultramafic ternary diagram showing Olivine, Orthopyroxene, and Clinopyroxene fields with Lherzolite highlighted" loading="lazy" decoding="async">
+        </div>
+        <div class="carousel-item" data-title="Scrolled: Lherzolite Specimen" data-contain="true">
+          <img src="/presentations/classifier/16-1600.webp" srcset="/presentations/classifier/16-600.webp 600w, /presentations/classifier/16-1000.webp 1000w, /presentations/classifier/16-1600.webp 1600w" sizes="(max-width: 900px) 90vw, 430px" alt="Scrolled view showing IUGS Identified Rock card, green olivine hand-specimen photo, and peridotite group taxonomy" loading="lazy" decoding="async">
+        </div>
+        <div class="carousel-item" data-title="Mantle Restite: Dunite" data-contain="true">
+          <img src="/presentations/classifier/17-1600.webp" srcset="/presentations/classifier/17-600.webp 600w, /presentations/classifier/17-1000.webp 1000w, /presentations/classifier/17-1600.webp 1600w" sizes="(max-width: 900px) 90vw, 430px" alt="Ultramafic ternary diagram showing Dunite field with 95% Olivine content" loading="lazy" decoding="async">
+        </div>
+        <div class="carousel-item" data-title="Gabbroic: Troctolite" data-contain="true">
+          <img src="/presentations/classifier/18-1600.webp" srcset="/presentations/classifier/18-600.webp 600w, /presentations/classifier/18-1000.webp 1000w, /presentations/classifier/18-1600.webp 1600w" sizes="(max-width: 900px) 90vw, 430px" alt="Gabbroic ternary diagram showing Plagioclase, Pyroxene, and Olivine fields with Troctolite highlighted" loading="lazy" decoding="async">
+        </div>
+      </div>
+      <div class="carousel-nav">
+        <button class="carousel-btn prev" title="Previous state">❮</button>
+        <div class="carousel-dots">
+          <button class="carousel-dot active"></button>
+          <button class="carousel-dot"></button>
+          <button class="carousel-dot"></button>
+          <button class="carousel-dot"></button>
+        </div>
+        <button class="carousel-btn next" title="Next state">❯</button>
+      </div>
+      <div class="cycle-progress"></div>
+    </div>
+  </div>
+  
+  <p class="caption">Indispensable for ophiolite suites, mantle xenolith investigations, and layered intrusive complexes.</p>
+  <footer class="footer"><span>Rocksurv Classifier · EN · September 2026</span><span>05 / 10</span></footer>
+</section>
+
+<!-- SLIDE 6: GUIDED DECISION TREE -->
+<section class="slide portrait-slide" aria-label="6. Guided petrographic decision tree.">
+  <div class="brandline"><span class="brand">RS Classifier</span><span class="eyebrow">05 / FIELD DIAGNOSTICS</span></div>
+  <h2>Guided petrographic decision tree.</h2>
+  <p class="lead">Step-by-step macroscopic diagnostic key linked with authentic hand-specimen photography.</p>
+  <div class="feature-content">
+    <div class="copy">
+      <div class="point">
+        <h3>Dichotomous Macroscopic Logic</h3>
+        <p>Guides field geologists through color index, fabric, grain size (phaneritic vs. aphanitic), and phenocryst mineralogy.</p>
+      </div>
+      <div class="point">
+        <h3>Ground-Truth Specimen Photos</h3>
+        <p>High-resolution macroscopic specimen photography accompanies every branch to verify textural calls on fresh surfaces.</p>
+      </div>
+      <div class="point">
+        <h3>Scrolled Detailed Descriptions</h3>
+        <p>Scroll down to reveal complete descriptions of two-stage cooling, phenocryst resorption embayments, and epithermal significance.</p>
+      </div>
+    </div>
+  </div>
+  
+  <div class="portrait-visual">
+    <div class="carousel" data-slide="6">
+      <div class="state-badge">
+        <span class="badge-title"><span>✦</span> <span class="badge-label">Diagnostic Question Step</span></span>
+        <span class="badge-count">1 / 4</span>
+      </div>
+      <div class="carousel-track">
+        <div class="carousel-item active" data-title="Diagnostic Question Step" data-contain="true">
+          <img src="/presentations/classifier/19-1600.webp" srcset="/presentations/classifier/19-600.webp 600w, /presentations/classifier/19-1000.webp 1000w, /presentations/classifier/19-1600.webp 1600w" sizes="(max-width: 900px) 90vw, 430px" alt="Guided decision tree question asking whether visible phenocrysts are present in groundmass" loading="lazy" decoding="async">
+        </div>
+        <div class="carousel-item" data-title="Identified: Quartz Porphyry" data-contain="true">
+          <img src="/presentations/classifier/20-1600.webp" srcset="/presentations/classifier/20-600.webp 600w, /presentations/classifier/20-1000.webp 1000w, /presentations/classifier/20-1600.webp 1600w" sizes="(max-width: 900px) 90vw, 430px" alt="Rock identified as Quartz Porphyry with macroscopic specimen photo and initial diagnostic criteria" loading="lazy" decoding="async">
+        </div>
+        <div class="carousel-item" data-title="Scrolled: Petrographic Summary" data-contain="true">
+          <img src="/presentations/classifier/21-1600.webp" srcset="/presentations/classifier/21-600.webp 600w, /presentations/classifier/21-1000.webp 1000w, /presentations/classifier/21-1600.webp 1600w" sizes="(max-width: 900px) 90vw, 430px" alt="Scrolled view showing comprehensive petrological description, texture, and hydrothermal significance" loading="lazy" decoding="async">
+        </div>
+        <div class="carousel-item" data-title="Decision Tree Visual Map" data-contain="true">
+          <img src="/presentations/classifier/22-1600.webp" srcset="/presentations/classifier/22-600.webp 600w, /presentations/classifier/22-1000.webp 1000w, /presentations/classifier/22-1600.webp 1600w" sizes="(max-width: 900px) 90vw, 430px" alt="Visual graph map showing interconnected petrographic decision pathways" loading="lazy" decoding="async">
+        </div>
+      </div>
+      <div class="carousel-nav">
+        <button class="carousel-btn prev" title="Previous state">❮</button>
+        <div class="carousel-dots">
+          <button class="carousel-dot active"></button>
+          <button class="carousel-dot"></button>
+          <button class="carousel-dot"></button>
+          <button class="carousel-dot"></button>
+        </div>
+        <button class="carousel-btn next" title="Next state">❯</button>
+      </div>
+      <div class="cycle-progress"></div>
+    </div>
+  </div>
+  
+  <p class="caption">Combines classical dichotomous field keys with macro-photography to build confidence in hand-sample identification.</p>
+  <footer class="footer"><span>Rocksurv Classifier · EN · September 2026</span><span>06 / 10</span></footer>
+</section>
+
+<!-- SLIDE 7: SEDIMENTARY PETROLOGY -->
+<section class="slide portrait-slide" aria-label="7. Siliciclastic Q-F-R &amp; carbonate Dunham systems.">
+  <div class="brandline"><span class="brand">RS Classifier</span><span class="eyebrow">06 / SEDIMENTARY PETROLOGY</span></div>
+  <h2>Siliciclastic Q-F-R &amp; carbonate Dunham systems.</h2>
+  <p class="lead">Comprehensive depositional texture matrices for sandstones and carbonate facies.</p>
+  <div class="feature-content">
+    <div class="copy">
+      <div class="point">
+        <h3>Pettijohn &amp; Folk Q-F-R Arenites</h3>
+        <p>Classify sandstones based on Quartz, Feldspar, and Rock fragments, separating clean Arenites from matrix-rich Wackes.</p>
+      </div>
+      <div class="point">
+        <h3>Scrolled Clastic Ternary &amp; Criteria</h3>
+        <p>Scroll down to view the full Pettijohn ternary diagram, zone definitions (Subarkose, Lithic Arenite), and matrix thresholds.</p>
+      </div>
+      <div class="point">
+        <h3>Dunham &amp; Embry-Klovan Facies</h3>
+        <p>Interactive depositional matrices distinguishing Mudstone, Wackestone, and Packstone, plus coarse Rudstone reef facies.</p>
+      </div>
+    </div>
+  </div>
+  
+  <div class="portrait-visual">
+    <div class="carousel" data-slide="7">
+      <div class="state-badge">
+        <span class="badge-title"><span>✦</span> <span class="badge-label">Siliciclastic: Subarkose Inputs</span></span>
+        <span class="badge-count">1 / 4</span>
+      </div>
+      <div class="carousel-track">
+        <div class="carousel-item active" data-title="Siliciclastic: Subarkose Inputs" data-contain="true">
+          <img src="/presentations/classifier/23-1600.webp" srcset="/presentations/classifier/23-600.webp 600w, /presentations/classifier/23-1000.webp 1000w, /presentations/classifier/23-1600.webp 1600w" sizes="(max-width: 900px) 90vw, 430px" alt="Siliciclastic input fields with Quartz, Feldspar, Rock fragments, and Matrix values" loading="lazy" decoding="async">
+        </div>
+        <div class="carousel-item" data-title="Scrolled: Pettijohn Q-F-R Diagram" data-contain="true">
+          <img src="/presentations/classifier/24-1600.webp" srcset="/presentations/classifier/24-600.webp 600w, /presentations/classifier/24-1000.webp 1000w, /presentations/classifier/24-1600.webp 1600w" sizes="(max-width: 900px) 90vw, 430px" alt="Scrolled view showing Pettijohn Q-F-R ternary diagram with plotted sample and classification criteria" loading="lazy" decoding="async">
+        </div>
+        <div class="carousel-item" data-title="Dunham: Wackestone" data-contain="true">
+          <img src="/presentations/classifier/25-1600.webp" srcset="/presentations/classifier/25-600.webp 600w, /presentations/classifier/25-1000.webp 1000w, /presentations/classifier/25-1600.webp 1600w" sizes="(max-width: 900px) 90vw, 430px" alt="Dunham carbonate waterfall selection leading to Mud-supported Wackestone with recommendation" loading="lazy" decoding="async">
+        </div>
+        <div class="carousel-item" data-title="Embry-Klovan: Rudstone" data-contain="true">
+          <img src="/presentations/classifier/26-1600.webp" srcset="/presentations/classifier/26-600.webp 600w, /presentations/classifier/26-1000.webp 1000w, /presentations/classifier/26-1600.webp 1600w" sizes="(max-width: 900px) 90vw, 430px" alt="Embry-Klovan carbonate classification leading to coarse grain-supported Rudstone facies" loading="lazy" decoding="async">
+        </div>
+      </div>
+      <div class="carousel-nav">
+        <button class="carousel-btn prev" title="Previous state">❮</button>
+        <div class="carousel-dots">
+          <button class="carousel-dot active"></button>
+          <button class="carousel-dot"></button>
+          <button class="carousel-dot"></button>
+          <button class="carousel-dot"></button>
+        </div>
+        <button class="carousel-btn next" title="Next state">❯</button>
+      </div>
+      <div class="cycle-progress"></div>
+    </div>
+  </div>
+  
+  <p class="caption">Standardized sedimentary workflows support both clastic reservoir characterization and carbonate sedimentology.</p>
+  <footer class="footer"><span>Rocksurv Classifier · EN · September 2026</span><span>07 / 10</span></footer>
+</section>
+
+<!-- SLIDE 8: METAMORPHIC & FAULT ROCKS -->
+<section class="slide portrait-slide" aria-label="8. Foliation progression and fault rock classification.">
+  <div class="brandline"><span class="brand">RS Classifier</span><span class="eyebrow">07 / METAMORPHIC &amp; TECTONICS</span></div>
+  <h2>Foliation progression and fault rock classification.</h2>
+  <p class="lead">Metamorphic texture differentiation and Sibson-Wise ductile-to-brittle fault rock kinematics.</p>
+  <div class="feature-content">
+    <div class="copy">
+      <div class="point">
+        <h3>Foliation Fabric Progression</h3>
+        <p>Systematic diagnostic guide from Slate and Phyllite through Schist, Gneiss, and Migmatite, plus hornfels and skarns.</p>
+      </div>
+      <div class="point">
+        <h3>Sibson-Wise Fault Rock Framework</h3>
+        <p>Classifies deformation fabrics from cohesive/incohesive brittle fault gouge and cataclasites to ductile high-strain mylonites.</p>
+      </div>
+      <div class="point">
+        <h3>Scrolled Microstructures &amp; Shear Sense</h3>
+        <p>Scroll down to examine asymmetric garnet and plagioclase porphyroclasts, ribbon quartz, and mid-crustal deformation physics.</p>
+      </div>
+    </div>
+  </div>
+  
+  <div class="portrait-visual">
+    <div class="carousel" data-slide="8">
+      <div class="state-badge">
+        <span class="badge-title"><span>✦</span> <span class="badge-label">Foliated Scale: Slate to Gneiss</span></span>
+        <span class="badge-count">1 / 4</span>
+      </div>
+      <div class="carousel-track">
+        <div class="carousel-item active" data-title="Foliated Scale: Slate to Gneiss" data-contain="true">
+          <img src="/presentations/classifier/27-1600.webp" srcset="/presentations/classifier/27-600.webp 600w, /presentations/classifier/27-1000.webp 1000w, /presentations/classifier/27-1600.webp 1600w" sizes="(max-width: 900px) 90vw, 430px" alt="Metamorphic foliated rocks table showing fabric evolution and mineral indicators" loading="lazy" decoding="async">
+        </div>
+        <div class="carousel-item" data-title="Sibson-Wise Fault Matrix" data-contain="true">
+          <img src="/presentations/classifier/28-1600.webp" srcset="/presentations/classifier/28-600.webp 600w, /presentations/classifier/28-1000.webp 1000w, /presentations/classifier/28-1600.webp 1600w" sizes="(max-width: 900px) 90vw, 430px" alt="Sibson-Wise fault rock classification table classifying fault gouge, breccia, and mylonite regimes" loading="lazy" decoding="async">
+        </div>
+        <div class="carousel-item" data-title="Mylonite Kinematic Specimen" data-contain="true">
+          <img src="/presentations/classifier/29-1600.webp" srcset="/presentations/classifier/29-600.webp 600w, /presentations/classifier/29-1000.webp 1000w, /presentations/classifier/29-1600.webp 1600w" sizes="(max-width: 900px) 90vw, 430px" alt="Fault rock Mylonite specimen showing porphyroclasts, ribbon quartz, and kinematic shear indicators" loading="lazy" decoding="async">
+        </div>
+        <div class="carousel-item" data-title="Scrolled: Shear Zone Physics" data-contain="true">
+          <img src="/presentations/classifier/30-1600.webp" srcset="/presentations/classifier/30-600.webp 600w, /presentations/classifier/30-1000.webp 1000w, /presentations/classifier/30-1600.webp 1600w" sizes="(max-width: 900px) 90vw, 430px" alt="Scrolled view showing Mylonite deformation conditions, dynamic recrystallization, and depth exceeding 10 km" loading="lazy" decoding="async">
+        </div>
+      </div>
+      <div class="carousel-nav">
+        <button class="carousel-btn prev" title="Previous state">❮</button>
+        <div class="carousel-dots">
+          <button class="carousel-dot active"></button>
+          <button class="carousel-dot"></button>
+          <button class="carousel-dot"></button>
+          <button class="carousel-dot"></button>
+        </div>
+        <button class="carousel-btn next" title="Next state">❯</button>
+      </div>
+      <div class="cycle-progress"></div>
+    </div>
+  </div>
+  
+  <p class="caption">Seamlessly links metamorphic field petrography with structural shear-zone kinematic interpretation.</p>
+  <footer class="footer"><span>Rocksurv Classifier · EN · September 2026</span><span>08 / 10</span></footer>
+</section>
+
+<!-- SLIDE 9: ROCK CATALOG -->
+<section class="slide portrait-slide" aria-label="9. Comprehensive field library of 61 rock types.">
+  <div class="brandline"><span class="brand">RS Classifier</span><span class="eyebrow">08 / PETROGRAPHIC REFERENCE</span></div>
+  <h2>Comprehensive field library of 61 rock types.</h2>
+  <p class="lead">An offline petrographic encyclopedia with search, filtering, and macroscopic reference photos.</p>
+  <div class="feature-content">
+    <div class="copy">
+      <div class="point">
+        <h3>Complete Petrologic Breadth</h3>
+        <p>61 curated rock profiles spanning Igneous (plutonic, volcanic, pyroclastic), Sedimentary, and Metamorphic domains.</p>
+      </div>
+      <div class="point">
+        <h3>Multi-Parameter Field Search</h3>
+        <p>Instant search by mineral composition, rock family, grain size, silica saturation, or color index.</p>
+      </div>
+      <div class="point">
+        <h3>Scrolled Detailed Descriptions</h3>
+        <p>Scroll down to reveal complete mineral percentages (Quartz 20-60%, Oligoclase, Biotite), geodynamics, and batholith occurrences.</p>
+      </div>
+    </div>
+  </div>
+  
+  <div class="portrait-visual">
+    <div class="carousel" data-slide="9">
+      <div class="state-badge">
+        <span class="badge-title"><span>✦</span> <span class="badge-label">Live Search: 'gran'</span></span>
+        <span class="badge-count">1 / 5</span>
+      </div>
+      <div class="carousel-track">
+        <div class="carousel-item active" data-title="Live Search: 'gran'" data-contain="true">
+          <img src="/presentations/classifier/31-1600.webp" srcset="/presentations/classifier/31-600.webp 600w, /presentations/classifier/31-1000.webp 1000w, /presentations/classifier/31-1600.webp 1600w" sizes="(max-width: 900px) 90vw, 430px" alt="Rock catalog search showing instant results filtering for granite and granodiorite" loading="lazy" decoding="async">
+        </div>
+        <div class="carousel-item" data-title="Filter: Magmatic Suite" data-contain="true">
+          <img src="/presentations/classifier/32-1600.webp" srcset="/presentations/classifier/32-600.webp 600w, /presentations/classifier/32-1000.webp 1000w, /presentations/classifier/32-1600.webp 1600w" sizes="(max-width: 900px) 90vw, 430px" alt="Rock catalog filtered by Magmatic origin showing rock count and categorized entries" loading="lazy" decoding="async">
+        </div>
+        <div class="carousel-item" data-title="Scrolled: Catalog Rock Cards" data-contain="true">
+          <img src="/presentations/classifier/33-1600.webp" srcset="/presentations/classifier/33-600.webp 600w, /presentations/classifier/33-1000.webp 1000w, /presentations/classifier/33-1600.webp 1600w" sizes="(max-width: 900px) 90vw, 430px" alt="Scrolled view of rock catalog list displaying Melilitite, Obsidian, Pegmatite, and Peridotite cards" loading="lazy" decoding="async">
+        </div>
+        <div class="carousel-item" data-title="Detailed Rock Profile" data-contain="true">
+          <img src="/presentations/classifier/34-1600.webp" srcset="/presentations/classifier/34-600.webp 600w, /presentations/classifier/34-1000.webp 1000w, /presentations/classifier/34-1600.webp 1600w" sizes="(max-width: 900px) 90vw, 430px" alt="Full rock profile detail screen for Granite with specimen photography, mineralogy, and field traits" loading="lazy" decoding="async">
+        </div>
+        <div class="carousel-item" data-title="Scrolled: Petrographic Formula" data-contain="true">
+          <img src="/presentations/classifier/35-1600.webp" srcset="/presentations/classifier/35-600.webp 600w, /presentations/classifier/35-1000.webp 1000w, /presentations/classifier/35-1600.webp 1600w" sizes="(max-width: 900px) 90vw, 430px" alt="Scrolled view of Granite profile detailing phaneritic texture, mineral percentages, and batholith geological context" loading="lazy" decoding="async">
+        </div>
+      </div>
+      <div class="carousel-nav">
+        <button class="carousel-btn prev" title="Previous state">❮</button>
+        <div class="carousel-dots">
+          <button class="carousel-dot active"></button>
+          <button class="carousel-dot"></button>
+          <button class="carousel-dot"></button>
+          <button class="carousel-dot"></button>
+          <button class="carousel-dot"></button>
+        </div>
+        <button class="carousel-btn next" title="Next state">❯</button>
+      </div>
+      <div class="cycle-progress"></div>
+    </div>
+  </div>
+  
+  <p class="caption">Replaces kilograms of heavy textbooks with an authoritative, searchable reference directly in your pocket.</p>
+  <footer class="footer"><span>Rocksurv Classifier · EN · September 2026</span><span>09 / 10</span></footer>
+</section>
+
+<!-- SLIDE 10: SYNTHESIS & ULTIMATE FIELD ASSISTANT (CLOSING) -->
+<section class="slide portrait-slide closing" aria-label="10. The ultimate assistant for the field geologist.">
+  <div class="brandline"><span class="brand">RS Classifier</span><span class="eyebrow">09 / FIELD SYNTHESIS &amp; CONCLUSION</span></div>
+  <h2>The ultimate assistant for the field geologist.</h2>
+  <p class="lead">Engineered from the outcrop up: unifying petrographic standards, 3D kinematics, and stereonets in one field-hardened mobile workflow.</p>
+  <div class="feature-content">
+    <div class="copy">
+      <div class="point">
+        <h3>Universal Petrographic Standards in Hand</h3>
+        <p>Replaces heavy atlases and charts with rigorous IUGS plutonic/volcanic triangles, ultramafic complexes, Dunham carbonate microfacies, and Sibson-Wise fault rocks.</p>
+      </div>
+      <div class="point">
+        <h3>Instant Outcrop Verification &amp; Kinematics</h3>
+        <p>Calculates true strike &amp; dip (RHR), fault rake, and stereographic projections on outcrop with automatic error guards that ensure data integrity before leaving the exposure.</p>
+      </div>
+      <div class="point">
+        <h3>100% Offline Autonomy &amp; Field Ergonomics</h3>
+        <p>Zero internet dependency in remote desert and mountain basins. Optimized for high-glare daylight readability, single-hand operation, and swift field decision-making.</p>
+      </div>
+      <p class="cta">Precision geology in the palm of your hand · Built for the field.</p>
+    </div>
+  </div>
+  
+  <div class="portrait-visual">
+    <div class="carousel" data-slide="10">
+      <div class="state-badge">
+        <span class="badge-title"><span>✦</span> <span class="badge-label">Outcrop Field Analysis</span></span>
+        <span class="badge-count">1 / 3</span>
+      </div>
+      <div class="carousel-track">
+        <div class="carousel-item active" data-title="Outcrop Field Analysis">
+          <img src="/presentations/classifier/36-1600.webp" srcset="/presentations/classifier/36-600.webp 600w, /presentations/classifier/36-1000.webp 1000w, /presentations/classifier/36-1600.webp 1600w" sizes="(max-width: 900px) 90vw, 430px" alt="Geologist in the field using Rocksurv Classifier on smartphone in desert outcrop setting" loading="lazy" decoding="async">
+        </div>
+        <div class="carousel-item" data-title="Home Dashboard Overview" data-contain="true">
+          <img src="/presentations/classifier/37-1600.webp" srcset="/presentations/classifier/37-600.webp 600w, /presentations/classifier/37-1000.webp 1000w, /presentations/classifier/37-1600.webp 1600w" sizes="(max-width: 900px) 90vw, 430px" alt="Rocksurv Classifier clean light-theme dashboard with quick launch cards" loading="lazy" decoding="async">
+        </div>
+        <div class="carousel-item" data-title="Navigation Architecture" data-contain="true">
+          <img src="/presentations/classifier/38-1600.webp" srcset="/presentations/classifier/38-600.webp 600w, /presentations/classifier/38-1000.webp 1000w, /presentations/classifier/38-1600.webp 1600w" sizes="(max-width: 900px) 90vw, 430px" alt="Navigation drawer displaying comprehensive 12-module geological hierarchy" loading="lazy" decoding="async">
+        </div>
+      </div>
+      <div class="carousel-nav">
+        <button class="carousel-btn prev" title="Previous state">❮</button>
+        <div class="carousel-dots">
+          <button class="carousel-dot active"></button>
+          <button class="carousel-dot"></button>
+          <button class="carousel-dot"></button>
+        </div>
+        <button class="carousel-btn next" title="Next state">❯</button>
+      </div>
+      <div class="cycle-progress"></div>
+    </div>
+  </div>
+  
+  <p class="caption">Designed to accompany every geological hammer, hand lens, and compass in the most challenging field environments.</p>
+  <footer class="footer"><span>Rocksurv Classifier · EN · September 2026</span><span>10 / 10</span></footer>
+</section>
+
+
+    </main>
+  </div>
+
+  <!-- Bottom Navigation Bar -->
+  <nav class="controls" aria-label="Slide controls">
+    <button id="prev" aria-label="Previous slide">←</button>
+    <output id="counter" aria-live="polite">01 / 10</output>
+    <button id="next" aria-label="Next slide">→</button>
+    <span class="keys-hint">← → or Space · F full screen</span>
+  </nav>
+
+  <script is:inline>
+    const slides = [...document.querySelectorAll('.slide')];
+    const counter = document.querySelector('#counter');
+    const bar = document.querySelector('.controls');
+    const progressBar = document.getElementById('progress-bar');
+    const backLink = document.getElementById('back-link');
+
+    if (document.referrer && document.referrer.includes(window.location.host)) {
+      backLink.addEventListener('click', (e) => {
+        e.preventDefault();
+        history.back();
+      });
+    }
+
+    let index = Math.min(slides.length - 1, Math.max(0, parseInt(location.hash.slice(1) || '1', 10) - 1 || 0));
+
+    function fit() {
+      const headerH = 52;
+      const margin = 20;
+      const availW = window.innerWidth - margin * 2;
+      const availH = window.innerHeight - headerH - margin * 2;
+      const scale = Math.min(availW / 1600, availH / 900, 1.25);
+      document.documentElement.style.setProperty('--scale', Math.max(scale, 0.2).toString());
+    }
+    window.addEventListener('resize', fit);
+    fit();
+
+    // Carousel Management
+    class SlideCarousel {
+      constructor(el) {
+        this.el = el;
+        this.items = [...el.querySelectorAll('.carousel-item')];
+        this.dots = [...el.querySelectorAll('.carousel-dot')];
+        this.badgeLabel = el.querySelector('.badge-label');
+        this.badgeCount = el.querySelector('.badge-count');
+        this.progressBar = el.querySelector('.cycle-progress');
+        this.btnPrev = el.querySelector('.carousel-btn.prev');
+        this.btnNext = el.querySelector('.carousel-btn.next');
+
+        this.currentIndex = 0;
+        this.autoTimer = null;
+        this.progressTimer = null;
+        this.isAutoPlaying = true;
+        this.hasCompletedCycle = false;
+        this.durationPerItem = 2800;
+        this.progressStartTime = 0;
+
+        this.init();
+      }
+
+      init() {
+        this.updateUI();
+
+        if (this.btnPrev) {
+          this.btnPrev.addEventListener('click', (e) => {
+            e.stopPropagation();
+            this.stopAutoPlay();
+            this.prev();
+          });
+        }
+
+        if (this.btnNext) {
+          this.btnNext.addEventListener('click', (e) => {
+            e.stopPropagation();
+            this.stopAutoPlay();
+            this.next();
+          });
+        }
+
+        this.dots.forEach((dot, idx) => {
+          dot.addEventListener('click', (e) => {
+            e.stopPropagation();
+            this.stopAutoPlay();
+            this.goTo(idx);
+          });
+        });
+
+        this.el.addEventListener('mouseenter', () => {
+          if (this.isAutoPlaying) this.pauseAutoPlay();
+        });
+
+        this.el.addEventListener('mouseleave', () => {
+          if (this.isAutoPlaying && !this.hasCompletedCycle) this.resumeAutoPlay();
+        });
+      }
+
+      startAutoPlay() {
+        this.stopAutoPlay();
+        if (this.items.length <= 1) return;
+        this.isAutoPlaying = true;
+        this.hasCompletedCycle = false;
+        this.scheduleNext();
+      }
+
+      stopAutoPlay() {
+        clearTimeout(this.autoTimer);
+        cancelAnimationFrame(this.progressTimer);
+        this.autoTimer = null;
+        this.progressTimer = null;
+        if (this.progressBar) this.progressBar.style.width = '0%';
+      }
+
+      pauseAutoPlay() {
+        clearTimeout(this.autoTimer);
+        cancelAnimationFrame(this.progressTimer);
+      }
+
+      resumeAutoPlay() {
+        this.scheduleNext();
+      }
+
+      scheduleNext() {
+        this.progressStartTime = performance.now();
+        const animateProgress = (now) => {
+          const elapsed = now - this.progressStartTime;
+          const progress = Math.min(100, (elapsed / this.durationPerItem) * 100);
+          if (this.progressBar) this.progressBar.style.width = progress + '%';
+          if (elapsed < this.durationPerItem) {
+            this.progressTimer = requestAnimationFrame(animateProgress);
+          }
+        };
+        this.progressTimer = requestAnimationFrame(animateProgress);
+
+        this.autoTimer = setTimeout(() => {
+          if (this.currentIndex === this.items.length - 1) {
+            this.hasCompletedCycle = true;
+            this.stopAutoPlay();
+          } else {
+            this.next(true);
+          }
+        }, this.durationPerItem);
+      }
+
+      goTo(idx) {
+        this.items[this.currentIndex].classList.remove('active');
+        if (this.dots[this.currentIndex]) this.dots[this.currentIndex].classList.remove('active');
+
+        this.currentIndex = idx;
+
+        this.items[this.currentIndex].classList.add('active');
+        if (this.dots[this.currentIndex]) this.dots[this.currentIndex].classList.add('active');
+
+        this.updateUI();
+      }
+
+      next(fromAuto = false) {
+        const nextIdx = (this.currentIndex + 1) % this.items.length;
+        this.goTo(nextIdx);
+        if (fromAuto && this.isAutoPlaying && !this.hasCompletedCycle) {
+          this.scheduleNext();
+        }
+      }
+
+      prev() {
+        const prevIdx = (this.currentIndex - 1 + this.items.length) % this.items.length;
+        this.goTo(prevIdx);
+      }
+
+      updateUI() {
+        const currentItem = this.items[this.currentIndex];
+        const title = currentItem ? currentItem.getAttribute('data-title') : '';
+        if (this.badgeLabel) this.badgeLabel.textContent = title;
+        if (this.badgeCount) this.badgeCount.textContent = (this.currentIndex + 1) + ' / ' + this.items.length;
+      }
+    }
+
+    const carousels = [...document.querySelectorAll('.carousel')].map(el => new SlideCarousel(el));
+
+    function show(newIndex) {
+      index = Math.min(slides.length - 1, Math.max(0, newIndex));
+      slides.forEach((s, idx) => {
+        s.classList.toggle('active', idx === index);
+      });
+      const num = String(index + 1).padStart(2, '0');
+      const total = String(slides.length).padStart(2, '0');
+      counter.textContent = `${num} / ${total}`;
+      if (progressBar) {
+        progressBar.style.width = `${((index + 1) / slides.length) * 100}%`;
+      }
+      history.replaceState(null, '', `#${index + 1}`);
+
+      const activeSlide = slides[index];
+      const activeCarouselEl = activeSlide ? activeSlide.querySelector('.carousel') : null;
+      if (activeCarouselEl) {
+        const carouselInstance = carousels.find(c => c.el === activeCarouselEl);
+        if (carouselInstance) {
+          carouselInstance.startAutoPlay();
+        }
+      }
+    }
+
+    document.querySelector('#prev').addEventListener('click', () => show(index - 1));
+    document.querySelector('#next').addEventListener('click', () => show(index + 1));
+    document.querySelector('#full').addEventListener('click', () => {
+      if (!document.fullscreenElement) document.documentElement.requestFullscreen().catch(() => {});
+      else document.exitFullscreen().catch(() => {});
+    });
+    document.querySelector('#print').addEventListener('click', () => window.print());
+
+    window.addEventListener('keydown', (e) => {
+      if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+      if (['ArrowRight', 'PageDown', ' '].includes(e.key)) { e.preventDefault(); show(index + 1); }
+      if (['ArrowLeft', 'PageUp'].includes(e.key)) { e.preventDefault(); show(index - 1); }
+      if (e.key === 'Home') { e.preventDefault(); show(0); }
+      if (e.key === 'End') { e.preventDefault(); show(slides.length - 1); }
+      if (e.key === 'f' || e.key === 'F') {
+        if (!document.fullscreenElement) document.documentElement.requestFullscreen().catch(() => {});
+        else document.exitFullscreen().catch(() => {});
+      }
+      if (e.key === 'p' || e.key === 'P') window.print();
+      if (e.key === 'Escape') {
+        if (!document.fullscreenElement) {
+          window.location.href = '/en/#apps';
+        }
+      }
+    });
+
+    let timer;
+    function wake() {
+      bar.classList.remove('quiet');
+      clearTimeout(timer);
+      timer = setTimeout(() => bar.classList.add('quiet'), 3000);
+    }
+    window.addEventListener('pointermove', wake);
+    wake();
+
+    // Touch swipe gestures
+    let touchStartX = 0;
+    let touchStartY = 0;
+    window.addEventListener('touchstart', (e) => {
+      touchStartX = e.changedTouches[0].screenX;
+      touchStartY = e.changedTouches[0].screenY;
+    }, { passive: true });
+    window.addEventListener('touchend', (e) => {
+      const diffX = e.changedTouches[0].screenX - touchStartX;
+      const diffY = e.changedTouches[0].screenY - touchStartY;
+      if (Math.abs(diffX) > 40 && Math.abs(diffX) > Math.abs(diffY)) {
+        if (diffX < 0) show(index + 1);
+        else show(index - 1);
+      }
+    }, { passive: true });
+
+    show(index);
+  </script>
+</body>
+</html>

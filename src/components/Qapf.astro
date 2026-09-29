@@ -7,8 +7,11 @@
 */
 interface Props {
   size?: number;
+  label?: string;
+  lang?: 'ru' | 'en';
 }
-const { size = 220 } = Astro.props;
+const { size = 220, lang = 'ru', label } = Astro.props;
+const ariaLabel = label ?? (lang === 'en' ? 'QAPF double triangle for plutonic rocks with major field boundaries' : 'Двойной треугольник QAPF для плутонических пород с основными границами полей');
 
 const W = 200;
 const H = (W * Math.sqrt(3)) / 2; // 173.2
@@ -31,7 +34,7 @@ const ratio = (r: number) => {
 };
 const pt = (p: [number, number]) => `${p[0]} ${p[1].toFixed(2)}`;
 ---
-<svg class="diagram qapf" viewBox="-18 -18 236 400" width={size} height={(size * 400) / 236} role="img" aria-label="Двойной треугольник QAPF для плутонических пород с основными границами полей">
+<svg class="diagram qapf" viewBox="-18 -18 236 400" width={size} height={(size * 400) / 236} role="img" aria-label={ariaLabel}>
   <path d={`M${pt(Q)}L${pt(A)}L${pt(F)}L${pt(P)}Z`} fill="#101812" stroke="#aebab1" stroke-width="1" stroke-linejoin="round" />
   <g fill="none" stroke="#4a5d51" stroke-width="0.8">
     {[0.9, 0.6, 0.2, 0.05].map((f) => <path d={level(f)} />)}

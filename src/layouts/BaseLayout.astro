@@ -8,21 +8,46 @@ interface Props {
   description: string;
   active?: 'profile' | 'experience' | 'apps' | 'achievements';
   theme?: 'paper' | 'night';
+  lang?: 'ru' | 'en';
 }
 
-const { title, description, active, theme = 'paper' } = Astro.props;
-const nav = [
-  { id: 'profile', label: 'Профиль' },
-  { id: 'experience', label: 'Опыт' },
-  { id: 'apps', label: 'Приложения' },
-  { id: 'achievements', label: 'Достижения' },
-] as const;
+const { title, description, active, theme = 'paper', lang = 'ru' } = Astro.props;
+const isEn = lang === 'en';
+
+const nav = isEn
+  ? [
+      { id: 'profile', label: 'Profile' },
+      { id: 'experience', label: 'Experience' },
+      { id: 'apps', label: 'Apps' },
+      { id: 'achievements', label: 'Credentials' },
+    ]
+  : [
+      { id: 'profile', label: 'Профиль' },
+      { id: 'experience', label: 'Опыт' },
+      { id: 'apps', label: 'Приложения' },
+      { id: 'achievements', label: 'Достижения' },
+    ];
+
 const email = '79046374416@yandex.ru';
-const cv = '/cv/Alexey-Pakhalko-CV-RU-2026.docx';
-const isHome = Astro.url.pathname === '/ru/';
+const cv = isEn ? '/cv/Alexey-Pakhalko-CV-EN-2026.docx' : '/cv/Alexey-Pakhalko-CV-RU-2026.docx';
+
+const pathname = Astro.url.pathname;
+const isHome = isEn ? pathname === '/en/' : pathname === '/ru/';
+const homeUrl = isEn ? '/en/' : '/ru/';
+
+let ruPath = pathname;
+let enPath = pathname;
+if (pathname.startsWith('/ru/')) {
+  enPath = pathname.replace(/^\/ru\//, '/en/');
+} else if (pathname.startsWith('/en/')) {
+  ruPath = pathname.replace(/^\/en\//, '/ru/');
+} else {
+  ruPath = '/ru/';
+  enPath = '/en/';
+}
 ---
 <!doctype html>
-<html lang="ru">
+<html lang={lang}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -31,41 +56,61 @@ const isHome = Astro.url.pathname === '/ru/';
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="description" content={description} />
     <meta property="og:type" content="website" />
-    <meta property="og:locale" content="ru_RU" />
+    <meta property="og:locale" content={isEn ? 'en_US' : 'ru_RU'} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:image" content="/images/portrait-960.webp" />
+    <link rel="alternate" hreflang="ru" href={ruPath} />
+    <link rel="alternate" hreflang="en" href={enPath} />
     <title>{title}</title>
     <script is:inline>document.documentElement.classList.add('js');</script>
   </head>
   <body class:list={{ 'theme-night': theme === 'night' }}>
-    <a class="skip-link" href="#main">К основному содержимому</a>
+    <a class="skip-link" href="#main">{isEn ? 'Skip to main content' : 'К основному содержимому'}</a>
     <header class="site-header" data-header>
       <div class="shell header-inner">
-        <a class="brand" href="/ru/"><strong>Алексей Пахалко</strong><span>геолог</span></a>
-        <nav class="site-nav" aria-label="Разделы">
+        <a class="brand" href={homeUrl}>
+          <strong>{isEn ? 'Alexey Pakhalko' : 'Алексей Пахалко'}</strong>
+          <span>{isEn ? 'geologist' : 'геолог'}</span>
+        </a>
+        <nav class="site-nav" aria-label={isEn ? 'Sections' : 'Разделы'}>
           {nav.map(({ id, label }) => (
-            <a href={isHome ? `#${id}` : `/ru/#${id}`} data-nav={id} aria-current={active === id ? 'location' : undefined}>{label}</a>
+            <a href={isHome ? `#${id}` : `${homeUrl}#${id}`} data-nav={id} aria-current={active === id ? 'location' : undefined}>{label}</a>
           ))}
         </nav>
-        <a class="button button-ghost button-small" href={`mailto:${email}`}><Icon name="envelope" />Написать</a>
+        <div class="header-actions">
+          <nav class="lang-switch" aria-label={isEn ? 'Language selection' : 'Выбор языка'}>
+            {!isEn ? (
+              <span class="lang-item is-active" aria-current="true">RU</span>
+            ) : (
+              <a class="lang-item" href={ruPath} hreflang="ru" lang="ru" aria-label="Русская версия">RU</a>
+            )}
+            <span class="lang-sep" aria-hidden="true">/</span>
+            {isEn ? (
+              <span class="lang-item is-active" aria-current="true">EN</span>
+            ) : (
+              <a class="lang-item" href={enPath} hreflang="en" lang="en" aria-label="English version">EN</a>
+            )}
+          </nav>
+          <a class="button button-ghost button-small" href={`mailto:${email}`}><Icon name="envelope" />{isEn ? 'Contact' : 'Написать'}</a>
+        </div>
       </div>
     </header>
     <main id="main"><slot /></main>
     <footer class="site-footer">
       <div class="shell footer-main">
         <div>
-          <h2>Вопросы по опыту, проектам или приложениям</h2>
+          <h2>{isEn ? 'Questions about experience, projects, or applications' : 'Вопросы по опыту, проектам или приложениям'}</h2>
           <a class="footer-mail" href={`mailto:${email}`}>{email}<Icon name="arrow-up-right" /></a>
         </div>
         <div class="footer-side">
-          <p>Санкт-Петербург. Резюме одним файлом, формат DOCX.</p>
-          <a class="button button-primary" href={cv} download><Icon name="download" class="icon-down" />Скачать CV</a>
+          <p>{isEn ? 'Saint Petersburg. Resume in a single DOCX file.' : 'Санкт-Петербург. Резюме одним файлом, формат DOCX.'}</p>
+          <a class="button button-primary" href={cv} download><Icon name="download" class="icon-down" />{isEn ? 'Download CV' : 'Скачать CV'}</a>
         </div>
       </div>
       <div class="shell footer-bottom">
-        <span>© 2026 Алексей Пахалко</span>
-        <a href="#main">Наверх</a>
+        <span>{isEn ? '© 2026 Alexey Pakhalko' : '© 2026 Алексей Пахалко'}</span>
+        <a href="#main">{isEn ? 'Back to top' : 'Наверх'}</a>
       </div>
     </footer>
     <script>

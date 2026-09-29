@@ -1,0 +1,433 @@
+[
+  {
+    "id": "gmas",
+    "order": 1,
+    "period": "2025 - present",
+    "place": "Saudi Arabia",
+    "short": "Arabian Shield",
+    "pattern": "granite",
+    "title": "Arabian Shield Geological Mapping",
+    "organization": "GMAS Project, Karpinsky Institute",
+    "role": "Field Party Leader, Field Geologist",
+    "summary": "1:100,000-scale geological mapping. I lead the field party and ensure field data quality and integrity across field teams.",
+    "highlights": [
+      "Conducted lithological, structural, and metallogenic observations along traverses, measured planar and linear attitudes, and organized systematic sampling.",
+      "Planned traverse routes, assigned field crew tasks, validated observations, and trained personnel in digital geological tools.",
+      "Authored VBA scripts for Excel to validate observation logs against project dictionaries, ensuring multi-party data consistency.",
+      "Designed and built a native Android application in Kotlin compliant with GMAS guidelines: mobile field data entry with embedded QA/QC checks.",
+      "Conducted spatial analysis in ArcGIS, integrating field-team observations with formal reporting deliverables."
+    ],
+    "materials": [
+      "Certificate of Appreciation from the Karpinsky Institute to key project contributors, April 3, 2026.",
+      "Professional Accreditation as Geologist in Saudi Arabia, 2026."
+    ],
+    "photos": [
+      {
+        "slug": "gmas-tablet",
+        "source": "photo/Saudi/photo_2026-09-23_07-05-14.jpg",
+        "alt": "Geologist in a wide-brimmed hat reviews data on a rugged field tablet near a rocky slope with an off-road vehicle behind",
+        "caption": "Fieldwork on granite outcrops, map sheet 3922-1 As Sulaym, Saudi Arabia"
+      },
+      {
+        "slug": "gmas-maps",
+        "source": "photo/Saudi/photo_2026-09-23_06-39-50.jpg",
+        "alt": "Four geologists discuss geological maps mounted on a field office wall",
+        "caption": "Traverse and geological planning, map sheet 3824-4 Jabal Radwa, Saudi Arabia"
+      },
+      {
+        "slug": "gmas-umbrella",
+        "source": "photo/Saudi/photo_2026-09-23_07-05-45.jpg",
+        "alt": "Four geologists walk across a rocky desert plain, one holding a sun umbrella",
+        "caption": "Field reconnaissance traverse, map sheet 3922-1 As Sulaym, Saudi Arabia"
+      },
+      {
+        "slug": "gmas-roadside",
+        "source": "photo/Saudi/photo_2026-09-23_07-09-25.jpg",
+        "alt": "Three geologists in field hats stand by a desert roadside",
+        "caption": "Joint traverse with project managers Ashraf Al-Qubsani and Ji Wenhua, Saudi Arabia"
+      },
+      {
+        "slug": "gmas-mountains",
+        "source": "photo/Saudi/IMG_20250824_073702.jpg",
+        "date": "2025-08",
+        "alt": "Man in a blue hoodie against the backdrop of rugged mountain ranges",
+        "caption": "Mountainous topography near Bilasmar, Western Escarpment, Saudi Arabia"
+      },
+      {
+        "slug": "gmas-hat",
+        "source": "photo/Saudi/IMG_20250416_080107.jpg",
+        "date": "2025-04",
+        "alt": "Man in a wide-brimmed hat by a rock outcrop gives a thumbs-up gesture",
+        "caption": "Typical traverse during a dust storm, Saudi Arabia"
+      },
+      {
+        "slug": "gmas-vehicle",
+        "source": "photo/Saudi/IMG_20250411_112731.jpg",
+        "date": "2025-04",
+        "alt": "Man stands beside an expedition pickup truck on an urban street",
+        "caption": "The GMAS project workhorse, Saudi Arabia"
+      }
+    ],
+    "publicationState": "published",
+    "evidence": [
+      {
+        "source": "cv",
+        "reference": "CV Geologist Pakhalko RUS/ENG 2026.docx; CV_Pakhalko_Chief_Geologist_2026_EN.docx, work experience",
+        "verified": false
+      },
+      {
+        "source": "document",
+        "reference": "certificate/photo_2026-09-23_06-44-25.jpg, Karpinsky Institute appreciation of 03.04.2026; certificate/QVP 2026.pdf",
+        "verified": true
+      },
+      {
+        "source": "photo-folder",
+        "reference": "photo/Saudi",
+        "verified": true
+      }
+    ]
+  },
+  {
+    "id": "vsegei",
+    "order": 2,
+    "period": "2012 - present",
+    "place": "Saint Petersburg",
+    "short": "Karpinsky Institute",
+    "pattern": "shale",
+    "title": "Karpinsky Institute",
+    "organization": "Karpinsky Institute (VSEGEI)",
+    "role": "Lead Engineer / Thematic Project Manager",
+    "summary": "Metallogenic analysis of Asian ore belts, petrographic and isotopic research, GIS compilation, and international collaboration.",
+    "highlights": [
+      "Participated in the international project 'Metallogenic Map of Northern, Central, and Eastern Asia at 1:2,500,000 scale': GIS integration, ore deposit database, and metallogenic analysis.",
+      "Delivered presentations on metallogeny in Ulaanbaatar (Mongolia, 2019) and Jeju (South Korea, 2018).",
+      "Co-authored publications on the geodynamics of the Arctic Ocean (Journal of Geodynamics, 2019) and the basement of the Trans-Urals (2022).",
+      "Completed international field excursions: ancient Archean granites of Baijianfen (~3.8 Ga) and mineral deposits of China."
+    ],
+    "photos": [
+      {
+        "slug": "vsegei-talk-mongolia",
+        "source": "photo/IMG_8887.JPG",
+        "date": "2019-08",
+        "alt": "Alexey speaking at the conference lectern beside a slide explaining metallogenic analysis methods",
+        "caption": "Presentation on the Metallogenic Map of Asia: methodology for analyzing spatio-temporal distribution of SEDEX, MVT, porphyry, and epithermal deposits. Ulaanbaatar, Mongolia"
+      },
+      {
+        "slug": "mongolia-meeting",
+        "source": "photo/mongolia/DSC_0568_2019_17-е УланБатор.JPG",
+        "date": "2019",
+        "alt": "Group photo of dozens of international conference delegates at the hotel entrance",
+        "caption": "Participants of the international working session in Ulaanbaatar, Mongolia."
+      },
+      {
+        "slug": "mongolia-steppe",
+        "source": "photo/mongolia/IMG-20190809-WA0020.jpg",
+        "date": "2019-08",
+        "alt": "Three geologists walk across open steppe with an expedition vehicle in the distance",
+        "caption": "Investigation of gold occurrences in the Ikh-Khairkhan area, Mongolia"
+      },
+      {
+        "slug": "mongolia-site",
+        "source": "photo/mongolia/IMG-20190809-WA0023.jpg",
+        "date": "2019-08",
+        "alt": "Group of geologists in hard hats at an industrial mining platform near a hillside",
+        "caption": "Field excursion to a chromite mine, Mongolia"
+      },
+      {
+        "slug": "mongolia-outcrop",
+        "source": "photo/mongolia/gLpKhOfy0Ae323aM5KAsqUiGzWjfCLvTVzTd6Hg2y4Ms7c3B7oqpbUFd_RrOMu96z9tYKqYOXSkoU94EHtlDNL8b.jpg",
+        "alt": "Sampling an outcrop alongside department head and mentor S.P. Shokalskiy in Mongolia",
+        "caption": "Sampling with department head and mentor S.P. Shokalskiy, Mongolia"
+      },
+      {
+        "slug": "china-baijianfen",
+        "source": "photo/china/00060_Baijianfen-гранит-3.8млрд лет-Wang Yusheng.JPG",
+        "date": "2017-10",
+        "alt": "Geologists sampling the ancient Baijianfen granites (ca. 3.8 Ga) on a slope in China",
+        "caption": "Sampling China's oldest rocks - Baijianfen granites, ca. 3.8 Ga"
+      },
+      {
+        "slug": "china-granite-block",
+        "source": "photo/china/_DSC0530.JPG",
+        "date": "2014-02",
+        "alt": "Block of porphyritic granite hosting gold mineralization, Linglong deposit area, China",
+        "caption": "Block of porphyritic granites hosting gold mineralization, Linglong deposit area, China"
+      }
+    ],
+    "publicationState": "published",
+    "evidence": [
+      {
+        "source": "cv",
+        "reference": "CV Geologist Pakhalko RUS/ENG 2026.docx, work experience",
+        "verified": false
+      },
+      {
+        "source": "presentation",
+        "reference": "materials/2019-Mongolia, Pakhalko A.pptx; materials/2018-Korea,Jeju Pakhalko A.pptx",
+        "verified": true
+      },
+      {
+        "source": "photo-folder",
+        "reference": "photo/mongolia; photo/china",
+        "verified": true
+      }
+    ]
+  },
+  {
+    "id": "field-practice",
+    "order": 3,
+    "period": "2015-2025",
+    "place": "Saint Petersburg, Arkhangelsk",
+    "short": "Geological Field Practice",
+    "pattern": "sand",
+    "title": "Geological Field Training & Practice",
+    "organization": "Saint Petersburg Mining University",
+    "role": "Instructor / Field Training Assistant",
+    "summary": "Training students in field geological methods: mapping, compass traverse navigation, lithological logging, and structural measurements.",
+    "highlights": [
+      "Taught field mapping techniques, compass navigation, and structural attitude measurements for Mining University undergraduate students.",
+      "Supervised field traverses on Precambrian crystalline rocks of the Baltic Shield (Karelia) and Phanerozoic sedimentary strata (Leningrad region).",
+      "Conducted a master class and lecture on the geological compass at the All-Russian Youth Geological Festival (GeolFest 2025 in Arkhangelsk)."
+    ],
+    "pending": [
+      "Role in student practice and supervising department."
+    ],
+    "photos": [
+      {
+        "slug": "practice-route",
+        "source": "photo/geo practice mining institute/2022.06.15028 Геологические маршруты (78).jpg",
+        "date": "2022-06",
+        "alt": "Group of students studies porphyritic rapakivi granite outcrops above a lake surrounded by pine trees",
+        "caption": "Study of porphyritic rapakivi granites near Monrepos Park, Vyborg, Karelia."
+      },
+      {
+        "slug": "practice-bridge",
+        "source": "photo/geo practice mining institute/a4hMAkXo7m802tWI65i5v7Q5LJPiMlOkf7gXTOOP-nnypPZWN4NxgtH1lsZGc70EpYUX7tDv66E8T3V7GwRH4aXQ.jpg",
+        "alt": "Group of students with backpacks descends a metal staircase toward a river to inspect Phanerozoic sedimentary rocks",
+        "caption": "Investigation of Phanerozoic sedimentary rock exposures near Sablino station, Leningrad region."
+      },
+      {
+        "slug": "practice-geolfest",
+        "source": "photo/geo practice mining institute/Геофест1день17.jpg",
+        "date": "2025-09",
+        "alt": "Alexey speaks with a microphone at GeolFest before a presentation slide on the geological compass",
+        "caption": "Lecture on the geological compass at GeolFest, 2025"
+      }
+    ],
+    "publicationState": "published",
+    "evidence": [
+      {
+        "source": "cv",
+        "reference": "CV Geologist Pakhalko RUS/ENG 2026.docx, work experience",
+        "verified": false
+      },
+      {
+        "source": "presentation",
+        "reference": "materials/Gornyj-kompas-principy-primeneniya-v-geologii.pptx",
+        "verified": true
+      },
+      {
+        "source": "photo-folder",
+        "reference": "photo/geo practice mining institute",
+        "verified": true
+      }
+    ]
+  },
+  {
+    "id": "china",
+    "order": 4,
+    "period": "2011-2012",
+    "place": "China",
+    "short": "China",
+    "pattern": "basalt",
+    "title": "Traverses and Mining Operations in China",
+    "organization": "Field traverses, mining operations, and professional exchange",
+    "role": "Field Geologist, Geological Translator",
+    "summary": "Field trips to major ore deposits, underground mine inspections, and technical translation of geological literature.",
+    "highlights": [
+      "Inspected underground workings and geological structure of the Linglong gold deposit, Shandong province.",
+      "Participated in geological field excursions to the giant Panzhihua vanadium-titanomagnetite deposit, Sichuan province.",
+      "Translated geological and mining technical papers between Russian and English.",
+      "Passed the HSK Level 3 Chinese Language Proficiency examination (2018)."
+    ],
+    "photos": [
+      {
+        "slug": "china-emeishan",
+        "source": "photo/emeishan/P1000295.JPG",
+        "date": "2011-11",
+        "alt": "Alexey beside an inscribed stone monument during a field excursion to the Panzhihua iron-titanium deposit",
+        "caption": "Field excursion to the Panzhihua iron-titanium deposit, China"
+      },
+      {
+        "slug": "china-gear",
+        "source": "photo/china/fkardYVw7vW9Lo47hPmOxlAp0aQCSor0cF4Hj7DYDoUHWtD2CIYPMNDXW9isQIXUVGTblaHo.jpg",
+        "alt": "Alexey in red protective overalls and hard hat prepared for descent into the underground mine at the Linglong deposit",
+        "caption": "Preparation for descent into the underground mine at the Linglong deposit, China."
+      }
+    ],
+    "publicationState": "published",
+    "evidence": [
+      {
+        "source": "legacy-cv",
+        "reference": "2012 CV: China trip, November 2011; 2018 HSK 3 certificate",
+        "verified": false
+      },
+      {
+        "source": "photo-folder",
+        "reference": "photo/emeishan; photo/china",
+        "verified": true
+      }
+    ]
+  },
+  {
+    "id": "gold-core",
+    "order": 5,
+    "period": "2010-2011",
+    "place": "Magadan Region, Buryatia",
+    "short": "Pavlik, Zun-Kholba",
+    "pattern": "quartz",
+    "title": "Gold of Pavlik and Zun-Kholba",
+    "organization": "CJSC RJC Group",
+    "role": "Geologist",
+    "summary": "Core logging and geological quality control for exploration drilling on primary gold deposits.",
+    "highlights": [
+      "Logged drill core and delineated gold-bearing ore intervals.",
+      "Conducted mineralogical observations and gold sampling in accordance with strict QA/QC standards for primary exploration data.",
+      "Prepared accompanying technical drill-hole documentation and cross-sections."
+    ],
+    "photos": [
+      {
+        "slug": "zunkholba-gallery",
+        "source": "photo/zun-holba/Изображение2 236.jpg",
+        "date": "2010-12",
+        "alt": "Geologist in hard hat and protective gear stands in an illuminated underground mine gallery",
+        "caption": "Work in the underground mine at the Zun-Kholba deposit, Republic of Buryatia"
+      },
+      {
+        "slug": "zunkholba-team",
+        "source": "photo/zun-holba/w_533e30c9.jpg",
+        "alt": "Three geologists in hard hats with headlamps underground",
+        "caption": "Joint geological investigations in the underground workings with chief mine geologists at the Zun-Kholba deposit, Republic of Buryatia."
+      }
+    ],
+    "publicationState": "published",
+    "evidence": [
+      {
+        "source": "cv",
+        "reference": "2026 CV, work experience",
+        "verified": false
+      },
+      {
+        "source": "legacy-cv",
+        "reference": "2011 and 2012 CVs: RJC-group, November 2010 - April 2011",
+        "verified": false
+      },
+      {
+        "source": "photo-folder",
+        "reference": "photo/zun-holba",
+        "verified": true
+      }
+    ]
+  },
+  {
+    "id": "monchegorsk",
+    "order": 6,
+    "period": "2009-2013",
+    "place": "Kola Peninsula",
+    "short": "Monchegorsk Pluton",
+    "pattern": "gabbro",
+    "title": "Monchegorsk Layered Pluton",
+    "organization": "Geological Institute of KSC RAS (2009), followed by independent research",
+    "role": "Geological Technician, Field Geologist",
+    "summary": "Mapping and petrographic study of platinum-group element (PGE) mineralization in a layered mafic-ultramafic intrusion.",
+    "highlights": [
+      "2009: Russian-Chinese field excursion on PGE-bearing targets of the Monchegorsk pluton. Conducted traverse observations, collected rock and ore samples, sketched outcrops, and drafted local geological maps.",
+      "2010: Defended engineering diploma thesis with honors on exploration for platinum-metal mineralization within the Plast-330 reef area of Mt. Sopcha.",
+      "Detailed geological mapping, traverse planning, petrographic thin-section preparation, and geochemical assay interpretation.",
+      "Vuruchuaivench massif (with S. V. Kashin): determined that ore-bearing rocks are invariably metasomatized, but not all metasomatites carry ore. Identified metasomatic stages: chlorite-zoisite propylitization, two stages of amphibolization, and quartz-sericite alteration. PGE minerals (palladoarsenide, sperrylite, kotulskite) and electrum are closely associated with sulfides. Published conference presentation in 2019, journal article in 2022."
+    ],
+    "photos": [
+      {
+        "slug": "monche-map",
+        "source": "photo/monchegorsk/P1010455.JPG",
+        "date": "2009",
+        "alt": "Three geologists examine a field map laid out on rocks in open boreal woodland",
+        "caption": "Reviewing the geological map of the Moroshkovoe ore occurrence, Monchegorsk pluton."
+      },
+      {
+        "slug": "monche-sampling",
+        "source": "photo/monchegorsk/P1010449.JPG",
+        "date": "2009",
+        "alt": "Geologist in a hooded jacket crouches with a rock hammer at a light-colored rock outcrop",
+        "caption": "Sample collection for analysis at the Moroshkovoe ore occurrence, Monchegorsk pluton."
+      },
+      {
+        "slug": "monche-boulders",
+        "source": "photo/monchegorsk/P7240628.JPG",
+        "date": "2009-07",
+        "alt": "Geologist with a rock hammer stands on dark boulder scree with a lake and mountain behind",
+        "caption": "Detailing the stratigraphic section of the Plast-330 platinum-metal target, Mt. Sopcha, Monchegorsk pluton."
+      },
+      {
+        "slug": "monche-group",
+        "source": "photo/monchegorsk/IMG_2189.JPG",
+        "date": "2009-07",
+        "alt": "Five young geologists rest on a rocky outcrop against a mountain panorama",
+        "caption": "Team of geologists at the Plast-330 platinum-metal target, Mt. Sopcha, Monchegorsk pluton."
+      }
+    ],
+    "publicationState": "published",
+    "evidence": [
+      {
+        "source": "cv",
+        "reference": "2026 CV, additional field experience",
+        "verified": false
+      },
+      {
+        "source": "legacy-cv",
+        "reference": "2011 and 2012 CVs: Geological Institute of KSC RAS, June - August 2009; diploma topic",
+        "verified": false
+      },
+      {
+        "source": "presentation",
+        "reference": "materials/Pakhalko Herlany 2019.pptx, slides 6, 8, 13-18",
+        "verified": true
+      },
+      {
+        "source": "photo-folder",
+        "reference": "photo/monchegorsk",
+        "verified": true
+      }
+    ]
+  },
+  {
+    "id": "kichany",
+    "order": 7,
+    "period": "2008",
+    "place": "Karelia",
+    "short": "Kichany",
+    "pattern": "gneiss",
+    "title": "Uranium of the Kichany Target",
+    "organization": "Karpinsky Institute (VSEGEI), Russian-French joint expedition",
+    "role": "Category 1 Geologist",
+    "summary": "Exploration for unconformity-related and vein uranium mineralization in Karelia.",
+    "highlights": [
+      "Detailed geological mapping and ground verification of radiometric uranium anomalies.",
+      "Traverse navigation, radiometric surveying, systematic sample collection, and local geological schematic drafting.",
+      "Communicated and collaborated in English with French expedition geologists."
+    ],
+    "publicationState": "published",
+    "evidence": [
+      {
+        "source": "cv",
+        "reference": "2026 CV, additional field experience",
+        "verified": false
+      },
+      {
+        "source": "legacy-cv",
+        "reference": "2011 and 2012 CVs: Karpinsky Institute (VSEGEI), June - August 2008; English communication with French geologists",
+        "verified": false
+      }
+    ]
+  }
+]

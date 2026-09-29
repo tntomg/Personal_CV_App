@@ -21,21 +21,70 @@
       "Благодарность Института Карпинского основным исполнителям проекта, 3 апреля 2026 года.",
       "Профессиональная аккредитация по профессии «геолог» в Саудовской Аравии, 2026 год."
     ],
-    "photoNote": "Год и месяц на снимке взяты из данных файла. У копий из мессенджера даты съёмки нет.",
     "photos": [
-      { "slug": "gmas-tablet", "source": "photo/Saudi/photo_2026-09-23_07-05-14.jpg", "alt": "Геолог в широкополой шляпе смотрит в защищённый планшет у каменистого склона, позади внедорожник", "caption": "Полевой планшет на маршруте" },
-      { "slug": "gmas-maps", "source": "photo/Saudi/photo_2026-09-23_06-39-50.jpg", "alt": "Четверо мужчин обсуждают геологические карты, развешанные на стене", "caption": "Обсуждение геологических карт" },
-      { "slug": "gmas-umbrella", "source": "photo/Saudi/photo_2026-09-23_07-05-45.jpg", "alt": "Четверо людей на каменистой равнине, один держит зонт от солнца", "caption": "Маршрут в жаркий день" },
-      { "slug": "gmas-roadside", "source": "photo/Saudi/photo_2026-09-23_07-09-25.jpg", "alt": "Трое людей в шляпах стоят у обочины дороги среди пустыни", "caption": "Остановка у дороги" },
-      { "slug": "gmas-mountains", "source": "photo/Saudi/IMG_20250824_073702.jpg", "date": "2025-08", "alt": "Мужчина в синей толстовке на фоне горных хребтов", "caption": "Горный рельеф Аравийского щита" },
-      { "slug": "gmas-hat", "source": "photo/Saudi/IMG_20250416_080107.jpg", "date": "2025-04", "alt": "Мужчина в широкополой шляпе у скального выхода показывает жест одобрения", "caption": "На обнажении" },
-      { "slug": "gmas-vehicle", "source": "photo/Saudi/IMG_20250411_112731.jpg", "date": "2025-04", "alt": "Мужчина стоит у полевого пикапа на городской улице", "caption": "Перед выездом в поле" }
+      {
+        "slug": "gmas-tablet",
+        "source": "photo/Saudi/photo_2026-09-23_07-05-14.jpg",
+        "alt": "Геолог в широкополой шляпе смотрит в защищённый планшет у каменистого склона, позади внедорожник",
+        "caption": "Полевая работа на обнажении гранитов, карта 3922-1 As Sulaym, Саудовская Аравия"
+      },
+      {
+        "slug": "gmas-maps",
+        "source": "photo/Saudi/photo_2026-09-23_06-39-50.jpg",
+        "alt": "Четверо мужчин обсуждают геологические карты, развешанные на стене",
+        "caption": "Планирование маршрутов и геологии, карта 3824-4 Jabal Radwa, Саудовская Аравия"
+      },
+      {
+        "slug": "gmas-umbrella",
+        "source": "photo/Saudi/photo_2026-09-23_07-05-45.jpg",
+        "alt": "Четверо людей на каменистой равнине, один держит зонт от солнца",
+        "caption": "Полевой рекогноцировочный маршрут, карта 3922-1 As Sulaym, Саудовская Аравия"
+      },
+      {
+        "slug": "gmas-roadside",
+        "source": "photo/Saudi/photo_2026-09-23_07-09-25.jpg",
+        "alt": "Трое людей в шляпах стоят у обочины дороги среди пустыни",
+        "caption": "Совместный маршрут с менеджерами проекта Ashraf Al-Qubsani и Ji Wenhua, Саудовская Аравия"
+      },
+      {
+        "slug": "gmas-mountains",
+        "source": "photo/Saudi/IMG_20250824_073702.jpg",
+        "date": "2025-08",
+        "alt": "Мужчина в синей толстовке на фоне горных хребтов",
+        "caption": "Горный рельеф около Bilasmar, западное побережье, Саудовская Аравия"
+      },
+      {
+        "slug": "gmas-hat",
+        "source": "photo/Saudi/IMG_20250416_080107.jpg",
+        "date": "2025-04",
+        "alt": "Мужчина в широкополой шляпе у скального выхода показывает жест одобрения",
+        "caption": "Типичный маршрут во время пылевой бури, Саудовская Аравия"
+      },
+      {
+        "slug": "gmas-vehicle",
+        "source": "photo/Saudi/IMG_20250411_112731.jpg",
+        "date": "2025-04",
+        "alt": "Мужчина стоит у полевого пикапа на городской улице",
+        "caption": "«Рабочая лошадка» проекта GMAS, Саудовская Аравия"
+      }
     ],
     "publicationState": "published",
     "evidence": [
-      { "source": "cv", "reference": "CV Geologist Pakhalko RUS/ENG 2026.docx; CV_Pakhalko_Glavnyy_geolog_2026_RU.docx, опыт работы", "verified": false },
-      { "source": "document", "reference": "certificate/photo_2026-09-23_06-44-25.jpg, благодарность Института Карпинского от 03.04.2026; certificate/QVP 2026.pdf", "verified": true },
-      { "source": "photo-folder", "reference": "photo/Saudi", "verified": true }
+      {
+        "source": "cv",
+        "reference": "CV Geologist Pakhalko RUS/ENG 2026.docx; CV_Pakhalko_Glavnyy_geolog_2026_RU.docx, опыт работы",
+        "verified": false
+      },
+      {
+        "source": "document",
+        "reference": "certificate/photo_2026-09-23_06-44-25.jpg, благодарность Института Карпинского от 03.04.2026; certificate/QVP 2026.pdf",
+        "verified": true
+      },
+      {
+        "source": "photo-folder",
+        "reference": "photo/Saudi",
+        "verified": true
+      }
     ]
   },
   {
@@ -60,21 +109,73 @@
       "Доклады о металлогенической эволюции Азии: Чеджу, 2018; Монголия, 2019.",
       "Курсы «ArcGIS Desktop 10» и «Базы геоданных» в ГИС-центре Института Карпинского (ВСЕГЕИ), 2015."
     ],
-    "photoNote": "Монголия, 2019: доклад, полевые выезды и встреча участников в Улан-Баторе. Китай: поездки 2014 и 2017 годов. Презентации докладов открываются целиком в разделе «Доклады и лекции».",
     "photos": [
-      { "slug": "vsegei-talk-mongolia", "source": "photo/IMG_8887.JPG", "date": "2019-08", "alt": "Алексей с микрофоном у экрана со слайдом о методике анализа формирования рудных месторождений, рядом флаг России", "caption": "Доклад о металлогенической карте Азии: методика для месторождений SEDEX, MVT, порфировых и эпитермальных. Монголия" },
-      { "slug": "mongolia-meeting", "source": "photo/mongolia/DSC_0568_2019_17-е УланБатор.JPG", "date": "2019", "alt": "Групповое фото нескольких десятков участников у входа в отель", "caption": "Участники встречи в Улан-Баторе" },
-      { "slug": "mongolia-steppe", "source": "photo/mongolia/IMG-20190809-WA0020.jpg", "date": "2019-08", "alt": "Трое людей идут по степи, вдали автомобиль", "caption": "Маршрут по степи, Монголия" },
-      { "slug": "mongolia-site", "source": "photo/mongolia/IMG-20190809-WA0023.jpg", "date": "2019-08", "alt": "Группа людей в касках на промышленной площадке у склона с постройками", "caption": "Выезд на промышленную площадку, Монголия" },
-      { "slug": "mongolia-outcrop", "source": "photo/mongolia/gLpKhOfy0Ae323aM5KAsqUiGzWjfCLvTVzTd6Hg2y4Ms7c3B7oqpbUFd_RrOMu96z9tYKqYOXSkoU94EHtlDNL8b.jpg", "alt": "Двое поднимаются по скальному выходу, один держит зонт", "caption": "Скальное обнажение, Монголия" },
-      { "slug": "china-baijianfen", "source": "photo/china/00060_Baijianfen-гранит-3.8млрд лет-Wang Yusheng.JPG", "date": "2017-10", "alt": "Четверо геологов изучают скальный выход на заросшем склоне", "caption": "Древние граниты Байцзяньфэнь, около 3,8 млрд лет, Китай" },
-      { "slug": "china-granite-block", "source": "photo/china/_DSC0530.JPG", "date": "2014-02", "alt": "Мужчина в зимней куртке стоит рядом с большим гранитным блоком", "caption": "Гранитный блок со следами шпуров, Китай" }
+      {
+        "slug": "vsegei-talk-mongolia",
+        "source": "photo/IMG_8887.JPG",
+        "date": "2019-08",
+        "alt": "Алексей с микрофоном у экрана со слайдом о методике анализа формирования рудных месторождений, рядом флаг России",
+        "caption": "Доклад по металлогенической карте Азии: методика исследования пространственно-временных особенностей развития SEDEX, MVT, порфировых и эпитермальных месторождений. Улан-Батор, Монголия"
+      },
+      {
+        "slug": "mongolia-meeting",
+        "source": "photo/mongolia/DSC_0568_2019_17-е УланБатор.JPG",
+        "date": "2019",
+        "alt": "Групповое фото нескольких десятков участников у входа в отель",
+        "caption": "Участники рабочего совещания в Улан-Баторе, Монголия."
+      },
+      {
+        "slug": "mongolia-steppe",
+        "source": "photo/mongolia/IMG-20190809-WA0020.jpg",
+        "date": "2019-08",
+        "alt": "Трое людей идут по степи, вдали автомобиль",
+        "caption": "Изучение золоторудных проявлений района Их-Хаерхан, Монголия"
+      },
+      {
+        "slug": "mongolia-site",
+        "source": "photo/mongolia/IMG-20190809-WA0023.jpg",
+        "date": "2019-08",
+        "alt": "Группа людей в касках на промышленной площадке у склона с постройками",
+        "caption": "Полевая экскурсия на хромитовый рудник, Монголия"
+      },
+      {
+        "slug": "mongolia-outcrop",
+        "source": "photo/mongolia/gLpKhOfy0Ae323aM5KAsqUiGzWjfCLvTVzTd6Hg2y4Ms7c3B7oqpbUFd_RrOMu96z9tYKqYOXSkoU94EHtlDNL8b.jpg",
+        "alt": "Отбор пробы с начальником отдела и наставником С.П. Шокальским, Монголия",
+        "caption": "Отбор пробы с начальником отдела и наставником - С.П. Шокальским, Монголия"
+      },
+      {
+        "slug": "china-baijianfen",
+        "source": "photo/china/00060_Baijianfen-гранит-3.8млрд лет-Wang Yusheng.JPG",
+        "date": "2017-10",
+        "alt": "Отбор пробы древнейших пород Китая - граниты Байцзяньфэнь, около 3,8 млрд лет на склоне",
+        "caption": "Отбор пробы древнейших пород Китая - граниты Байцзяньфэнь, около 3,8 млрд лет"
+      },
+      {
+        "slug": "china-granite-block",
+        "source": "photo/china/_DSC0530.JPG",
+        "date": "2014-02",
+        "alt": "Блок порфировых гранитов, вмещающих золоторудную минерализацию, район месторождения Linglong в Китае",
+        "caption": "Блок порфировых гранитов, вмещающих золоторудную минерализацию, район месторождения Linglong, Китай"
+      }
     ],
     "publicationState": "published",
     "evidence": [
-      { "source": "cv", "reference": "Резюме 2026 года, опыт работы; резюме от 11.09.2012, ведущий инженер с апреля 2012", "verified": false },
-      { "source": "presentation", "reference": "materials/2018-Korea,Jeju Pakhalko A.pptx, слайд 5; materials/2019-Mongolia, Pakhalko A.pptx, слайды 7 и 31; materials/Sulfur isotopic features of sulfide ores in mafic.pptx, слайд 13", "verified": true },
-      { "source": "photo-folder", "reference": "photo/mongolia; photo/china (снимки 2014 и 2017 годов по EXIF); photo/IMG_8887.JPG, 05.08.2019 по EXIF, на экране слайд 22 презентации 2019-Mongolia", "verified": true }
+      {
+        "source": "cv",
+        "reference": "Резюме 2026 года, опыт работы; резюме от 11.09.2012, ведущий инженер с апреля 2012",
+        "verified": false
+      },
+      {
+        "source": "presentation",
+        "reference": "materials/2018-Korea,Jeju Pakhalko A.pptx, слайд 5; materials/2019-Mongolia, Pakhalko A.pptx, слайды 7 и 31; materials/Sulfur isotopic features of sulfide ores in mafic.pptx, слайд 13",
+        "verified": true
+      },
+      {
+        "source": "photo-folder",
+        "reference": "photo/mongolia; photo/china (снимки 2014 и 2017 годов по EXIF); photo/IMG_8887.JPG, 05.08.2019 по EXIF, на экране слайд 22 презентации 2019-Mongolia",
+        "verified": true
+      }
     ]
   },
   {
@@ -92,17 +193,43 @@
       "«Камень в архитектуре Санкт-Петербурга» (Институт Карпинского (ВСЕГЕИ), 2022): какие магматические, осадочные и метаморфические породы стоят в облицовке города, как менялись стили и почему камень разрушается.",
       "«Горный компас: принципы применения в геологии» (ГеолФест, 2025): мастер-класс и интерактивная лекция по замеру элементов залегания, магнитному склонению и азимутальным ходам."
     ],
-    "pending": ["Роль в практике и её организатор."],
-    "photos": [
-      { "slug": "practice-route", "source": "photo/geo practice mining institute/2022.06.15028 Геологические маршруты (78).jpg", "date": "2022-06", "alt": "Группа людей стоит на скальном выходе над озером среди сосен", "caption": "Геологический маршрут учебной практики" },
-      { "slug": "practice-bridge", "source": "photo/geo practice mining institute/a4hMAkXo7m802tWI65i5v7Q5LJPiMlOkf7gXTOOP-nnypPZWN4NxgtH1lsZGc70EpYUX7tDv66E8T3V7GwRH4aXQ.jpg", "alt": "Группа студентов с рюкзаками спускается по металлической лестнице к деревянному мосту через лесную речку", "caption": "Группа практики идёт к мосту через речку" },
-      { "slug": "practice-geolfest", "source": "photo/geo practice mining institute/Геофест1день17.jpg", "date": "2025-09", "alt": "Алексей с микрофоном выступает на ГеолФесте у экрана с презентацией о горном компасе", "caption": "Лекция о горном компасе на ГеолФесте, 2025 год" }
+    "pending": [
+      "Роль в практике и её организатор."
     ],
-    "photoNote": "Снимки практики и ГеолФеста датированы по данным файлов (2022 и 2025 годы), у копии из мессенджера даты нет.",
+    "photos": [
+      {
+        "slug": "practice-route",
+        "source": "photo/geo practice mining institute/2022.06.15028 Геологические маршруты (78).jpg",
+        "date": "2022-06",
+        "alt": "Группа студентов изучает выходы порфировых гранитов рапакиви у скального обнажения над озером среди сосен",
+        "caption": "Изучение порфировых гранитов рапакиви в районе музея-заповедника «Монрепо», Выборг, Карелия."
+      },
+      {
+        "slug": "practice-bridge",
+        "source": "photo/geo practice mining institute/a4hMAkXo7m802tWI65i5v7Q5LJPiMlOkf7gXTOOP-nnypPZWN4NxgtH1lsZGc70EpYUX7tDv66E8T3V7GwRH4aXQ.jpg",
+        "alt": "Группа студентов с рюкзаками спускается по металлической лестнице к речке для исследования фанерозойских осадочных пород",
+        "caption": "Исследование выходов фанерозойских осадочных пород в районе станции «Саблино», Ленинградская область."
+      },
+      {
+        "slug": "practice-geolfest",
+        "source": "photo/geo practice mining institute/Геофест1день17.jpg",
+        "date": "2025-09",
+        "alt": "Алексей с микрофоном выступает на ГеолФесте у экрана с презентацией о горном компасе",
+        "caption": "Лекция о горном компасе на ГеолФесте, 2025 год"
+      }
+    ],
     "publicationState": "published",
     "evidence": [
-      { "source": "photo-folder", "reference": "photo/geo practice mining institute; снимки от 21.06.2022 и 13.09.2025", "verified": true },
-      { "source": "presentation", "reference": "materials/Презентация Камень в архитектуре.pptx; materials/Gornyj-kompas-principy-primeneniya-v-geologii.pptx", "verified": true }
+      {
+        "source": "photo-folder",
+        "reference": "photo/geo practice mining institute; снимки от 21.06.2022 и 13.09.2025",
+        "verified": true
+      },
+      {
+        "source": "presentation",
+        "reference": "materials/Презентация Камень в архитектуре.pptx; materials/Gornyj-kompas-principy-primeneniya-v-geologii.pptx",
+        "verified": true
+      }
     ]
   },
   {
@@ -122,16 +249,38 @@
       "Переводил научные материалы с русского на английский.",
       "Позже сдал HSK 3 по китайскому языку (2018)."
     ],
-    "photoNote": "Эмэйшань снят в ноябре 2011 года, дата по данным файла. У второго снимка даты нет. Кадры поездок 2014 и 2017 годов перенесены в этап Института Карпинского.",
     "photos": [
-      { "slug": "china-emeishan", "source": "photo/emeishan/P1000295.JPG", "date": "2011-11", "alt": "Мужчина у большого камня с китайскими иероглифами, позади горы", "caption": "Эмэйшань" },
-      { "slug": "china-gear", "source": "photo/china/fkardYVw7vW9Lo47hPmOxlAp0aQCSor0cF4Hj7DYDoUHWtD2CIYPMNDXW9isQIXUVGTblaHo.jpg", "alt": "Мужчина в красном защитном комбинезоне и каске в помещении", "caption": "В защитном комбинезоне и каске" }
+      {
+        "slug": "china-emeishan",
+        "source": "photo/emeishan/P1000295.JPG",
+        "date": "2011-11",
+        "alt": "Алексей у каменной стелы с китайскими иероглифами в ходе полевой экскурсии на месторождение Панжихуа",
+        "caption": "Полевая экскурсия на железорудное месторождение Панжихуа, Китай"
+      },
+      {
+        "slug": "china-gear",
+        "source": "photo/china/fkardYVw7vW9Lo47hPmOxlAp0aQCSor0cF4Hj7DYDoUHWtD2CIYPMNDXW9isQIXUVGTblaHo.jpg",
+        "alt": "Алексей в красном защитном комбинезоне и каске перед спуском в горную выработку месторождения Linglong",
+        "caption": "Подготовка к спуску в горную выработку месторождения Linglong, Китай."
+      }
     ],
     "publicationState": "published",
     "evidence": [
-      { "source": "cv", "reference": "Резюме 2026 года, опыт работы", "verified": false },
-      { "source": "legacy-cv", "reference": "Резюме от 11.09.2012: октябрь 2011 - апрель 2012, исследования и перевод", "verified": false },
-      { "source": "photo-folder", "reference": "photo/emeishan; photo/china", "verified": true }
+      {
+        "source": "cv",
+        "reference": "Резюме 2026 года, опыт работы",
+        "verified": false
+      },
+      {
+        "source": "legacy-cv",
+        "reference": "Резюме от 11.09.2012: октябрь 2011 - апрель 2012, исследования и перевод",
+        "verified": false
+      },
+      {
+        "source": "photo-folder",
+        "reference": "photo/emeishan; photo/china",
+        "verified": true
+      }
     ]
   },
   {
@@ -150,16 +299,38 @@
       "Вёл минералогические наблюдения и отбирал пробы на золото с учётом требований к качеству первичных данных.",
       "Составлял сопутствующую документацию бурения."
     ],
-    "photoNote": "Подземные выработки «Зун-Холбы». Первый снимок датирован по данным файла, у второго даты нет.",
     "photos": [
-      { "slug": "zunkholba-gallery", "source": "photo/zun-holba/Изображение2 236.jpg", "date": "2010-12", "alt": "Человек в каске и спецодежде стоит в освещённой подземной выработке", "caption": "В подземной выработке" },
-      { "slug": "zunkholba-team", "source": "photo/zun-holba/w_533e30c9.jpg", "alt": "Трое людей в касках с налобными фонарями под землёй", "caption": "Группа в подземной выработке" }
+      {
+        "slug": "zunkholba-gallery",
+        "source": "photo/zun-holba/Изображение2 236.jpg",
+        "date": "2010-12",
+        "alt": "Человек в каске и спецодежде стоит в освещённой подземной выработке",
+        "caption": "Работа в подземной выработке месторождения Зун-Холба, республика Бурятия"
+      },
+      {
+        "slug": "zunkholba-team",
+        "source": "photo/zun-holba/w_533e30c9.jpg",
+        "alt": "Трое людей в касках с налобными фонарями под землёй",
+        "caption": "Совместные геологические изыскания в подземной выработке совместно с ведущими геологами рудника месторождения Зун-Холба, республика Бурятия."
+      }
     ],
     "publicationState": "published",
     "evidence": [
-      { "source": "cv", "reference": "Резюме 2026 года, опыт работы", "verified": false },
-      { "source": "legacy-cv", "reference": "Резюме 2011 и 2012 годов: RJC-group, ноябрь 2010 - апрель 2011", "verified": false },
-      { "source": "photo-folder", "reference": "photo/zun-holba", "verified": true }
+      {
+        "source": "cv",
+        "reference": "Резюме 2026 года, опыт работы",
+        "verified": false
+      },
+      {
+        "source": "legacy-cv",
+        "reference": "Резюме 2011 и 2012 годов: RJC-group, ноябрь 2010 - апрель 2011",
+        "verified": false
+      },
+      {
+        "source": "photo-folder",
+        "reference": "photo/zun-holba",
+        "verified": true
+      }
     ]
   },
   {
@@ -179,19 +350,58 @@
       "Детально картировал массив, планировал полевые работы, готовил образцы и анализировал химические данные.",
       "Массив Вуручуайвенч, вместе с С. В. Кашиным: рудоносные породы всегда нацело изменены, но не всякая изменённая порода рудоносна. Выделили стадии метасоматоза: хлорит-цоизитовая пропилитизация, две стадии амфиболизации, кварц-серицитовый метасоматоз. Минералы ЭПГ (палладоарсенид, сперрилит, котульскит) и электрум связаны с сульфидами. Доклад 2019 года, статья 2022 года."
     ],
-    "photoNote": "Полевой сезон 2009 года. Месяц указан там, где он есть в данных файла. Шлифы и схема участка есть в презентации доклада 2019 года в разделе «Доклады и лекции».",
     "photos": [
-      { "slug": "monche-map", "source": "photo/monchegorsk/P1010455.JPG", "date": "2009", "alt": "Трое людей рассматривают карту, разложенную на камнях среди редкого леса", "caption": "Работа с картой на маршруте" },
-      { "slug": "monche-sampling", "source": "photo/monchegorsk/P1010449.JPG", "date": "2009", "alt": "Человек в капюшоне присел с молотком у светлого выхода породы", "caption": "Отбор образцов на обнажении" },
-      { "slug": "monche-boulders", "source": "photo/monchegorsk/P7240628.JPG", "date": "2009-07", "alt": "Человек с молотком стоит на тёмных глыбах, позади озеро и гора", "caption": "Маршрут по глыбовым развалам" },
-      { "slug": "monche-group", "source": "photo/monchegorsk/IMG_2189.JPG", "date": "2009-07", "alt": "Пятеро молодых людей отдыхают на скальном выходе на фоне гор", "caption": "Группа на обнажении" }
+      {
+        "slug": "monche-map",
+        "source": "photo/monchegorsk/P1010455.JPG",
+        "date": "2009",
+        "alt": "Трое людей рассматривают карту, разложенную на камнях среди редкого леса",
+        "caption": "Изучение геологической карты рудопроявления «Морошковое», Мончегорский плутон."
+      },
+      {
+        "slug": "monche-sampling",
+        "source": "photo/monchegorsk/P1010449.JPG",
+        "date": "2009",
+        "alt": "Человек в капюшоне присел с молотком у светлого выхода породы",
+        "caption": "Отбор проб для анализа на рудопроявлении «Морошковое», Мончегорский плутон."
+      },
+      {
+        "slug": "monche-boulders",
+        "source": "photo/monchegorsk/P7240628.JPG",
+        "date": "2009-07",
+        "alt": "Человек с молотком стоит на тёмных глыбах, позади озеро и гора",
+        "caption": "Детализация разреза рудного платинометалльного объекта «Пласт-330», г. Сопча, Мончегорский плутон."
+      },
+      {
+        "slug": "monche-group",
+        "source": "photo/monchegorsk/IMG_2189.JPG",
+        "date": "2009-07",
+        "alt": "Пятеро молодых людей отдыхают на скальном выходе на фоне гор",
+        "caption": "Команда геологов на рудном платинометалльном объекте «Пласт-330», г. Сопча, Мончегорский плутон."
+      }
     ],
     "publicationState": "published",
     "evidence": [
-      { "source": "cv", "reference": "Резюме 2026 года, дополнительный полевой опыт", "verified": false },
-      { "source": "legacy-cv", "reference": "Резюме 2011 и 2012 годов: ГИ КНЦ РАН, июнь - август 2009; тема диплома", "verified": false },
-      { "source": "presentation", "reference": "materials/Pakhalko Herlany 2019.pptx, слайды 6, 8, 13-18", "verified": true },
-      { "source": "photo-folder", "reference": "photo/monchegorsk; P1010449 и P1010455 сняты со сброшенными часами камеры, номера кадров идут до P7240628 от 24.07.2009", "verified": true }
+      {
+        "source": "cv",
+        "reference": "Резюме 2026 года, дополнительный полевой опыт",
+        "verified": false
+      },
+      {
+        "source": "legacy-cv",
+        "reference": "Резюме 2011 и 2012 годов: ГИ КНЦ РАН, июнь - август 2009; тема диплома",
+        "verified": false
+      },
+      {
+        "source": "presentation",
+        "reference": "materials/Pakhalko Herlany 2019.pptx, слайды 6, 8, 13-18",
+        "verified": true
+      },
+      {
+        "source": "photo-folder",
+        "reference": "photo/monchegorsk; P1010449 и P1010455 сняты со сброшенными часами камеры, номера кадров идут до P7240628 от 24.07.2009",
+        "verified": true
+      }
     ]
   },
   {
@@ -212,8 +422,16 @@
     ],
     "publicationState": "published",
     "evidence": [
-      { "source": "cv", "reference": "Резюме 2026 года, дополнительный полевой опыт", "verified": false },
-      { "source": "legacy-cv", "reference": "Резюме 2011 и 2012 годов: Институт Карпинского (ВСЕГЕИ), июнь - август 2008; английский в общении с французскими геологами", "verified": false }
+      {
+        "source": "cv",
+        "reference": "Резюме 2026 года, дополнительный полевой опыт",
+        "verified": false
+      },
+      {
+        "source": "legacy-cv",
+        "reference": "Резюме 2011 и 2012 годов: Институт Карпинского (ВСЕГЕИ), июнь - август 2008; английский в общении с французскими геологами",
+        "verified": false
+      }
     ]
   }
 ]

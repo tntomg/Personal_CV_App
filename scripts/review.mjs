@@ -50,10 +50,11 @@ for (const [label, w, h] of [['desktop', 1440, 900], ['mobile', 390, 844]]) {
   // Carousel: next button, status text, thumbnails.
   const g = p.locator('#stage-gmas [data-gallery]');
   await g.scrollIntoViewIfNeeded();
+  const totalPhotos = await g.locator('.gallery-slide').count();
   await g.locator('[data-next]').click();
   await p.waitForTimeout(700);
   const status = await g.locator('[data-status]').innerText();
-  if (!/^2 из 13/.test(status.trim())) problems.push(`${label}: carousel status after next = "${status}"`);
+  if (!new RegExp(`^2 из ${totalPhotos}`).test(status.trim())) problems.push(`${label}: carousel status after next = "${status}"`);
   // Lightbox.
   await g.locator('.gallery-slide.is-current a[data-zoom]').click();
   await p.waitForTimeout(900);
@@ -62,12 +63,12 @@ for (const [label, w, h] of [['desktop', 1440, 900], ['mobile', 390, 844]]) {
   await p.keyboard.press('ArrowRight');
   await p.waitForTimeout(700);
   const lb = await p.locator('[data-lb-count]').innerText();
-  if (!/^3 из 13/.test(lb.trim())) problems.push(`${label}: lightbox count after ArrowRight = "${lb}"`);
+  if (!new RegExp(`^3 из ${totalPhotos}`).test(lb.trim())) problems.push(`${label}: lightbox count after ArrowRight = "${lb}"`);
   await p.keyboard.press('Escape');
   await p.waitForTimeout(700);
   if (await p.locator('dialog[data-lightbox]').evaluate((d) => d.open)) problems.push(`${label}: lightbox did not close`);
   const synced = await g.locator('[data-status]').innerText();
-  if (!/^3 из 13/.test(synced.trim())) problems.push(`${label}: carousel not synced after lightbox = "${synced}"`);
+  if (!new RegExp(`^3 из ${totalPhotos}`).test(synced.trim())) problems.push(`${label}: carousel not synced after lightbox = "${synced}"`);
   // Every gallery frame keeps its photo's proportions: nothing cropped, nothing letterboxed.
   const skewed = await p.locator('.gallery-media').evaluateAll((nodes) =>
     nodes
@@ -87,11 +88,17 @@ for (const [label, w, h] of [['desktop', 1440, 900], ['mobile', 390, 844]]) {
   await c.close();
 }
 
-// Full-screen viewer: landscape (0) and portrait (8) photos are whole on screen and fill the free stage.
+// Full-screen viewer: landscape and portrait photos are whole on screen and fill the free stage.
 for (const [w, h] of [[1440, 900], [1366, 657], [390, 844], [844, 390]]) {
   const v = await page(w, h);
   await v.goto(`${origin}/ru/`, { waitUntil: 'load' });
-  for (const index of [0, 8]) {
+  const photoIndices = await v.evaluate(() => {
+    const links = Array.from(document.querySelectorAll('#stage-gmas a[data-zoom]'));
+    const landscapeIdx = links.findIndex((a) => Number(a.dataset.width) >= Number(a.dataset.height));
+    const portraitIdx = links.findIndex((a) => Number(a.dataset.width) < Number(a.dataset.height));
+    return [landscapeIdx >= 0 ? landscapeIdx : 0, portraitIdx >= 0 ? portraitIdx : 0];
+  });
+  for (const index of photoIndices) {
     await v.evaluate((i) => document.querySelectorAll('#stage-gmas a[data-zoom]')[i].click(), index);
     await v.waitForTimeout(700);
     const fit = await v.evaluate(() => {

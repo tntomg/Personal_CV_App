@@ -1,14 +1,21 @@
 ---
 import Icon from './Icon.astro';
+
+interface Props {
+  lang?: 'ru' | 'en';
+}
+
+const { lang = 'ru' } = Astro.props;
+const isEn = lang === 'en';
 ---
-<dialog class="lightbox" data-lightbox aria-label="Просмотр фотографии">
+<dialog class="lightbox" data-lightbox aria-label={isEn ? "Photo viewer" : "Просмотр фотографии"}>
   <div class="lb-top">
     <p class="lb-count" data-lb-count aria-live="polite"></p>
-    <button type="button" class="round-button lb-close" data-lb-close aria-label="Закрыть просмотр"><Icon name="close" /></button>
+    <button type="button" class="round-button lb-close" data-lb-close aria-label={isEn ? "Close viewer" : "Закрыть просмотр"}><Icon name="close" /></button>
   </div>
   <div class="lb-stage" data-lb-stage>
-    <button type="button" class="round-button lb-nav lb-prev" data-lb-prev aria-label="Предыдущее фото"><Icon name="arrow-left" /></button>
-    <button type="button" class="round-button lb-nav lb-next" data-lb-next aria-label="Следующее фото"><Icon name="arrow-right" /></button>
+    <button type="button" class="round-button lb-nav lb-prev" data-lb-prev aria-label={isEn ? "Previous photo" : "Предыдущее фото"}><Icon name="arrow-left" /></button>
+    <button type="button" class="round-button lb-nav lb-next" data-lb-next aria-label={isEn ? "Next photo" : "Следующее фото"}><Icon name="arrow-right" /></button>
   </div>
   <p class="lb-caption" data-lb-caption></p>
 </dialog>

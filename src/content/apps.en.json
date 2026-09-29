@@ -1,0 +1,204 @@
+[
+  {
+    "id": "rocksurv-field",
+    "kind": "product",
+    "slug": "rocksurv-field",
+    "order": 1,
+    "stage": "Field",
+    "title": "Rocksurv Field",
+    "area": "Field Operations & Geodata Capture",
+    "summary": "Complete offline-first mobile workstation for field geologists: OGC GeoPackage maps, structured observation logs, structural measurements, photo documentation, and embedded QA/QC with zero network reliance.",
+    "problem": "Traditional paper notebooks and unlinked spreadsheets result in losing up to 20% of relational links between stations, samples, and photos, while post-season digitizing requires weeks of manual cleanup. Rocksurv Field resolves this: each observation station rigidly binds lithological descriptions, sample IDs ('station-S1'), joint and bedding attitudes, photos with compass bearing and scale bar, sketches, and alteration zones within a unified OGC GeoPackage database. Projects are prepared in ArcGIS Pro, run 100% offline in the field, and export to office deliverables in a single click.",
+    "workflow": [
+      "In office: prepare cartographic base in ArcGIS Pro and export to standard OGC GeoPackage container (raster pyramids, vector layers, geological symbology, and domain dictionaries).",
+      "In field: launch project with zero network - offline map navigation, high-precision GNSS with error ellipse, digital geological compass, and topography from local Copernicus DEM GLO-30.",
+      "At outcrop: log observation station with dependent lithological pickers, sample registration, planar and linear structural measurements, alteration zones, and ore mineralization.",
+      "Embedded QA/QC: automated strike calculation via Right-Hand Rule (RHR), Wentworth grain-size validation, and mineral association compatibility checks eliminate errors on the spot.",
+      "Post-field delivery: 1-click session export - structured multi-sheet Excel workbook (.xlsx), ZIP archive of geo-tagged media, and validation_report.json audit trail for GIS."
+    ],
+    "highlights": [
+      "100% Offline-First: raster pyramids and vector layers inside an open OGC GeoPackage container without internet access or ESRI licenses.",
+      "Rigid observation integrity: stations bind lithological descriptions, samples ('station-S1'), structural attitudes, photos with compass bearing and scale bar, and field sketches.",
+      "Embedded field QA/QC: Right-Hand Rule (RHR) enforcement, mineral compatibility validation, and grain-size normalization upon data entry.",
+      "Expedition-grade fault tolerance: background shadow backups every 5 minutes, draft recovery upon app termination, and PendingPhotoStore for orphaned camera images.",
+      "1-click post-field export: session export into a multi-sheet Excel workbook (.xlsx), ZIP media package, and validation_report.json audit log.",
+      "Multilingual for international projects: English, Russian, and Arabic (RTL) localization with native KSA-GRF17 coordinate system support."
+    ],
+    "capabilities": [
+      {
+        "group": "Mapping & Geodata",
+        "items": [
+          "Offline raster pyramids and vector layers served directly from GeoPackage.",
+          "On-the-fly dynamic reprojection (WGS 84, UTM, Web Mercator, KSA-GRF17).",
+          "Geological symbology and layer labelling authored in ArcGIS Pro.",
+          "Import of GPS tracks and reference waypoints from KML and KMZ files."
+        ]
+      },
+      {
+        "group": "Field Journal & Observations",
+        "items": [
+          "Observation stations: exposure type, rock color, texture, grain size, stratigraphic unit.",
+          "Sample cataloging with automated numbering ('station-S1'), sample type, and mass.",
+          "Planar and linear attitude measurements with Right-Hand Rule (RHR) enforcement.",
+          "Hydrothermal alteration zones and ore mineralization with intensity grading."
+        ]
+      },
+      {
+        "group": "Photography & Navigation",
+        "items": [
+          "Photos with embedded EXIF: coordinates, compass bearing, and target scale bar.",
+          "GNSS positioning with accuracy radius, digital geological compass with magnetic declination control.",
+          "Topographic elevation from local Copernicus DEM GLO-30 or GEDTM30 datasets."
+        ]
+      },
+      {
+        "group": "Reliability & Data Safety",
+        "items": [
+          "Auto-save and background shadow project copies every 5 minutes.",
+          "Soft-delete Recycle Bin with recovery for accidentally discarded records.",
+          "PendingPhotoStore background service rescuing photos saved by camera before database commitment.",
+          "FieldTextDraft engine restoring unsaved text field drafts across application crashes."
+        ]
+      },
+      {
+        "group": "Post-Field Reporting",
+        "items": [
+          "Session export to Excel (.xlsx) with dedicated worksheets per entity.",
+          "ZIP archive containing geo-referenced photographs, outcrop sketches, and diagrams.",
+          "Auditable validation_report.json quality control report for corporate GIS integration."
+        ]
+      }
+    ],
+    "stack": "Flutter (Dart), MapLibre GL Native, SQLite / OGC GeoPackage, Copernicus DEM GLO-30, ArcGIS Pro Tools (Python)",
+    "specVersion": "1.0.4+ (Clean Architecture & GeoPackage Data Engine)",
+    "diagram": "field-flow",
+    "pending": [
+      "Operational demonstration on industrial rugged field tablets.",
+      "Production deployment metrics across mineral exploration projects.",
+      "Author contribution: system architecture, core engine development, and field testing."
+    ],
+    "publicationState": "published",
+    "productStatus": "prototype",
+    "evidence": {
+      "source": "specification",
+      "reference": "materials/design (2).md, sections 1, 2, 4, and 5",
+      "verified": true
+    }
+  },
+  {
+    "id": "classifier",
+    "kind": "product",
+    "slug": "classifier",
+    "order": 2,
+    "stage": "Classification",
+    "title": "Rocksurv Classifier",
+    "area": "Rock Classification & Structural Analysis",
+    "summary": "Pocket petrographic laboratory and structural calculator: rigorous rock classification according to IUGS, Dunham, and Sibson standards, spherical geometry attitude validation, and interactive Schmidt stereonet directly at the outcrop.",
+    "problem": "Misidentifications in field rock naming and geometric inconsistencies in structural measurements (such as a lineation pitch plunging steeper than the dip of its host plane) are typically uncovered in the office months after the field season ends, leading to costly drilling errors and redundant re-traverses. Rocksurv Classifier brings office-grade calculation rigor directly to the outcrop: instantly computes modal composition coordinates on the Streckeisen QAPF double triangle, audits structural measurement consistency using spherical trigonometry, classifies fault-rock kinematics, and plots equal-area Schmidt stereonets without drafting paper.",
+    "workflow": [
+      "Enter modal mineral composition (Q, A, P, F and color index M') or tap directly on the interactive QAPF double triangle.",
+      "Instantly receive the IUGS classification field and detailed rock diagnostic card with key microscopic and macroscopic criteria.",
+      "For ultramafic and mafic rocks: automatic routing to 4 specialized ternary diagrams (Ol-Opx-Cpx, Ol-Px-Hbl, Plag-Px-Ol, Plag-Opx-Cpx).",
+      "Enter structural measurements: dip azimuth and dip angle of planar features, plunge azimuth and plunge angle of lineation or slickensides.",
+      "Instant spherical trigonometry audit: verify measurement consistency within 5 deg or 8 deg tolerance, compute rake/pitch angle, and deduce slip kinematics.",
+      "Project structures onto an equal-area Schmidt net: great circles, normal poles, lineations, beta-axis intersections, and fold analysis."
+    ],
+    "highlights": [
+      "IUGS, Dunham, and Sibson standards: rigorous classification of igneous (plutonic and volcanic), mafic, siliciclastic (Pettijohn), carbonate, and fault rocks.",
+      "Outcrop-level structural geometry audit: spherical trigonometry flags physically impossible structural pairs before database entry.",
+      "Interactive Schmidt Stereonet: dynamic projection of Bezier great circles, normal poles, lineations, beta-axes, and fold axis geometry.",
+      "Dichotomous macroscopic key & catalog: field identification flow chart and illustrated catalog of 24 reference rock types.",
+      "Kotlin Multiplatform architecture: single verified mathematical core shared across native Android and iOS client applications.",
+      "100% Offline-First: completely autonomous field operations without network dependency, aligned with Karpinsky Institute and SGS methodology."
+    ],
+    "capabilities": [
+      {
+        "group": "Igneous Petrology",
+        "items": [
+          "Streckeisen QAPF double triangle for plutonic and volcanic rocks incorporating color index M'.",
+          "4 ternary diagrams Ol-Opx-Cpx, Ol-Px-Hbl, Plag-Px-Ol, Plag-Opx-Cpx for ultramafic and mafic rocks.",
+          "Interactive dichotomous flow chart based on macroscopic field diagnostic criteria.",
+          "Illustrated rock catalog featuring search filters, diagnostic criteria, and petrographic formulas."
+        ]
+      },
+      {
+        "group": "Structural Geology & Kinematics",
+        "items": [
+          "Automated conversion between dip direction and Right-Hand Rule (RHR) strike.",
+          "Calculation of theoretical lineation plunge and spherical tolerance verification (5 deg or 8 deg).",
+          "Calculation of rake / pitch angle and automated deduction of slip mechanism: strike-slip, normal, reverse, oblique.",
+          "3D visualization of fault-plane geometry and slip vectors."
+        ]
+      },
+      {
+        "group": "Schmidt Stereographic Projection",
+        "items": [
+          "Lower-hemisphere equal-area Schmidt stereonet rendered with Bezier curves.",
+          "Dynamic plotting of great circle arcs, pole points, and rake markers.",
+          "Kinematic intersections of intersecting planes (beta-axes) and dihedral angle computation.",
+          "Fold analysis mode: simultaneous projection of axial surfaces, fold limbs, hinges, and lineations."
+        ]
+      },
+      {
+        "group": "Fault Rocks",
+        "items": [
+          "Sibson-Wise fault rock classification matrix based on cohesion, matrix percentage, and foliation: cataclasites, mylonites, phyllonites, pseudotachylytes."
+        ]
+      },
+      {
+        "group": "Sedimentary & Metamorphic Petrology",
+        "items": [
+          "Sandstone framework classification on Pettijohn ternary diagram (Q-F-R) with matrix proportion assessment.",
+          "Carbonate rocks classified according to Dunham structural-genetic schema (mudstone to boundstone).",
+          "Pyroclastic rocks: blocks/bombs - lapilli - ash ternary diagram.",
+          "Classifiers for foliated (slates, phyllites, schists, gneisses) and non-foliated metamorphic rocks (quartzites, marbles, skarns, eclogites)."
+        ]
+      }
+    ],
+    "stack": "Kotlin Multiplatform (:shared core), Android (Material Design 3, Jetpack Compose), iOS (SwiftUI, NavigationSplitView), Spherical Trigonometry Engine",
+    "specVersion": "3.0 (KMP Multiplatform Architecture & Extended Petrology Suite)",
+    "diagram": "stereonet",
+    "pending": [
+      "Final iOS client distribution build via TestFlight.",
+      "Field calibration benchmark results against Karpinsky Institute and SGS datasets.",
+      "Author contribution: mathematical models, KMP system architecture, and UI/UX design."
+    ],
+    "publicationState": "published",
+    "productStatus": "prototype",
+    "evidence": {
+      "source": "specification",
+      "reference": "materials/design.md, sections 1, 2, 3, and 5",
+      "verified": true
+    }
+  },
+  {
+    "id": "vba-log-check",
+    "kind": "practice",
+    "order": 10,
+    "title": "Field Observation Log Validator",
+    "area": "VBA & Excel, GMAS Project",
+    "summary": "VBA scripts validate geological field observation logs against standardized project lexicons, ensuring multi-team dataset consistency.",
+    "publicationState": "published",
+    "productStatus": "in-use",
+    "evidence": {
+      "source": "cv",
+      "reference": "CV Geologist Pakhalko ENG 2026.docx: validation of geological observation logs against project lexicons",
+      "verified": false
+    }
+  },
+  {
+    "id": "android-gmas",
+    "kind": "practice",
+    "order": 11,
+    "title": "Android Application for Field Data",
+    "area": "Kotlin & Android, GMAS Project",
+    "summary": "Native Android application compliant with GMAS technical guidelines: mobile field data collection with embedded QA/QC validation checks.",
+    "publicationState": "published",
+    "productStatus": "unverified",
+    "evidence": {
+      "source": "cv",
+      "reference": "CV 2026: designed and developed native Android application based on GMAS guidelines",
+      "verified": false
+    }
+  }
+]
