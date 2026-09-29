@@ -1,0 +1,340 @@
+{
+  "deck": "classifier",
+  "lang": "en",
+  "source": "materials/rocksurv_classifier.zip: rocksurv_classifier/Rocksurv_Classifier_Presentation_EN.html",
+  "slides": [
+    {
+      "kind": "cover",
+      "chapter": "",
+      "title": "",
+      "brand": [
+        ""
+      ],
+      "lead": "",
+      "note": "",
+      "points": [],
+      "caption": "",
+      "cta": "",
+      "media": [
+        {
+          "alt": "Rocksurv Classifier Home Dashboard with petrology and structural modules",
+          "state": "Home Dashboard",
+          "image": "01"
+        },
+        {
+          "alt": "Navigation Drawer showing full 12-module petrological and structural hierarchy",
+          "state": "Navigation Architecture",
+          "image": "02"
+        }
+      ],
+      "languages": [],
+      "platforms": []
+    },
+    {
+      "kind": "feature",
+      "chapter": "",
+      "title": "",
+      "lead": "",
+      "note": "",
+      "points": [],
+      "caption": "",
+      "cta": "",
+      "media": [
+        {
+          "alt": "Valid recalculation showing dip direction 130, dip 50, slickenline 130/50, dip-slip kinematics and all green validation badges",
+          "state": "Valid Recalculation (Success)",
+          "image": "03"
+        },
+        {
+          "alt": "Scrolled view showing Calculated Rake 90 deg, Deduced Mechanism Dip-slip, 3D fault block diagram, and kinematic description",
+          "state": "Scrolled: 3D Kinematics & Rake",
+          "image": "04"
+        },
+        {
+          "alt": "Kinematic error detection highlighting impossible plunge angle exceeding dip angle with red alert badges",
+          "state": "Kinematic Error Guard",
+          "image": "05"
+        },
+        {
+          "alt": "Structural data field reference sheet showing right-hand rule conventions and declination guidance",
+          "state": "Field Reference Guide",
+          "image": "06"
+        }
+      ],
+      "languages": [],
+      "platforms": []
+    },
+    {
+      "kind": "feature",
+      "chapter": "",
+      "title": "",
+      "lead": "",
+      "note": "",
+      "points": [],
+      "caption": "",
+      "cta": "",
+      "media": [
+        {
+          "alt": "Stereonet projection of Bedding S0 plane trace and normal pole",
+          "state": "Single Plane Projection (S0)",
+          "image": "07"
+        },
+        {
+          "alt": "Stereonet projection of intersecting Bedding and Fault planes with calculated beta-axis intersection lineation",
+          "state": "Two Planes & Beta-Axis",
+          "image": "08"
+        },
+        {
+          "alt": "Stereonet fold analysis mode displaying axial plane, limbs, fold axis, and measurement data table",
+          "state": "Fold Analysis & Data Table",
+          "image": "09"
+        },
+        {
+          "alt": "Stereonet projection of multiple linear fabric elements including mineral lineations and striations",
+          "state": "Structural Linear Fabric",
+          "image": "10"
+        }
+      ],
+      "languages": [],
+      "platforms": []
+    },
+    {
+      "kind": "feature",
+      "chapter": "",
+      "title": "",
+      "lead": "",
+      "note": "",
+      "points": [],
+      "caption": "",
+      "cta": "",
+      "media": [
+        {
+          "alt": "IUGS QAPF intrusive diagram with Monzogranite field highlighted and normalized ratios",
+          "state": "Plutonic: Monzogranite",
+          "image": "11"
+        },
+        {
+          "alt": "Scrolled view showing Monzogranite specimen photo, mineral formula, and petrological characteristics",
+          "state": "Scrolled: Specimen & Petrography",
+          "image": "12"
+        },
+        {
+          "alt": "IUGS QAPF extrusive diagram with Rhyolite field and volcanic parameters",
+          "state": "Volcanic: Rhyolite",
+          "image": "13"
+        },
+        {
+          "alt": "IUGS QAPF diagram displaying silica-undersaturated Foid Syenite on the lower FAP triangle",
+          "state": "Undersaturated: Foid Syenite",
+          "image": "14"
+        }
+      ],
+      "languages": [],
+      "platforms": []
+    },
+    {
+      "kind": "feature",
+      "chapter": "",
+      "title": "",
+      "lead": "",
+      "note": "",
+      "points": [],
+      "caption": "",
+      "cta": "",
+      "media": [
+        {
+          "alt": "Ultramafic ternary diagram showing Olivine, Orthopyroxene, and Clinopyroxene fields with Lherzolite highlighted",
+          "state": "Ultramafic: Lherzolite",
+          "image": "15"
+        },
+        {
+          "alt": "Scrolled view showing IUGS Identified Rock card, green olivine hand-specimen photo, and peridotite group taxonomy",
+          "state": "Scrolled: Lherzolite Specimen",
+          "image": "16"
+        },
+        {
+          "alt": "Ultramafic ternary diagram showing Dunite field with 95% Olivine content",
+          "state": "Mantle Restite: Dunite",
+          "image": "17"
+        },
+        {
+          "alt": "Gabbroic ternary diagram showing Plagioclase, Pyroxene, and Olivine fields with Troctolite highlighted",
+          "state": "Gabbroic: Troctolite",
+          "image": "18"
+        }
+      ],
+      "languages": [],
+      "platforms": []
+    },
+    {
+      "kind": "feature",
+      "chapter": "",
+      "title": "",
+      "lead": "",
+      "note": "",
+      "points": [],
+      "caption": "",
+      "cta": "",
+      "media": [
+        {
+          "alt": "Guided decision tree question asking whether visible phenocrysts are present in groundmass",
+          "state": "Diagnostic Question Step",
+          "image": "19"
+        },
+        {
+          "alt": "Rock identified as Quartz Porphyry with macroscopic specimen photo and initial diagnostic criteria",
+          "state": "Identified: Quartz Porphyry",
+          "image": "20"
+        },
+        {
+          "alt": "Scrolled view showing comprehensive petrological description, texture, and hydrothermal significance",
+          "state": "Scrolled: Petrographic Summary",
+          "image": "21"
+        },
+        {
+          "alt": "Visual graph map showing interconnected petrographic decision pathways",
+          "state": "Decision Tree Visual Map",
+          "image": "22"
+        }
+      ],
+      "languages": [],
+      "platforms": []
+    },
+    {
+      "kind": "feature",
+      "chapter": "",
+      "title": "",
+      "lead": "",
+      "note": "",
+      "points": [],
+      "caption": "",
+      "cta": "",
+      "media": [
+        {
+          "alt": "Siliciclastic input fields with Quartz, Feldspar, Rock fragments, and Matrix values",
+          "state": "Siliciclastic: Subarkose Inputs",
+          "image": "23"
+        },
+        {
+          "alt": "Scrolled view showing Pettijohn Q-F-R ternary diagram with plotted sample and classification criteria",
+          "state": "Scrolled: Pettijohn Q-F-R Diagram",
+          "image": "24"
+        },
+        {
+          "alt": "Dunham carbonate waterfall selection leading to Mud-supported Wackestone with recommendation",
+          "state": "Dunham: Wackestone",
+          "image": "25"
+        },
+        {
+          "alt": "Embry-Klovan carbonate classification leading to coarse grain-supported Rudstone facies",
+          "state": "Embry-Klovan: Rudstone",
+          "image": "26"
+        }
+      ],
+      "languages": [],
+      "platforms": []
+    },
+    {
+      "kind": "feature",
+      "chapter": "",
+      "title": "",
+      "lead": "",
+      "note": "",
+      "points": [],
+      "caption": "",
+      "cta": "",
+      "media": [
+        {
+          "alt": "Metamorphic foliated rocks table showing fabric evolution and mineral indicators",
+          "state": "Foliated Scale: Slate to Gneiss",
+          "image": "27"
+        },
+        {
+          "alt": "Sibson-Wise fault rock classification table classifying fault gouge, breccia, and mylonite regimes",
+          "state": "Sibson-Wise Fault Matrix",
+          "image": "28"
+        },
+        {
+          "alt": "Fault rock Mylonite specimen showing porphyroclasts, ribbon quartz, and kinematic shear indicators",
+          "state": "Mylonite Kinematic Specimen",
+          "image": "29"
+        },
+        {
+          "alt": "Scrolled view showing Mylonite deformation conditions, dynamic recrystallization, and depth exceeding 10 km",
+          "state": "Scrolled: Shear Zone Physics",
+          "image": "30"
+        }
+      ],
+      "languages": [],
+      "platforms": []
+    },
+    {
+      "kind": "feature",
+      "chapter": "",
+      "title": "",
+      "lead": "",
+      "note": "",
+      "points": [],
+      "caption": "",
+      "cta": "",
+      "media": [
+        {
+          "alt": "Rock catalog search showing instant results filtering for granite and granodiorite",
+          "state": "Live Search: 'gran'",
+          "image": "31"
+        },
+        {
+          "alt": "Rock catalog filtered by Magmatic origin showing rock count and categorized entries",
+          "state": "Filter: Magmatic Suite",
+          "image": "32"
+        },
+        {
+          "alt": "Scrolled view of rock catalog list displaying Melilitite, Obsidian, Pegmatite, and Peridotite cards",
+          "state": "Scrolled: Catalog Rock Cards",
+          "image": "33"
+        },
+        {
+          "alt": "Full rock profile detail screen for Granite with specimen photography, mineralogy, and field traits",
+          "state": "Detailed Rock Profile",
+          "image": "34"
+        },
+        {
+          "alt": "Scrolled view of Granite profile detailing phaneritic texture, mineral percentages, and batholith geological context",
+          "state": "Scrolled: Petrographic Formula",
+          "image": "35"
+        }
+      ],
+      "languages": [],
+      "platforms": []
+    },
+    {
+      "kind": "closing",
+      "chapter": "",
+      "title": "",
+      "lead": "",
+      "note": "",
+      "points": [],
+      "caption": "",
+      "cta": "",
+      "media": [
+        {
+          "alt": "Geologist in the field using Rocksurv Classifier on smartphone in desert outcrop setting",
+          "state": "Outcrop Field Analysis",
+          "image": "36"
+        },
+        {
+          "alt": "Rocksurv Classifier clean light-theme dashboard with quick launch cards",
+          "state": "Home Dashboard Overview",
+          "image": "37"
+        },
+        {
+          "alt": "Navigation drawer displaying comprehensive 12-module geological hierarchy",
+          "state": "Navigation Architecture",
+          "image": "38"
+        }
+      ],
+      "languages": [],
+      "platforms": []
+    }
+  ]
+}

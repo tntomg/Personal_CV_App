@@ -1,0 +1,238 @@
+{
+  "schemaVersion": 1,
+  "installedOn": "2026-09-24",
+  "discoveryEntry": "https://agenticskills.io/skills/find-skills",
+  "installer": "Codex skill-installer/scripts/install-skill-from-github.py",
+  "scope": "user",
+  "skillCount": 14,
+  "skills": [
+    {
+      "name": "find-skills",
+      "repository": "https://github.com/vercel-labs/skills",
+      "repositoryPath": "skills/find-skills",
+      "ref": "main",
+      "pinnedCommit": null,
+      "installedPath": "C:\\Users\\Aleksey\\.codex\\skills\\find-skills",
+      "filesSha256": {
+        "SKILL.md": "c00eeea0e13e74fe4a9d84ba0a8542205a1b736d65f13134fe1a6647eb14976f"
+      }
+    },
+    {
+      "name": "frontend-design",
+      "repository": "https://github.com/anthropics/skills",
+      "repositoryPath": "skills/frontend-design",
+      "ref": "34040c9c568585f6929bedeaad110ad08f079624",
+      "pinnedCommit": "34040c9c568585f6929bedeaad110ad08f079624",
+      "installedPath": "C:\\Users\\Aleksey\\.codex\\skills\\frontend-design",
+      "filesSha256": {
+        "LICENSE.txt": "0d542e0c8804e39aa7f37eb00da5a762149dc682d7829451287e11b938e94594",
+        "SKILL.md": "d91970639e9f5c37682ac7ab60094d35f1c7c1f38d731bd56396563aee10c1d3"
+      }
+    },
+    {
+      "name": "webapp-testing",
+      "repository": "https://github.com/anthropics/skills",
+      "repositoryPath": "skills/webapp-testing",
+      "ref": "34040c9c568585f6929bedeaad110ad08f079624",
+      "pinnedCommit": "34040c9c568585f6929bedeaad110ad08f079624",
+      "installedPath": "C:\\Users\\Aleksey\\.codex\\skills\\webapp-testing",
+      "filesSha256": {
+        "examples/console_logging.py": "ea46877289acb82da7e7ce59d0bc37c8977cd57e2a006d0c88d7a1c625bf95da",
+        "examples/element_discovery.py": "d63c89604a22f8845d724e95dda45db49b1bf57c25ce0a83afbb7b8da3d402f0",
+        "examples/static_html_automation.py": "9d533aafb875ee3ab8b8ebf8f5b9003ac8d999da3d09b285cce252e623140064",
+        "LICENSE.txt": "bc6b3af2f331cbc7fb0da1344efb2cbe5877a31498b4d70dbc7000f3405a1362",
+        "scripts/with_server.py": "b0dcf4918935b795f4eda9821579b9902119235ff4447f687a30286e7d0925fd",
+        "SKILL.md": "51b7349e77ec63b7744a6f63647e7566a0b4d2e301121cc10e8c2113af6556a2"
+      }
+    },
+    {
+      "name": "web-design-guidelines",
+      "repository": "https://github.com/vercel-labs/agent-skills",
+      "repositoryPath": "skills/web-design-guidelines",
+      "ref": "063bee94c3f4df8453406c830b0a7df0f2860278",
+      "pinnedCommit": "063bee94c3f4df8453406c830b0a7df0f2860278",
+      "installedPath": "C:\\Users\\Aleksey\\.codex\\skills\\web-design-guidelines",
+      "filesSha256": {
+        "SKILL.md": "f4647ca866a3accf763777f83e7682954f0187cd6bea7eea0399796652414e8f"
+      }
+    },
+    {
+      "name": "astro",
+      "repository": "https://github.com/astrolicious/agent-skills",
+      "repositoryPath": "skills/astro",
+      "ref": "cb4839f3794189ebf35c55d3ba5d3876dff7acf0",
+      "pinnedCommit": "cb4839f3794189ebf35c55d3ba5d3876dff7acf0",
+      "installedPath": "C:\\Users\\Aleksey\\.codex\\skills\\astro",
+      "filesSha256": {
+        "SKILL.md": "64b0cfb9774b1dae0c7c86cc186508822588f903e8d6165ddd4e699e1c2710a8"
+      }
+    },
+    {
+      "name": "accessibility",
+      "repository": "https://github.com/addyosmani/web-quality-skills",
+      "repositoryPath": "skills/accessibility",
+      "ref": "afa8da942115f2961fdbfa80807ea0b232ff6c00",
+      "pinnedCommit": "afa8da942115f2961fdbfa80807ea0b232ff6c00",
+      "installedPath": "C:\\Users\\Aleksey\\.codex\\skills\\accessibility",
+      "filesSha256": {
+        "references/A11Y-PATTERNS.md": "f10e238dd4dd3c4f51134c2056bc02d3dd4f8fb6ccc9145c2c1ba7aab4d58140",
+        "references/WCAG.md": "16683e025e3833d931c9d880645d98a448827f97e10189b6c8f12c832e7a2361",
+        "SKILL.md": "267fb2a0707d6142f2871f22688203a42ba21291a2aa200fb740936e41362b5d"
+      }
+    },
+    {
+      "name": "core-web-vitals",
+      "repository": "https://github.com/addyosmani/web-quality-skills",
+      "repositoryPath": "skills/core-web-vitals",
+      "ref": "afa8da942115f2961fdbfa80807ea0b232ff6c00",
+      "pinnedCommit": "afa8da942115f2961fdbfa80807ea0b232ff6c00",
+      "installedPath": "C:\\Users\\Aleksey\\.codex\\skills\\core-web-vitals",
+      "filesSha256": {
+        "references/CLS.md": "c4fa0cd6311720b413018471a6ac9240e87db52af3b6e306ffb6684491f15898",
+        "references/INP.md": "7d40cf6053e9bb8a8a77e02da7c6b25aa8e6c1c092b48d8f9c8f30e9b25cf3a7",
+        "references/LCP.md": "522054d44b7a55409cbde511e8d365f7fa52399dd1e72b8d6b44a92ecddca81f",
+        "SKILL.md": "731aa78c0347e8b3e191b75962175bee058ce73817278e610ac0fe546e685914"
+      }
+    },
+    {
+      "name": "performance",
+      "repository": "https://github.com/addyosmani/web-quality-skills",
+      "repositoryPath": "skills/performance",
+      "ref": "afa8da942115f2961fdbfa80807ea0b232ff6c00",
+      "pinnedCommit": "afa8da942115f2961fdbfa80807ea0b232ff6c00",
+      "installedPath": "C:\\Users\\Aleksey\\.codex\\skills\\performance",
+      "filesSha256": {
+        "references/MEASUREMENT.md": "128f6f20c6c8fb55fcccd8b259cf680811022cf262dc55b03e9d623bcb555a99",
+        "references/RUM.md": "a2bdf660ecb23098afbadfb83254d39cef10c0da82938225f61271bad3f81b19",
+        "SKILL.md": "b0c220185d88c61f7770eb127d8facf86c86d2dd1fd82b86e15a4965a0137265"
+      }
+    },
+    {
+      "name": "seo",
+      "repository": "https://github.com/addyosmani/web-quality-skills",
+      "repositoryPath": "skills/seo",
+      "ref": "afa8da942115f2961fdbfa80807ea0b232ff6c00",
+      "pinnedCommit": "afa8da942115f2961fdbfa80807ea0b232ff6c00",
+      "installedPath": "C:\\Users\\Aleksey\\.codex\\skills\\seo",
+      "filesSha256": {
+        "references/STRUCTURED-DATA.md": "3e03876f41d223c89dfdbc0a0fe3668454e5d8819aad5379f4541fbf0bd67e17",
+        "SKILL.md": "57cd16566c2c706186b643644dec2884da89c42f296843364c65a40a4d566ae6"
+      }
+    },
+    {
+      "name": "web-quality-audit",
+      "repository": "https://github.com/addyosmani/web-quality-skills",
+      "repositoryPath": "skills/web-quality-audit",
+      "ref": "afa8da942115f2961fdbfa80807ea0b232ff6c00",
+      "pinnedCommit": "afa8da942115f2961fdbfa80807ea0b232ff6c00",
+      "installedPath": "C:\\Users\\Aleksey\\.codex\\skills\\web-quality-audit",
+      "filesSha256": {
+        "scripts/analyze.sh": "b1b28663af412f746baf5008618e3ae798e322b10ff5ab7ae1830826a6d8e4e2",
+        "SKILL.md": "1903cfb4dcba987d50dc7a51f6c19ec43830ff924c2c8f78979d8775fbe20f91"
+      }
+    },
+    {
+      "name": "best-practices",
+      "repository": "https://github.com/addyosmani/web-quality-skills",
+      "repositoryPath": "skills/best-practices",
+      "ref": "afa8da942115f2961fdbfa80807ea0b232ff6c00",
+      "pinnedCommit": "afa8da942115f2961fdbfa80807ea0b232ff6c00",
+      "installedPath": "C:\\Users\\Aleksey\\.codex\\skills\\best-practices",
+      "filesSha256": {
+        "references/SECURITY.md": "af021e5db37e921c79b8807d63e1cfc02dcf63614d2806cfba04ba44a1366178",
+        "SKILL.md": "9d1f10a08cd7a94176ce160ec860dbd3ecfadad75d46546001883f1f907c5c3e"
+      }
+    },
+    {
+      "name": "design-taste-frontend",
+      "repository": "https://github.com/Leonxlnx/taste-skill",
+      "repositoryPath": "skills/taste-skill",
+      "ref": "c184364c58658b2f131b4ae8bd3d206cabb3deee",
+      "pinnedCommit": "c184364c58658b2f131b4ae8bd3d206cabb3deee",
+      "installedPath": "C:\\Users\\Aleksey\\.codex\\skills\\design-taste-frontend",
+      "filesSha256": {
+        "SKILL.md": "aa194351b246b8b4799099d4ed7b033d29eab6e6e3d58d8d2172978be7b3ec89"
+      }
+    },
+    {
+      "name": "impeccable",
+      "repository": "https://github.com/pbakaus/impeccable",
+      "repositoryPath": ".agents/skills/impeccable",
+      "ref": "e0881d2de397d5e9761d7b35ff5017d8f5ebf69b",
+      "pinnedCommit": "e0881d2de397d5e9761d7b35ff5017d8f5ebf69b",
+      "installedPath": "C:\\Users\\Aleksey\\.codex\\skills\\impeccable",
+      "filesSha256": {
+        "agents/impeccable_asset_producer.toml": "37080ea5e5b381adb7eae7a427231b0ad0dee0f0916fc1d6b673b7101a5b425b",
+        "agents/impeccable_documenter.toml": "2feb3768125ba6469c92a50d516727e6d42f44579165ddfd33409948e2a3803d",
+        "agents/impeccable_finish_reviewer.toml": "869fa5390b84bfd00d072f5280a9002ea3e3936edf5985241be641a87f03ff7b",
+        "agents/impeccable_manual_edit_applier.toml": "6c9ce3e27ec4520ead001da3aad2a2ebba481c4e5cd22873db8890259ee579fe",
+        "agents/openai.yaml": "cbd8bd68fa00935dd0f179adb169252629cf7ee443ea9dc7db77e7ef2cf77446",
+        "reference/adapt.md": "871a8e4d749b807c693ebabd83defbd6c76e1bd2a0f53a28a460cb1308ba8634",
+        "reference/adapt.native.md": "6acc0bf221a4ddc6e5c6438348920b2ca2393b29c4314dbde2cdc23f2b1a9639",
+        "reference/android.md": "058f81f256134841875fd3183e06b37a023de0c877fd2b9eecd97011640791fe",
+        "reference/animate.md": "d658c48ffbe0031e8e3b318996cad6ceafe29e40aa50d5bb25e4bf1d6839dc7c",
+        "reference/audit.md": "d5f83912eda93d42f93522bb74aeff0ea04d9c559577ec52fcccc130dd03166d",
+        "reference/audit.native.md": "960cb922bc934adbf9192e9428ff6bec1f382038166f02a785939c93b7391067",
+        "reference/bolder.md": "f964506c0fae87b3c2c1db7016ddc9be9ef970bbcf5548d684b997b5d5991586",
+        "reference/clarify.md": "173dd66abe65633910dcb04a51f40d6ff2a793f87088f022a02fc4cad24dd133",
+        "reference/colorize.md": "bc5f71f1129d0f2c310d913d07c8dc609a1d25644121bd78c308f42d52a0b9e9",
+        "reference/craft-floor.md": "e802e4f7bdc89050a9c0f2ca506e1d493a2316e6e810c0336c57aa073717ef3e",
+        "reference/craft.md": "9205e222bc6565b37fb504ceec93233c2d2a456802b69d16e6b1c44723907c4c",
+        "reference/critique.md": "cb8caddbb3919e5bf7f252143b519fb16db28a244642d937b186cb89962d9201",
+        "reference/degraded/asset-producer.md": "a8547c8565979894f0c07f92a96ac2a38e681a31fbf155ffeefc7566e185d9c2",
+        "reference/degraded/documenter.md": "bcc05ea92faebb5c74037a9d4263a5ce9a56f5ab07c8ab3c59ee704d8cade745",
+        "reference/degraded/finish-reviewer.md": "5f24c5a97b4ffcabc7c432b064cfdd04c7a2ad52f52e765be648dc0aadab8f38",
+        "reference/degraded/manual-edit-applier.md": "5fae7f8a2fc3ddd49ad0a413446dc44daedef5b6b7de5eb935bd2fbfad646d58",
+        "reference/delight.md": "098a891028ce59c212b747d3c70468dd750aff7053a703d1336045ed31e0da7c",
+        "reference/distill.md": "ea8432c90c30ecb0426662a681ead5c0941113079704e1a766cda09e85b15b4f",
+        "reference/doctor.md": "a98b397cedeeaa1da57f3395b3d9b6c1fc477f4247fb9dc13e4da3da588283ff",
+        "reference/document.md": "3673248740bcdd1122ccc610093ba2fe52f3943a61ce0b7170b74dc49e5b6098",
+        "reference/extract.md": "31b90048c0b540daec46762a10c2b6b6434737a89af005054d8b848d829d003b",
+        "reference/generate.md": "53628d05b7eff0d4f48b95e48fad40266452fe1b42f398bd88dd9328353e0dd8",
+        "reference/harden.md": "16ba7fca1973c5faf53dd2ca523559129c0fe9e5f8d50b645f527afa78186cd2",
+        "reference/hooks.md": "12fefe52d80d25014e5f7e2f9b278275a675653d3d99ae8f0ecf344cdb9abbe6",
+        "reference/init.md": "bb069b43c09109d7031b0374e31955749fec657b252d39782f11e8985aca2b51",
+        "reference/ios.md": "40c87038b5f75147a5952a96237acf312a327bf70c1bcd8e0a5f064625ae9668",
+        "reference/layout.md": "0bc7d7971b3edf2acd0580e847458dc6d84129d90715b452799ace3bed815c7c",
+        "reference/live-setup.md": "2b5b2fbf5f658f34ea1997fb1aeebe01604d05187f75c6a4f1f55a5bc78520a4",
+        "reference/live.md": "68c5636a7858dd0b5137a9229c15e25fdc2ee40a0f8a4e9d809f78e809256262",
+        "reference/new-work.md": "85b9c2d051de94ee9129c58be111946f73035ca62bbd2a3936f4fa48768fe5cf",
+        "reference/onboard.md": "ef2dde00030580ed2765cbf7be9b2ea4a6f64cb915b804fd6f6abcf38051c7b9",
+        "reference/operate.md": "a9d2203acd45ca33a13d5c68b02b23ed512425ac15f0e8438318ed124b43729d",
+        "reference/optimize.md": "f672ef8251a3ed4051a053d30819664951b17540b2899acd27d20e500c234abc",
+        "reference/overdrive.md": "fce6688138d2ceb1e3d2cde5231f54b1d8dc8748b4c95a7919aa83b6f924cf96",
+        "reference/polish.md": "81666fc7f783b4e3514db6554e713dc0479bd9cdedb06e93d15f8b579aae869a",
+        "reference/quieter.md": "190a4e642ca362d7499f3c3ab123e21f18f75457d11f072b545a183f296e6495",
+        "reference/routing.md": "77ae09542fbc10aa4e8b119d6fd19359908a47c13c30068d6a150bfdb50e3e10",
+        "reference/shape.md": "a55f016c046cb6a27c55bd7f346375aeb506a755c4fbca19a5f92dbd42309c23",
+        "reference/typeset.md": "442749aed338f51c1a3ccfb182c6ade9b74b90590b67984062ac94a5b100e914",
+        "reference/visualize.md": "896da399bafcffb0623bdd81bb18709d6eab25c9d5917e739c8798f31ff0d076",
+        "scripts/command-metadata.json": "e8720f3aa41135211cc58cc299a39eeda86c75651f4279cc1ede8db10dcc0584",
+        "scripts/data/font-index-failures.json": "835f19a0a3812f3652dd6979a2ce5597f654fd01f26e1b420b92d5f42b997ce4",
+        "scripts/data/font-index.json": "47edbdfaf27073c47033d1ac7dfee881be49e2dcbda7671d1157300481dde6da",
+        "scripts/impeccable": "39d9600489073e227e4f4d55c451ce4252a6632ed7ae37923efbbcbc91f16d07",
+        "scripts/impeccable.cmd": "759bab1d8adc071fdde2efcf6e2157aa4026f3c2b4f3c342a8070bf328011616",
+        "scripts/live-browser-dom.js": "de1b7404f4cdfd7b515196afb17b74b1980f0bc88cb8681ae93a76ca48ec7bdb",
+        "scripts/live-browser-ignores.js": "c1cb6877ca99a0c1b38ba0c7d59f32702d3022f6821d8045f7133f7c40b6362f",
+        "scripts/live-browser-session.js": "edddeb3fad88adec9a055b1bf9d5c75418cbe97a13b1a7f6765e73249e482563",
+        "scripts/live-browser.js": "f68a3d68ac92606e91aa8878e003d9432ddd09aa97ca01c6b3ce46c937dca316",
+        "scripts/modern-screenshot.umd.js": "bb36665889124a0b6e15f16045265737449c3bdcf2712cdb08af3cfa01563e2b",
+        "scripts/VERSION": "800cf1c0392b24de7c0a1c6ea6778ecb433dec71c49a150bce96a98477527b2f",
+        "SKILL.md": "fa0cb3ef01a25b9094266109a63c1d01d4b2d4973f75b324f5c4ad7e568d148f"
+      }
+    },
+    {
+      "name": "no-ai-slop",
+      "repository": "https://github.com/petergyang/no-ai-slop",
+      "repositoryPath": "skills/no-ai-slop",
+      "ref": "000650b156983f5159695b441477f4e63b25dc85",
+      "pinnedCommit": "000650b156983f5159695b441477f4e63b25dc85",
+      "installedPath": "C:\\Users\\Aleksey\\.codex\\skills\\no-ai-slop",
+      "filesSha256": {
+        "agents/openai.yaml": "51aa33afd4a3287a618c681212a86ce01cc7da4d9c37e54e65166acffa24519a",
+        "eval.md": "8ad8d83ed1abe7fc054ad74966bfca64fc182bc71f59d701b24b962c39d11ad7",
+        "SKILL.md": "992b365f51a2f62cf4c1c5ed22049a9ee551dfea677550c1a72b371c0ceadd62"
+      }
+    }
+  ]
+}

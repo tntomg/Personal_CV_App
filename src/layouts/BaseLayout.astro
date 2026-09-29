@@ -1,0 +1,75 @@
+---
+import '@fontsource-variable/geologica/shrp.css';
+import '../styles/global.css';
+import Icon from '../components/Icon.astro';
+
+interface Props {
+  title: string;
+  description: string;
+  active?: 'profile' | 'experience' | 'apps' | 'achievements';
+  theme?: 'paper' | 'night';
+}
+
+const { title, description, active, theme = 'paper' } = Astro.props;
+const nav = [
+  { id: 'profile', label: 'Профиль' },
+  { id: 'experience', label: 'Опыт' },
+  { id: 'apps', label: 'Приложения' },
+  { id: 'achievements', label: 'Достижения' },
+] as const;
+const email = '79046374416@yandex.ru';
+const cv = '/cv/Alexey-Pakhalko-CV-RU-2026.docx';
+const isHome = Astro.url.pathname === '/ru/';
+---
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="color-scheme" content={theme === 'night' ? 'dark' : 'light'} />
+    <meta name="theme-color" content={theme === 'night' ? '#0e1411' : '#fdfdf5'} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="ru_RU" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content="/images/portrait-960.webp" />
+    <title>{title}</title>
+    <script is:inline>document.documentElement.classList.add('js');</script>
+  </head>
+  <body class:list={{ 'theme-night': theme === 'night' }}>
+    <a class="skip-link" href="#main">К основному содержимому</a>
+    <header class="site-header" data-header>
+      <div class="shell header-inner">
+        <a class="brand" href="/ru/"><strong>Алексей Пахалко</strong><span>геолог</span></a>
+        <nav class="site-nav" aria-label="Разделы">
+          {nav.map(({ id, label }) => (
+            <a href={isHome ? `#${id}` : `/ru/#${id}`} data-nav={id} aria-current={active === id ? 'location' : undefined}>{label}</a>
+          ))}
+        </nav>
+        <a class="button button-ghost button-small" href={`mailto:${email}`}><Icon name="envelope" />Написать</a>
+      </div>
+    </header>
+    <main id="main"><slot /></main>
+    <footer class="site-footer">
+      <div class="shell footer-main">
+        <div>
+          <h2>Вопросы по опыту, проектам или приложениям</h2>
+          <a class="footer-mail" href={`mailto:${email}`}>{email}<Icon name="arrow-up-right" /></a>
+        </div>
+        <div class="footer-side">
+          <p>Санкт-Петербург. Резюме одним файлом, формат DOCX.</p>
+          <a class="button button-primary" href={cv} download><Icon name="download" class="icon-down" />Скачать CV</a>
+        </div>
+      </div>
+      <div class="shell footer-bottom">
+        <span>© 2026 Алексей Пахалко</span>
+        <a href="#main">Наверх</a>
+      </div>
+    </footer>
+    <script>
+      import '../scripts/site';
+    </script>
+  </body>
+</html>

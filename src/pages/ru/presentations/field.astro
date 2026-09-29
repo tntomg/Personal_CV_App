@@ -1,0 +1,722 @@
+---
+// Standalone Presentation Mini-App: Rocksurv Field
+---
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Rocksurv Field — интерактивная презентация приложения</title>
+  <meta name="description" content="Интерактивная презентация Rocksurv Field: офлайн-карта GeoPackage, замеры структур, полевой журнал, DEM и экспорт сессий.">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <style>
+    :root {
+      --paper: #f5f7f2;
+      --ink: #12352e;
+      --muted: #50645d;
+      --mint: #69d4ad;
+      --line: #cbd7cd;
+      --gold: #d6b879;
+      --bg: #0e1714;
+      --bar-bg: rgba(16, 39, 31, 0.94);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body {
+      width: 100%;
+      height: 100%;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: 'Segoe UI', system-ui, -apple-system, Arial, sans-serif;
+      overflow: hidden;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+    button { font: inherit; color: inherit; cursor: pointer; }
+
+    /* Top Bar */
+    .pres-bar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 52px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 16px;
+      background: var(--bar-bg);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(105, 212, 173, 0.2);
+      z-index: 100;
+      color: #f5f7f2;
+      transition: opacity 0.25s ease, transform 0.25s ease;
+    }
+    .pres-bar-left, .pres-bar-right {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .pres-back {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 12px;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 6px;
+      color: #f5f7f2;
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 500;
+      transition: all 0.2s ease;
+    }
+    .pres-back:hover {
+      background: rgba(105, 212, 173, 0.22);
+      border-color: var(--mint);
+      color: #fff;
+    }
+    .pres-title-wrap {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .pres-app-title {
+      font-weight: 700;
+      font-size: 15px;
+      letter-spacing: -0.01em;
+      color: #fff;
+    }
+    .pres-chip {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      padding: 2px 7px;
+      background: rgba(105, 212, 173, 0.16);
+      color: var(--mint);
+      border-radius: 4px;
+      font-weight: 600;
+    }
+    .lang-toggle {
+      display: inline-flex;
+      background: rgba(0, 0, 0, 0.35);
+      border-radius: 6px;
+      padding: 2px;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+    }
+    .lang-btn {
+      border: none;
+      background: transparent;
+      padding: 4px 10px;
+      font-size: 12px;
+      font-weight: 600;
+      border-radius: 4px;
+      color: #9ab4a8;
+      transition: all 0.18s ease;
+    }
+    .lang-btn.active {
+      background: var(--mint);
+      color: #0e1714;
+    }
+    .tool-btn {
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      background: rgba(255, 255, 255, 0.06);
+      padding: 6px 10px;
+      border-radius: 6px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s ease;
+    }
+    .tool-btn:hover {
+      background: rgba(105, 212, 173, 0.2);
+      border-color: var(--mint);
+    }
+
+    /* Main Stage */
+    #pres-container {
+      position: absolute;
+      top: 52px;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      overflow: hidden;
+    }
+    #stage {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      width: 1600px;
+      height: 900px;
+      transform: translate(-50%, -50%) scale(var(--scale, 1));
+      transform-origin: center center;
+      transition: transform 0.08s ease-out;
+      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.6);
+    }
+
+    .slide {
+      display: none;
+      position: relative;
+      width: 1600px;
+      height: 900px;
+      overflow: hidden;
+      background: var(--paper);
+      padding: 60px 70px;
+    }
+    .slide.active { display: block; }
+
+    .deck { display: none; width: 100%; height: 100%; }
+    .deck.active-deck { display: block; }
+
+    /* Typography & Layout */
+    .brandline {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 18px;
+      font-weight: 650;
+      letter-spacing: 2px;
+    }
+    .brandline .brand {
+      font-size: 25px;
+      letter-spacing: -.5px;
+      font-weight: 750;
+    }
+    .eyebrow { color: var(--muted); }
+    h1, h2, p { margin: 0; }
+    h2 {
+      font-weight: 650;
+      letter-spacing: -1.8px;
+      font-size: 57px;
+      line-height: 1.1;
+      margin: 30px 0 16px;
+      max-width: 1460px;
+    }
+    .lead {
+      font-size: 27px;
+      line-height: 1.35;
+      color: var(--muted);
+      max-width: 1450px;
+    }
+    .feature-content {
+      position: absolute;
+      left: 70px;
+      right: 70px;
+      top: 258px;
+      display: grid;
+      grid-template-columns: 420px 960px;
+      gap: 80px;
+      align-items: start;
+    }
+    .copy { padding-top: 2px; max-width: 390px; }
+    .point {
+      border-top: 1px solid var(--line);
+      padding-top: 18px;
+      margin-bottom: 31px;
+    }
+    .point h3 {
+      margin: 0 0 9px;
+      font-size: 27px;
+      font-weight: 650;
+      line-height: 1.14;
+      letter-spacing: -.5px;
+    }
+    .point p {
+      font-size: 24px;
+      line-height: 1.35;
+      color: var(--muted);
+    }
+
+    .shot {
+      position: relative;
+      margin: 0;
+      overflow: hidden;
+      aspect-ratio: 2560 / 1410;
+      background: #dfe9e1;
+      outline: 1px solid #b9c9bd;
+      box-shadow: 0 15px 28px #17372a12;
+      border-radius: 4px;
+    }
+    .shot img {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transform: none;
+      display: block;
+    }
+    .caption {
+      margin-top: 14px;
+      font-size: 17px;
+      line-height: 1.3;
+      color: var(--muted);
+    }
+    .footer {
+      position: absolute;
+      left: 70px;
+      right: 70px;
+      bottom: 22px;
+      border-top: 1px solid var(--line);
+      padding-top: 12px;
+      display: flex;
+      justify-content: space-between;
+      gap: 40px;
+      font-size: 16px;
+      letter-spacing: .4px;
+      color: var(--muted);
+    }
+
+    /* Portrait Slides */
+    .portrait-slide h2 { max-width: 920px; }
+    .portrait-slide .lead { max-width: 850px; }
+    .portrait-slide .feature-content { top: 350px; display: block; }
+    .portrait-slide .copy { max-width: 760px; }
+    .portrait-slide .point { margin-bottom: 31px; }
+    .portrait-slide .portrait-visual {
+      position: absolute;
+      right: 70px;
+      top: 125px;
+      width: 430px;
+    }
+    .shot.portrait { aspect-ratio: 5 / 8; }
+    .shot.portrait img { height: 100%; object-fit: contain; transform: none; }
+    .portrait-slide > .caption {
+      position: absolute;
+      left: 70px;
+      top: 755px;
+      width: 820px;
+      margin: 0;
+    }
+
+    /* Cover Slide */
+    .cover {
+      background: var(--ink);
+      color: var(--paper);
+    }
+    .cover .eyebrow, .cover .footer { color: #a9c6b7; }
+    .cover .footer { border-color: #38584b; }
+    .cover .brandline .brand { font-size: 30px; }
+    .cover h1 {
+      font-size: 82px;
+      line-height: 1.05;
+      letter-spacing: -3px;
+      font-weight: 650;
+      position: absolute;
+      top: 222px;
+      left: 70px;
+      width: 510px;
+    }
+    .cover h1 span { display: block; color: var(--mint); }
+    .cover .tagline {
+      position: absolute;
+      top: 478px;
+      left: 70px;
+      width: 452px;
+      font-size: 31px;
+      line-height: 1.5;
+      color: #d5e4db;
+    }
+    .cover .hero-shot {
+      position: absolute;
+      left: 610px;
+      right: 70px;
+      top: 249px;
+    }
+    .cover .hero-shot .shot {
+      outline: 1px solid #5d7b68;
+      box-shadow: 0 22px 45px #0004;
+    }
+    .cover .hero-shot .caption {
+      color: #b6cfc0;
+      margin-top: 24px;
+      font-size: 21px;
+    }
+    .cover .cover-tag {
+      position: absolute;
+      left: 70px;
+      top: 727px;
+      width: 420px;
+      color: var(--mint);
+      font-size: 18px;
+      line-height: 1.5;
+      letter-spacing: .3px;
+    }
+
+    /* Closing Slide */
+    .closing { background: #eaf1e7; }
+    .closing .cta {
+      margin-top: 18px;
+      font-size: 24px;
+      line-height: 1.25;
+      font-weight: 650;
+      color: #126750;
+    }
+    .closing .point { margin-bottom: 21px; }
+    .closing .point p { font-size: 23px; }
+    .closing .caption { max-width: 1000px; }
+    .closing .shot { aspect-ratio: 16 / 9; }
+    .closing .shot img { height: 100%; object-fit: cover; transform: none; }
+
+    /* Languages Slide */
+    .languages {
+      height: 529px;
+      padding: 0;
+      background: transparent;
+      display: grid;
+      grid-template-rows: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+    }
+    .lang-row {
+      position: relative;
+      isolation: isolate;
+      overflow: hidden;
+      border: 0;
+      background: #e5eee5;
+      padding: 0 36px;
+      gap: 48px;
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      min-height: 0;
+      border-radius: 8px;
+    }
+    .lang-row .flag-background {
+      position: absolute;
+      right: 0;
+      top: 0;
+      width: 310px;
+      height: 100%;
+      object-fit: contain;
+      opacity: .52;
+      z-index: -1;
+    }
+    .lang-row span {
+      width: 60px;
+      flex-shrink: 0;
+      font-size: 20px;
+      color: #50645d;
+      letter-spacing: 2px;
+    }
+    .lang-row strong {
+      display: flex;
+      align-items: center;
+      height: 100%;
+      font-size: 62px;
+      line-height: 1;
+      font-weight: 600;
+    }
+    .lang-row strong.ar { line-height: 1; font-size: 62px; font-family: 'Segoe UI', Tahoma, Arial, sans-serif; }
+    .platforms {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      margin-top: 12px;
+      background: var(--ink);
+      border-radius: 8px;
+      padding: 16px 0;
+    }
+    .platform {
+      height: 94px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 7px;
+      font-size: 21px;
+      font-weight: 600;
+      letter-spacing: .2px;
+      color: var(--paper);
+    }
+    .platform + .platform { border-left: 1px solid #38584b; }
+    .platform-art {
+      height: 57px;
+      width: 76px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .platform-art img { width: 68px; height: 68px; object-fit: contain; }
+    .platform-art.ios img { width: 39px; height: 47px; }
+    .language-slide .point { margin-bottom: 20px; }
+    .language-slide .point p { font-size: 23px; }
+
+    /* Bottom Navigation Controls */
+    .controls {
+      position: fixed;
+      bottom: 16px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--bar-bg);
+      border: 1px solid rgba(105, 212, 173, 0.3);
+      padding: 6px 12px;
+      border-radius: 30px;
+      z-index: 90;
+      color: #f5f7f2;
+      font-size: 13px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+      transition: opacity .25s ease;
+    }
+    .controls.quiet { opacity: 0.18; }
+    .controls:hover, .controls:focus-within { opacity: 1; }
+    .controls button {
+      color: inherit;
+      background: transparent;
+      border: 0;
+      padding: 6px 14px;
+      cursor: pointer;
+      border-radius: 20px;
+      font-weight: 600;
+      transition: background 0.18s ease;
+    }
+    .controls button:hover, .controls button:focus-visible {
+      background: #355e4a;
+      outline: 1px solid var(--mint);
+    }
+    .controls output {
+      min-width: 60px;
+      text-align: center;
+      font-variant-numeric: tabular-nums;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+    }
+
+    /* Progress bar */
+    .pres-progress {
+      position: fixed;
+      top: 52px;
+      left: 0;
+      height: 3px;
+      background: var(--mint);
+      width: 0%;
+      transition: width 0.25s ease;
+      z-index: 101;
+    }
+
+    /* Keyboard help tooltip */
+    .keys-hint {
+      font-size: 11px;
+      color: #8da59b;
+      margin-left: 6px;
+      padding-left: 8px;
+      border-left: 1px solid rgba(255, 255, 255, 0.15);
+    }
+
+    @media print {
+      @page { size: 1600px 900px; margin: 0; }
+      html, body {
+        width: 1600px;
+        height: auto;
+        background: white;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
+      .pres-bar, .controls, .pres-progress { display: none !important; }
+      #pres-container { position: static; display: block; }
+      #stage { position: static; transform: none; width: 1600px; height: auto; }
+      .slide, .slide.active {
+        display: block !important;
+        break-after: page;
+        page-break-after: always;
+      }
+      .slide:last-child { break-after: auto; page-break-after: auto; }
+    }
+  </style>
+</head>
+<body>
+  <!-- Top Navigation Bar -->
+  <header class="pres-bar">
+    <div class="pres-bar-left">
+      <a href="/ru/#apps" class="pres-back" id="back-link">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+        <span>Назад к резюме</span>
+      </a>
+      <div class="pres-title-wrap">
+        <span class="pres-app-title">Rocksurv Field</span>
+        <span class="pres-chip">12 слайдов</span>
+      </div>
+    </div>
+    <div class="pres-bar-right">
+      <div class="lang-toggle" role="group" aria-label="Язык презентации">
+        <button class="lang-btn active" id="btn-lang-ru" data-lang="ru">RU</button>
+        <button class="lang-btn" id="btn-lang-en" data-lang="en">EN</button>
+      </div>
+      <button class="tool-btn" id="full" title="На весь экран (F)">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/></svg>
+      </button>
+      <button class="tool-btn" id="print" title="Печать / PDF (P)">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9V2h12v7M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><path d="M6 14h12v8H6z"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <div class="pres-progress" id="progress-bar"></div>
+
+  <!-- Stage -->
+  <div id="pres-container">
+    <main id="stage">
+      <div class="deck active-deck" id="deck-ru">
+        <section class="slide cover active" aria-label="1. Rocksurv Field"><div class="brandline"><span class="brand">RS Field</span><span class="eyebrow">ОБЗОР ПРИЛОЖЕНИЯ</span></div><h1>Rocksurv<span>Field</span></h1><p class="tagline">Современное приложение<br>для геологической съёмки.</p><p class="cover-tag"></p><div class="hero-shot"><figure class="shot "><img src="/presentations/field/01-1920.webp" srcset="/presentations/field/01-800.webp 800w, /presentations/field/01-1280.webp 1280w, /presentations/field/01-1920.webp 1920w" sizes="(max-width: 900px) 90vw, 960px" alt="Rocksurv Field" fetchpriority="high" loading="eager" decoding="async"></figure><p class="caption">Полный набор инструментов для работы геолога в поле.</p></div><footer class="footer"><span>Rocksurv Field · RU · September 2026</span><span>01 / 12</span></footer></section><section class="slide " aria-label="2. Векторные и растровые данные вместе."><div class="brandline"><span class="brand">RS Field</span><span class="eyebrow">01 / КАРТЫ ПРОЕКТА</span></div><h2>Векторные и растровые данные вместе.</h2><p class="lead">Добавляйте данные проекта и работайте с геологическим контекстом.</p><div class="feature-content"><div class="copy"><div class="point"><h3>Добавление данных</h3><p>Векторные и растровые слои из файлов GeoPackage.</p></div><div class="point"><h3>Настройка карты</h3><p>Видимость, прозрачность и легенды слоёв.</p></div><div class="point"><h3>Маршруты на карте</h3><p>Импорт маршрутов KML / KMZ.</p></div></div><div><figure class="shot "><img src="/presentations/field/02-1920.webp" srcset="/presentations/field/02-800.webp 800w, /presentations/field/02-1280.webp 1280w, /presentations/field/02-1920.webp 1920w" sizes="(max-width: 900px) 90vw, 960px" alt="Карта с геологическими слоями и управлением видимостью" loading="lazy" decoding="async"></figure><p class="caption">Карты проекта в одном файле GeoPackage — удобный старт и управление прямо в приложении.</p></div></div><footer class="footer"><span>Rocksurv Field · RU · September 2026</span><span>02 / 12</span></footer></section><section class="slide " aria-label="3. Три типа точек в активной сессии"><div class="brandline"><span class="brand">RS Field</span><span class="eyebrow">02 / АКТИВНАЯ СЕССИЯ</span></div><h2>Три типа точек в активной сессии</h2><p class="lead">Создавайте точки в Active Session и заносите подробные геологические данные.</p><div class="feature-content"><div class="copy"><div class="point"><h3>Observation — наблюдение</h3><p>Координаты, порода, состав, текстуры, пробы, фото и описание.</p></div><div class="point"><h3>Structure — структура</h3><p>Плоскостные и линейные замеры, ориентировка и связанные описания.</p></div><div class="point"><h3>Изменения и минерализация</h3><p>Типы изменений, минералы, интенсивность, форма и геологический контекст.</p></div></div><div><figure class="shot "><img src="/presentations/field/03-1920.webp" srcset="/presentations/field/03-800.webp 800w, /presentations/field/03-1280.webp 1280w, /presentations/field/03-1920.webp 1920w" sizes="(max-width: 900px) 90vw, 960px" alt="Active Session with Point Observation, Structures and Alt Mineral controls" loading="lazy" decoding="async"></figure><p class="caption">Все полевые записи связаны с сессией — сохраняйте порядок в материалах каждого выезда.</p></div></div><footer class="footer"><span>Rocksurv Field · RU · September 2026</span><span>03 / 12</span></footer></section><section class="slide " aria-label="4. Компас, GPS и линии профилей"><div class="brandline"><span class="brand">RS Field</span><span class="eyebrow">03 / ОРИЕНТИРОВАНИЕ</span></div><h2>Компас, GPS и линии профилей</h2><p class="lead">Направление, местоположение и расстояния на карте помогают ориентироваться в поле.</p><div class="feature-content"><div class="copy"><div class="point"><h3>Направление по компасу</h3><p>Азимут в градусах, сторона света и показатель качества направления.</p></div><div class="point"><h3>Ориентирование с GPS</h3><p>Направление вместе с GPS-позицией и её точностью помогает ориентироваться на карте.</p></div><div class="point"><h3>Линия профиля / линейка</h3><p>Намечайте линию профиля на карте и измеряйте длину каждого отрезка.</p></div></div><div><figure class="shot "><img src="/presentations/field/04-1920.webp" srcset="/presentations/field/04-800.webp 800w, /presentations/field/04-1280.webp 1280w, /presentations/field/04-1920.webp 1920w" sizes="(max-width: 900px) 90vw, 960px" alt="Live compass and ruler with a profile line and segment distance labels on a geological map" loading="lazy" decoding="async"></figure><p class="caption">Ориентируйтесь на местности и намечайте линии профилей прямо на геологической карте.</p></div></div><footer class="footer"><span>Rocksurv Field · RU · September 2026</span><span>04 / 12</span></footer></section><section class="slide portrait-slide" aria-label="5. Умная классификация и нужные поля."><div class="brandline"><span class="brand">RS Field</span><span class="eyebrow">04 / ПОЛЕВЫЕ НАБЛЮДЕНИЯ</span></div><h2>Умная классификация и нужные поля.</h2><p class="lead">Тип породы определяет классификацию и доступные варианты описания.</p><div class="feature-content"><div class="copy"><div class="point"><h3>Умная классификация</h3><p>Подсказки названий по типу породы и введённому составу.</p></div><div class="point"><h3>Зависимые списки</h3><p>Текстуры, компоненты, названия и характеристики по типу породы.</p></div><div class="point"><h3>Связанные описания</h3><p>Черновик описания точки с подстановкой ссылок на фото.</p></div></div></div><div class="portrait-visual"><figure class="shot portrait"><img src="/presentations/field/05-1600.webp" srcset="/presentations/field/05-600.webp 600w, /presentations/field/05-1000.webp 1000w, /presentations/field/05-1600.webp 1600w" sizes="(max-width: 900px) 90vw, 430px" alt="Текущий экран планшета: компоненты интрузивной породы QAPF и рассчитанное название Monzogranite" loading="lazy" decoding="async"></figure></div><p class="caption">Нужные варианты полей и подсказки названий пород помогают уверенно описывать геологию.</p><footer class="footer"><span>Rocksurv Field · RU · September 2026</span><span>05 / 12</span></footer></section><section class="slide portrait-slide" aria-label="6. Замеры структур и связанные описания."><div class="brandline"><span class="brand">RS Field</span><span class="eyebrow">05 / СТРУКТУРНАЯ ГЕОЛОГИЯ</span></div><h2>Замеры структур и связанные описания.</h2><p class="lead">Укажите ориентировку плоскости и добавьте сведения о связанных фотографиях в описание.</p><div class="feature-content"><div class="copy"><div class="point"><h3>Замер плоскости</h3><p>Введите азимут и угол падения; простирание рассчитывается по правилу правой руки.</p></div><div class="point"><h3>Автоматическая ссылка</h3><p>ID связанного фото PH01 подставляется в описание структуры.</p></div><div class="point"><h3>Редактируемый текст</h3><p>Примените сформированное описание и заполните детали.</p></div></div></div><div class="portrait-visual"><figure class="shot portrait"><img src="/presentations/field/06-1600.webp" srcset="/presentations/field/06-600.webp 600w, /presentations/field/06-1000.webp 1000w, /presentations/field/06-1600.webp 1600w" sizes="(max-width: 900px) 90vw, 430px" alt="Текущий экран планшета: замер плоскости контакта, расчёт простирания и ссылка на фото PH01" loading="lazy" decoding="async"></figure></div><p class="caption">Связанные фото добавляют контекст в описание — больше внимания геологической интерпретации.</p><footer class="footer"><span>Rocksurv Field · RU · September 2026</span><span>06 / 12</span></footer></section><section class="slide " aria-label="7. Фотографии с геологическими деталями."><div class="brandline"><span class="brand">RS Field</span><span class="eyebrow">06 / ФОТОДОКУМЕНТАЦИЯ</span></div><h2>Фотографии с геологическими деталями.</h2><p class="lead">Подробные описания помогают разбирать полевые материалы в офисе.</p><div class="feature-content"><div class="copy"><div class="point"><h3>Подробные описания</h3><p>Геологические детали, масштаб и направление съёмки.</p></div><div class="point"><h3>Подстановка данных</h3><p>Порода, текстура и структура в шаблонах описания фото.</p></div><div class="point"><h3>Связь с записями</h3><p>Ссылки на фото и зарисовки в описаниях точек и структур.</p></div></div><div><figure class="shot "><img src="/presentations/field/07-1280.webp" srcset="/presentations/field/07-640.webp 640w, /presentations/field/07-1280.webp 1280w" sizes="(max-width: 900px) 90vw, 960px" alt="Презентационный монтаж: редактор фото на планшете, увеличенная геологическая фотография слева и описание справа" loading="lazy" decoding="async"></figure><p class="caption">Превратите полевое фото в содержательную запись, полезную и при разборе материалов в офисе.</p></div></div><footer class="footer"><span>Rocksurv Field · RU · September 2026</span><span>07 / 12</span></footer></section><section class="slide " aria-label="8. Опишите то, что видите в поле."><div class="brandline"><span class="brand">RS Field</span><span class="eyebrow">07 / ИЗМЕНЕНИЯ И МИНЕРАЛИЗАЦИЯ</span></div><h2>Опишите то, что видите в поле.</h2><p class="lead">Отдельные записи для изменений пород и минерализации.</p><div class="feature-content"><div class="copy"><div class="point"><h3>Детали изменений</h3><p>Тип, интенсивность и форма проявления.</p></div><div class="point"><h3>Полевые термины</h3><p>Ввод значения или выбор из подсказок.</p></div><div class="point"><h3>Привязка на местности</h3><p>Связь с наблюдением и собственные координаты.</p></div></div><div><figure class="shot "><img src="/presentations/field/08-1920.webp" srcset="/presentations/field/08-800.webp 800w, /presentations/field/08-1280.webp 1280w, /presentations/field/08-1920.webp 1920w" sizes="(max-width: 900px) 90vw, 960px" alt="Форма изменений и минерализации с полями типа, интенсивности и формы" loading="lazy" decoding="async"></figure><p class="caption">Фиксируйте важные детали сразу, пока обнажение перед глазами.</p></div></div><footer class="footer"><span>Rocksurv Field · RU · September 2026</span><span>08 / 12</span></footer></section><section class="slide " aria-label="9. Высоты доступны без интернета."><div class="brandline"><span class="brand">RS Field</span><span class="eyebrow">08 / ВЫСОТЫ ОФЛАЙН</span></div><h2>Высоты доступны без интернета.</h2><p class="lead">Выберите источник рельефа и подготовьте его покрытие до выезда.</p><div class="feature-content"><div class="copy"><div class="point"><h3>Собственные изогипсы</h3><p>Добавьте свои изогипсы — RS Field автоматически определит высоту по ним.</p></div><div class="point"><h3>DEM из открытых источников</h3><p>Выберите участок и скачайте доступные данные DEM прямо в приложении.</p></div><div class="point"><h3>Всё готово к работе в поле</h3><p>Используйте скачанный DEM офлайн, а GNSS — как дополнительный источник высоты.</p></div></div><div><figure class="shot "><img src="/presentations/field/09-1920.webp" srcset="/presentations/field/09-800.webp 800w, /presentations/field/09-1280.webp 1280w, /presentations/field/09-1920.webp 1920w" sizes="(max-width: 900px) 90vw, 960px" alt="Текущий экран планшета: выбор Copernicus GLO-30 и задание области DEM" loading="lazy" decoding="async"></figure><p class="caption">Подготовьте рельеф до выезда — и используйте высоты даже за пределами мобильной связи.</p></div></div><footer class="footer"><span>Rocksurv Field · RU · September 2026</span><span>09 / 12</span></footer></section><section class="slide " aria-label="10. Полевые данные готовы к разбору."><div class="brandline"><span class="brand">RS Field</span><span class="eyebrow">09 / ИЗ ПОЛЯ В ОФИС</span></div><h2>Полевые данные готовы к разбору.</h2><p class="lead">Экспорт сессии для последующей офисной работы.</p><div class="feature-content"><div class="copy"><div class="point"><h3>Книга Excel</h3><p>Структурированные записи в формате XLSX.</p></div><div class="point"><h3>Связанные материалы</h3><p>Фотографии и зарисовки внутри ZIP.</p></div><div class="point"><h3>Контекст проверки</h3><p>Отчёт о валидации вместе с данными.</p></div></div><div><figure class="shot "><img src="/presentations/field/10-1920.webp" srcset="/presentations/field/10-800.webp 800w, /presentations/field/10-1280.webp 1280w, /presentations/field/10-1920.webp 1920w" sizes="(max-width: 900px) 90vw, 960px" alt="Диалог экспорта полевой сессии" loading="lazy" decoding="async"></figure><p class="caption">Передавайте наблюдения, медиа и результаты проверок вместе для удобного разбора в офисе.</p></div></div><footer class="footer"><span>Rocksurv Field · RU · September 2026</span><span>10 / 12</span></footer></section><section class="slide language-slide" aria-label="11. Интерфейс для международных команд."><div class="brandline"><span class="brand">RS Field</span><span class="eyebrow">10 / ЯЗЫКИ И ПЛАТФОРМЫ</span></div><h2>Интерфейс для международных команд.</h2><p class="lead">Переключение языка доступно в самом приложении.</p><div class="feature-content"><div class="copy"><div class="point"><h3>Локализация интерфейса</h3><p>Переключение английского, русского и арабского.</p></div><div class="point"><h3>Единые полевые термины</h3><p>Геологические справочники сохраняют терминологию проекта.</p></div><div class="point"><h3>Доступность платформ</h3><p>Android подтверждён. Статус выпуска iOS уточняется.</p></div><div class="platforms"><div class="platform"><div class="platform-art android"><img src="/presentations/field/assets/android.svg" alt="Android" loading="lazy"></div><span>Android</span></div><div class="platform"><div class="platform-art ios"><img src="/presentations/field/assets/apple.svg" alt="iOS" loading="lazy"></div><span>iOS</span></div></div></div><div><div class="languages"><div class="lang-row"><img src="/presentations/field/assets/flag_gb.svg" alt="" class="flag-background" loading="lazy"><span>EN</span><strong lang="en" class="en" dir="ltr">English</strong></div><div class="lang-row"><img src="/presentations/field/assets/flag_ru.svg" alt="" class="flag-background" loading="lazy"><span>RU</span><strong lang="ru" class="ru" dir="ltr">Русский</strong></div><div class="lang-row"><img src="/presentations/field/assets/flag_sa.svg" alt="" class="flag-background" loading="lazy"><span>AR</span><strong lang="ar" class="ar" dir="rtl">العربية</strong></div></div><p class="caption">Привычный язык интерфейса помогает международной команде быстрее включиться в полевую работу.</p></div></div><footer class="footer"><span>Rocksurv Field · RU · September 2026</span><span>11 / 12</span></footer></section><section class="slide closing" aria-label="12. Ваш главный помощник в поле."><div class="brandline"><span class="brand">RS Field</span><span class="eyebrow">11 / ВАШ ПОЛЕВОЙ ПОМОЩНИК</span></div><h2>Ваш главный помощник в поле.</h2><p class="lead">Rocksurv Field объединяет всё для полевой работы геолога в одном приложении.</p><div class="feature-content"><div class="copy"><div class="point"><h3>Видеть полную картину</h3><p>Карты проекта, рельеф и навигация всегда под рукой.</p></div><div class="point"><h3>Сохранять важные детали</h3><p>Наблюдения, структуры и фотографии в едином рабочем процессе.</p></div><div class="point"><h3>Доводить работу до результата</h3><p>От полевых записей до организованных данных для офиса.</p></div><p class="cta">Сосредоточьтесь на геологии. RS Field рядом.</p></div><div><figure class="shot "><img src="/presentations/field/11-1280.webp" srcset="/presentations/field/11-640.webp 640w, /presentations/field/11-1280.webp 1280w" sizes="(max-width: 900px) 90vw, 960px" alt="Фото автора, отредактированное ИИ: геолог со стороны спины работает с RS Field на планшете." loading="lazy" decoding="async"></figure><p class="caption">От первого обнажения до итогового отчёта.</p></div></div><footer class="footer"><span>Rocksurv Field · RU · September 2026</span><span>12 / 12</span></footer></section>
+      </div>
+      <div class="deck" id="deck-en">
+        <section class="slide cover active" aria-label="1. Rocksurv Field"><div class="brandline"><span class="brand">RS Field</span><span class="eyebrow">PRODUCT OVERVIEW</span></div><h1>Rocksurv<span>Field</span></h1><p class="tagline">A modern app for<br>geological mapping.</p><p class="cover-tag"></p><div class="hero-shot"><figure class="shot "><img src="/presentations/field/01-1920.webp" srcset="/presentations/field/01-800.webp 800w, /presentations/field/01-1280.webp 1280w, /presentations/field/01-1920.webp 1920w" sizes="(max-width: 900px) 90vw, 960px" alt="Rocksurv Field" fetchpriority="high" loading="eager" decoding="async"></figure><p class="caption">A complete toolkit for geological fieldwork.</p></div><footer class="footer"><span>Rocksurv Field · EN · September 2026</span><span>01 / 12</span></footer></section><section class="slide " aria-label="2. Vector and raster data, together."><div class="brandline"><span class="brand">RS Field</span><span class="eyebrow">01 / PROJECT CONTEXT</span></div><h2>Vector and raster data, together.</h2><p class="lead">Add local project data and explore its geological context.</p><div class="feature-content"><div class="copy"><div class="point"><h3>Add project data</h3><p>Load vector and raster layers from GeoPackage files.</p></div><div class="point"><h3>Focus the map</h3><p>Control layer visibility, opacity and legends.</p></div><div class="point"><h3>Routes in context</h3><p>Import KML / KMZ routes alongside your maps.</p></div></div><div><figure class="shot "><img src="/presentations/field/02-1920.webp" srcset="/presentations/field/02-800.webp 800w, /presentations/field/02-1280.webp 1280w, /presentations/field/02-1920.webp 1920w" sizes="(max-width: 900px) 90vw, 960px" alt="English map interface with geological layers and visibility controls" loading="lazy" decoding="async"></figure><p class="caption">Project maps in one GeoPackage, with convenient management inside the app.</p></div></div><footer class="footer"><span>Rocksurv Field · EN · September 2026</span><span>02 / 12</span></footer></section><section class="slide " aria-label="3. Three record types in an Active Session"><div class="brandline"><span class="brand">RS Field</span><span class="eyebrow">02 / ACTIVE SESSION</span></div><h2>Three record types in an Active Session</h2><p class="lead">Create field records in the active session and capture detailed geological data.</p><div class="feature-content"><div class="copy"><div class="point"><h3>Observation</h3><p>Location, rock type, composition, textures, samples, photos and notes.</p></div><div class="point"><h3>Structure</h3><p>Planar and linear measurements, orientation and linked descriptions.</p></div><div class="point"><h3>Alteration and Mineralization</h3><p>Alteration types, minerals, intensity, form and geological context.</p></div></div><div><figure class="shot "><img src="/presentations/field/03-1920.webp" srcset="/presentations/field/03-800.webp 800w, /presentations/field/03-1280.webp 1280w, /presentations/field/03-1920.webp 1920w" sizes="(max-width: 900px) 90vw, 960px" alt="Active Session with Point Observation, Structures and Alt Mineral controls" loading="lazy" decoding="async"></figure><p class="caption">Keep every field record connected to its session and your survey organised.</p></div></div><footer class="footer"><span>Rocksurv Field · EN · September 2026</span><span>03 / 12</span></footer></section><section class="slide " aria-label="4. Compass, GPS and profile lines"><div class="brandline"><span class="brand">RS Field</span><span class="eyebrow">03 / FIELD ORIENTATION</span></div><h2>Compass, GPS and profile lines</h2><p class="lead">Combine direction, position and map distances for field orientation.</p><div class="feature-content"><div class="copy"><div class="point"><h3>Compass heading</h3><p>Read the heading in degrees and cardinal directions, with a quality indicator.</p></div><div class="point"><h3>GPS context</h3><p>Combine heading with GPS position and reported accuracy to orient on the map.</p></div><div class="point"><h3>Profile line / ruler</h3><p>Trace a profile line on the map and measure the distance of each segment.</p></div></div><div><figure class="shot "><img src="/presentations/field/04-1920.webp" srcset="/presentations/field/04-800.webp 800w, /presentations/field/04-1280.webp 1280w, /presentations/field/04-1920.webp 1920w" sizes="(max-width: 900px) 90vw, 960px" alt="Live compass and ruler with a profile line and segment distance labels on a geological map" loading="lazy" decoding="async"></figure><p class="caption">Keep your bearing and plan profile lines directly on the geological map.</p></div></div><footer class="footer"><span>Rocksurv Field · EN · September 2026</span><span>04 / 12</span></footer></section><section class="slide portrait-slide" aria-label="5. Smart classification, focused fields."><div class="brandline"><span class="brand">RS Field</span><span class="eyebrow">04 / FIELD OBSERVATIONS</span></div><h2>Smart classification, focused fields.</h2><p class="lead">Rock type guides classification and the choices available in each record.</p><div class="feature-content"><div class="copy"><div class="point"><h3>Smart rock naming</h3><p>Rules suggest names from rock type and entered composition.</p></div><div class="point"><h3>Rock-specific choices</h3><p>Filter textures, components, names and characteristics by type.</p></div><div class="point"><h3>Linked descriptions</h3><p>Build editable point descriptions with photo references.</p></div></div></div><div class="portrait-visual"><figure class="shot portrait"><img src="/presentations/field/05-1600.webp" srcset="/presentations/field/05-600.webp 600w, /presentations/field/05-1000.webp 1000w, /presentations/field/05-1600.webp 1600w" sizes="(max-width: 900px) 90vw, 430px" alt="Actual tablet screen with intrusive QAPF rock components and the calculated Monzogranite name" loading="lazy" decoding="async"></figure></div><p class="caption">Relevant choices and rock-name suggestions help you describe geology with confidence.</p><footer class="footer"><span>Rocksurv Field · EN · September 2026</span><span>05 / 12</span></footer></section><section class="slide portrait-slide" aria-label="6. Measured structures, linked descriptions."><div class="brandline"><span class="brand">RS Field</span><span class="eyebrow">05 / STRUCTURAL GEOLOGY</span></div><h2>Measured structures, linked descriptions.</h2><p class="lead">Orient a planar feature and carry linked photo details into its description.</p><div class="feature-content"><div class="copy"><div class="point"><h3>Planar measurements</h3><p>Enter dip direction and angle; strike is calculated by the right-hand rule.</p></div><div class="point"><h3>Automatic references</h3><p>The linked photo ID, PH01, is inserted into the structure description.</p></div><div class="point"><h3>Editable description</h3><p>Apply the generated text, then complete or refine the details.</p></div></div></div><div class="portrait-visual"><figure class="shot portrait"><img src="/presentations/field/06-1600.webp" srcset="/presentations/field/06-600.webp 600w, /presentations/field/06-1000.webp 1000w, /presentations/field/06-1600.webp 1600w" sizes="(max-width: 900px) 90vw, 430px" alt="Current tablet screen: planar contact measurement, calculated strike and linked photo reference PH01" loading="lazy" decoding="async"></figure></div><p class="caption">Linked photos bring the context into your descriptions, so you can focus on interpretation.</p><footer class="footer"><span>Rocksurv Field · EN · September 2026</span><span>06 / 12</span></footer></section><section class="slide " aria-label="7. Photos with geological detail."><div class="brandline"><span class="brand">RS Field</span><span class="eyebrow">06 / PHOTO DOCUMENTATION</span></div><h2>Photos with geological detail.</h2><p class="lead">Detailed captions keep field evidence useful for office interpretation.</p><div class="feature-content"><div class="copy"><div class="point"><h3>Detailed photo notes</h3><p>Geological features, scale and viewing direction.</p></div><div class="point"><h3>Context in templates</h3><p>Insert rock, texture and structure values into descriptions.</p></div><div class="point"><h3>Connected records</h3><p>Photo and sketch references link point and structure descriptions.</p></div></div><div><figure class="shot "><img src="/presentations/field/07-1280.webp" srcset="/presentations/field/07-640.webp 640w, /presentations/field/07-1280.webp 1280w" sizes="(max-width: 900px) 90vw, 960px" alt="Presentation composite: tablet photo editor with an enlarged geological photograph on the left and its description on the right" loading="lazy" decoding="async"></figure><p class="caption">Turn each field photo into a clear geological record that stays useful back in the office.</p></div></div><footer class="footer"><span>Rocksurv Field · EN · September 2026</span><span>07 / 12</span></footer></section><section class="slide " aria-label="8. Describe what you see in the field."><div class="brandline"><span class="brand">RS Field</span><span class="eyebrow">07 / ALTERATION &amp; MINERALIZATION</span></div><h2>Describe what you see in the field.</h2><p class="lead">Document alteration and mineralization with dedicated records.</p><div class="feature-content"><div class="copy"><div class="point"><h3>Alteration detail</h3><p>Record type, intensity and form.</p></div><div class="point"><h3>Field terminology</h3><p>Enter a value or select a suggestion.</p></div><div class="point"><h3>Spatial context</h3><p>Link to an observation and retain separate coordinates.</p></div></div><div><figure class="shot "><img src="/presentations/field/08-1920.webp" srcset="/presentations/field/08-800.webp 800w, /presentations/field/08-1280.webp 1280w, /presentations/field/08-1920.webp 1920w" sizes="(max-width: 900px) 90vw, 960px" alt="Alteration and mineralization editor showing type, intensity and form fields" loading="lazy" decoding="async"></figure><p class="caption">Capture the details that matter while the outcrop is right in front of you.</p></div></div><footer class="footer"><span>Rocksurv Field · EN · September 2026</span><span>08 / 12</span></footer></section><section class="slide " aria-label="9. Keep elevation available offline."><div class="brandline"><span class="brand">RS Field</span><span class="eyebrow">08 / OFFLINE TERRAIN</span></div><h2>Keep elevation available offline.</h2><p class="lead">Choose a terrain source and prepare its coverage before fieldwork.</p><div class="feature-content"><div class="copy"><div class="point"><h3>Your own contour data</h3><p>Add your contour lines — RS Field automatically determines elevation from them.</p></div><div class="point"><h3>DEM from open sources</h3><p>Choose your area and download available DEM data directly in the app.</p></div><div class="point"><h3>Ready for the field</h3><p>Use downloaded DEM offline, with GNSS as an additional elevation source.</p></div></div><div><figure class="shot "><img src="/presentations/field/09-1920.webp" srcset="/presentations/field/09-800.webp 800w, /presentations/field/09-1280.webp 1280w, /presentations/field/09-1920.webp 1920w" sizes="(max-width: 900px) 90vw, 960px" alt="Current tablet screen for choosing Copernicus GLO-30 and defining DEM coverage" loading="lazy" decoding="async"></figure><p class="caption">Prepare terrain before departure and keep elevations at hand beyond mobile coverage.</p></div></div><footer class="footer"><span>Rocksurv Field · EN · September 2026</span><span>09 / 12</span></footer></section><section class="slide " aria-label="10. Make field data ready for review."><div class="brandline"><span class="brand">RS Field</span><span class="eyebrow">09 / FIELD TO OFFICE</span></div><h2>Make field data ready for review.</h2><p class="lead">Export a field session as a structured handover for the office.</p><div class="feature-content"><div class="copy"><div class="point"><h3>Excel workbook</h3><p>Deliver structured records in XLSX format.</p></div><div class="point"><h3>Linked media</h3><p>Include photos and sketches in the ZIP package.</p></div><div class="point"><h3>Validation context</h3><p>Carry a validation report with the export.</p></div></div><div><figure class="shot "><img src="/presentations/field/10-1920.webp" srcset="/presentations/field/10-800.webp 800w, /presentations/field/10-1280.webp 1280w, /presentations/field/10-1920.webp 1920w" sizes="(max-width: 900px) 90vw, 960px" alt="Field session export dialog in the Android app" loading="lazy" decoding="async"></figure><p class="caption">Hand over observations, media and quality checks together for a smoother office review.</p></div></div><footer class="footer"><span>Rocksurv Field · EN · September 2026</span><span>10 / 12</span></footer></section><section class="slide language-slide" aria-label="11. An interface for international teams."><div class="brandline"><span class="brand">RS Field</span><span class="eyebrow">10 / LANGUAGES &amp; PLATFORMS</span></div><h2>An interface for international teams.</h2><p class="lead">Language selection is built into the application.</p><div class="feature-content"><div class="copy"><div class="point"><h3>Interface localization</h3><p>Switch between English, Russian and Arabic.</p></div><div class="point"><h3>Consistent field terms</h3><p>Geological dictionaries retain their project terminology.</p></div><div class="point"><h3>Platform availability</h3><p>Android build demonstrated. iOS release status to be confirmed.</p></div><div class="platforms"><div class="platform"><div class="platform-art android"><img src="/presentations/field/assets/android.svg" alt="Android" loading="lazy"></div><span>Android</span></div><div class="platform"><div class="platform-art ios"><img src="/presentations/field/assets/apple.svg" alt="iOS" loading="lazy"></div><span>iOS</span></div></div></div><div><div class="languages"><div class="lang-row"><img src="/presentations/field/assets/flag_gb.svg" alt="" class="flag-background" loading="lazy"><span>EN</span><strong lang="en" class="en" dir="ltr">English</strong></div><div class="lang-row"><img src="/presentations/field/assets/flag_ru.svg" alt="" class="flag-background" loading="lazy"><span>RU</span><strong lang="ru" class="ru" dir="ltr">Русский</strong></div><div class="lang-row"><img src="/presentations/field/assets/flag_sa.svg" alt="" class="flag-background" loading="lazy"><span>AR</span><strong lang="ar" class="ar" dir="rtl">العربية</strong></div></div><p class="caption">A familiar interface language helps international teams get straight to fieldwork.</p></div></div><footer class="footer"><span>Rocksurv Field · EN · September 2026</span><span>11 / 12</span></footer></section><section class="slide closing" aria-label="12. Your ultimate field companion."><div class="brandline"><span class="brand">RS Field</span><span class="eyebrow">11 / YOUR FIELD COMPANION</span></div><h2>Your ultimate field companion.</h2><p class="lead">Rocksurv Field brings your geological workflow together in one app.</p><div class="feature-content"><div class="copy"><div class="point"><h3>See the full picture</h3><p>Project maps, terrain and navigation at your fingertips.</p></div><div class="point"><h3>Capture every detail</h3><p>Observations, structures and photos connected in one workflow.</p></div><div class="point"><h3>Keep work moving</h3><p>Collect data in the field and bring organised results back to the office.</p></div><p class="cta">Focus on the geology. RS Field is at your side.</p></div><div><figure class="shot "><img src="/presentations/field/11-1280.webp" srcset="/presentations/field/11-640.webp 640w, /presentations/field/11-1280.webp 1280w" sizes="(max-width: 900px) 90vw, 960px" alt="AI-edited field photograph based on the author’s photo: geologist seen from behind using RS Field on a tablet." loading="lazy" decoding="async"></figure><p class="caption">From the first outcrop to the final report.</p></div></div><footer class="footer"><span>Rocksurv Field · EN · September 2026</span><span>12 / 12</span></footer></section>
+      </div>
+    </main>
+  </div>
+
+  <!-- Bottom Navigation Bar -->
+  <nav class="controls" aria-label="Управление слайдами">
+    <button id="prev" aria-label="Предыдущий слайд">←</button>
+    <output id="counter" aria-live="polite">01 / 12</output>
+    <button id="next" aria-label="Следующий слайд">→</button>
+    <span class="keys-hint">← → или Пробел · F весь экран</span>
+  </nav>
+
+  <script is:inline>
+    let currentLang = 'ru';
+    const deckRu = document.getElementById('deck-ru');
+    const deckEn = document.getElementById('deck-en');
+    const btnRu = document.getElementById('btn-lang-ru');
+    const btnEn = document.getElementById('btn-lang-en');
+    const counter = document.getElementById('counter');
+    const bar = document.querySelector('.controls');
+    const progressBar = document.getElementById('progress-bar');
+    const backLink = document.getElementById('back-link');
+
+    // Smart back: if user arrived from the same site, use history.back()
+    if (document.referrer && document.referrer.includes(window.location.host)) {
+      backLink.addEventListener('click', (e) => {
+        e.preventDefault();
+        history.back();
+      });
+    }
+
+    function getSlides() {
+      const activeDeck = currentLang === 'ru' ? deckRu : deckEn;
+      return [...activeDeck.querySelectorAll('.slide')];
+    }
+
+    let slides = getSlides();
+    let index = Math.min(slides.length - 1, Math.max(0, parseInt(location.hash.slice(1) || '1', 10) - 1 || 0));
+
+    function setLang(lang) {
+      currentLang = lang;
+      if (lang === 'ru') {
+        deckRu.classList.add('active-deck');
+        deckEn.classList.remove('active-deck');
+        btnRu.classList.add('active');
+        btnEn.classList.remove('active');
+        document.documentElement.lang = 'ru';
+      } else {
+        deckRu.classList.remove('active-deck');
+        deckEn.classList.add('active-deck');
+        btnRu.classList.remove('active');
+        btnEn.classList.add('active');
+        document.documentElement.lang = 'en';
+      }
+      slides = getSlides();
+      show(index);
+    }
+
+    btnRu.addEventListener('click', () => setLang('ru'));
+    btnEn.addEventListener('click', () => setLang('en'));
+
+    // Check URL query param for lang
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get('lang') === 'en') {
+      setLang('en');
+    }
+
+    function show(n) {
+      index = Math.min(slides.length - 1, Math.max(0, n));
+      slides.forEach((s, i) => {
+        s.classList.toggle('active', i === index);
+        s.setAttribute('aria-hidden', i !== index);
+      });
+      const num = String(index + 1).padStart(2, '0');
+      const total = String(slides.length).padStart(2, '0');
+      counter.textContent = `${num} / ${total}`;
+      if (progressBar) {
+        progressBar.style.width = `${((index + 1) / slides.length) * 100}%`;
+      }
+      history.replaceState(null, '', `#${index + 1}`);
+    }
+
+    function fit() {
+      const headerH = 52;
+      const margin = 20;
+      const availW = window.innerWidth - margin * 2;
+      const availH = window.innerHeight - headerH - margin * 2;
+      const scale = Math.min(availW / 1600, availH / 900, 1.25);
+      document.documentElement.style.setProperty('--scale', Math.max(scale, 0.2).toString());
+    }
+    window.addEventListener('resize', fit);
+    fit();
+    show(index);
+
+    document.getElementById('prev').onclick = () => show(index - 1);
+    document.getElementById('next').onclick = () => show(index + 1);
+    document.getElementById('print').onclick = () => window.print();
+
+    async function toggleFullscreen() {
+      try {
+        if (document.fullscreenElement) await document.exitFullscreen();
+        else await document.documentElement.requestFullscreen();
+      } catch (e) {
+        console.warn('Fullscreen request failed:', e);
+      }
+    }
+    document.getElementById('full').onclick = toggleFullscreen;
+
+    window.addEventListener('keydown', (e) => {
+      if (e.altKey || e.ctrlKey || e.metaKey) return;
+      if (['ArrowRight', 'PageDown', ' '].includes(e.key)) {
+        e.preventDefault();
+        show(index + 1);
+      }
+      if (['ArrowLeft', 'PageUp'].includes(e.key)) {
+        e.preventDefault();
+        show(index - 1);
+      }
+      if (e.key === 'Home') { e.preventDefault(); show(0); }
+      if (e.key === 'End') { e.preventDefault(); show(slides.length - 1); }
+      if (e.key.toLowerCase() === 'f') toggleFullscreen();
+      if (e.key.toLowerCase() === 'p') window.print();
+      if (e.key === 'Escape') {
+        if (!document.fullscreenElement) {
+          window.location.href = '/ru/#apps';
+        }
+      }
+    });
+
+    // Quiet controls on inactivity
+    let timer;
+    function wake() {
+      bar.classList.remove('quiet');
+      clearTimeout(timer);
+      timer = setTimeout(() => bar.classList.add('quiet'), 3000);
+    }
+    window.addEventListener('pointermove', wake);
+    wake();
+
+    // Touch swipe gestures
+    let touchStartX = 0;
+    let touchStartY = 0;
+    window.addEventListener('touchstart', (e) => {
+      touchStartX = e.changedTouches[0].screenX;
+      touchStartY = e.changedTouches[0].screenY;
+    }, { passive: true });
+    window.addEventListener('touchend', (e) => {
+      const diffX = e.changedTouches[0].screenX - touchStartX;
+      const diffY = e.changedTouches[0].screenY - touchStartY;
+      if (Math.abs(diffX) > 40 && Math.abs(diffX) > Math.abs(diffY)) {
+        if (diffX < 0) show(index + 1);
+        else show(index - 1);
+      }
+    }, { passive: true });
+  </script>
+</body>
+</html>

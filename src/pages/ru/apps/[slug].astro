@@ -1,0 +1,130 @@
+---
+import { getCollection, type CollectionEntry } from 'astro:content';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import FieldFlow from '../../../components/FieldFlow.astro';
+import Icon from '../../../components/Icon.astro';
+import Qapf from '../../../components/Qapf.astro';
+import Stereonet from '../../../components/Stereonet.astro';
+
+export async function getStaticPaths() {
+  const products = (await getCollection('apps', ({ data }) => data.publicationState === 'published' && data.kind === 'product')).sort((a, b) => a.data.order - b.data.order);
+  return products.map((app, index) => ({
+    params: { slug: app.data.slug! },
+    props: { app, next: products[(index + 1) % products.length] },
+  }));
+}
+
+interface Props {
+  app: CollectionEntry<'apps'>;
+  next: CollectionEntry<'apps'>;
+}
+const { app, next } = Astro.props;
+const { data } = app;
+const isField = (data.slug ?? '').includes('field');
+const statusLabel: Record<string, string> = {
+  concept: 'Концепция',
+  prototype: 'Прототип',
+  pilot: 'Пилотное использование',
+  'in-use': 'Используется',
+  released: 'Выпущено',
+  unverified: 'Уточняется',
+};
+const caption: Record<string, string> = {
+  'field-flow': 'Архитектурный рабочий цикл Rocksurv Field: подготовка проекта в офисе (ArcGIS Pro / GeoPackage), 100% автономная работа на маршруте, экспорт сессии в Excel, ZIP и JSON.',
+  stereonet: 'Сетка Шмидта (равноплощадная проекция, нижняя полусфера) и двойной треугольник QAPF построены по формулам и границам полей из проектной спецификации Rocksurv Classifier.',
+};
+---
+<BaseLayout title={`${data.title}: ${data.area.toLowerCase()} | Алексей Пахалко`} description={data.summary} active="apps" theme="night">
+  <article class="case shell">
+    <nav class="crumbs" aria-label="Навигационная цепочка"><a href="/ru/">Главная</a><span aria-hidden="true">/</span><a href="/ru/#apps">Приложения</a><span aria-hidden="true">/</span><span aria-current="page">{data.title}</span></nav>
+
+    <header class="case-head">
+      <div>
+        <p class="app-stage">{data.stage}. {data.area}</p>
+        <h1 style={`view-transition-name: app-${data.slug}`}>{data.title}</h1>
+        <p class="case-lead">{data.summary}</p>
+      </div>
+      <dl class="case-facts">
+        {data.specVersion && <div><dt>Спецификация</dt><dd>версия {data.specVersion}</dd></div>}
+        {data.stack && <div><dt>Технологии</dt><dd>{data.stack}</dd></div>}
+        <div><dt>Статус</dt><dd>{statusLabel[data.productStatus]}</dd></div>
+        <div><dt>Источник</dt><dd>проектная спецификация</dd></div>
+        <div>
+          <dt>Презентация</dt>
+          <dd>
+            <a href={`/ru/presentations/${isField ? 'field' : 'classifier'}/`} class="case-pres-link">
+              <Icon name="presentation" />
+              <span>Открыть ({isField ? '12 слайдов' : '10 слайдов'})</span>
+            </a>
+          </dd>
+        </div>
+      </dl>
+    </header>
+
+    <figure class="case-figure" style={`view-transition-name: figure-${data.slug}`}>
+      <div class="figure-pres-bar">
+        <a href={`/ru/presentations/${isField ? 'field' : 'classifier'}/`} class="figure-pres-btn">
+          <Icon name="presentation" />
+          <span>Интерактивная презентация приложения ({isField ? '12 слайдов' : '10 слайдов'}) &rarr;</span>
+        </a>
+      </div>
+      {data.diagram === 'stereonet' ? (
+        <div class="net-wrap">
+          <Stereonet size={520} />
+          <div>
+            <Qapf size={190} />
+            <div class="net-legend">
+              <span><i></i>плоскость 120/45</span>
+              <span><i class="dot"></i>её полюс</span>
+              <span><i class="tri"></i>линейность в плоскости</span>
+            </div>
+          </div>
+        </div>
+      ) : (
+        <FieldFlow />
+      )}
+      <figcaption>{caption[data.diagram ?? 'field-flow']}</figcaption>
+    </figure>
+
+    <section class="case-section" aria-labelledby="problem">
+      <h2 id="problem">Зачем</h2>
+      <p>{data.problem}</p>
+    </section>
+
+    <section class="case-section" aria-labelledby="workflow">
+      <h2 id="workflow">Сценарий</h2>
+      <ol class="steps">{data.workflow.map((step) => <li><p>{step}</p></li>)}</ol>
+    </section>
+
+    {data.capabilities.length > 0 && (
+      <section class="case-section" aria-labelledby="capabilities">
+        <h2 id="capabilities">Что заложено в спецификацию</h2>
+        <div class="caps">
+          {data.capabilities.map((group) => (
+            <div class="cap">
+              <h3>{group.group}</h3>
+              <ul>{group.items.map((item) => <li>{item}</li>)}</ul>
+            </div>
+          ))}
+        </div>
+      </section>
+    )}
+
+    <section class="case-section" aria-labelledby="evidence">
+      <h2 id="evidence">Что подтверждено</h2>
+      <div class="check">
+        <div class="check-note">
+          <strong>Описание основано на проектной спецификации</strong>
+          <p>Это не демонстрация работающей версии. Набор реализованных функций, платформы и мой вклад будут уточнены вместе со скриншотами и записью работы.</p>
+        </div>
+        {data.pending.length > 0 && <ul>{data.pending.map((item) => <li>{item}</li>)}</ul>}
+        <p class="source-line">Источник: {data.evidence.reference}.</p>
+      </div>
+    </section>
+
+    <nav class="case-nav" aria-label="Другие приложения">
+      <a href="/ru/#apps"><Icon name="arrow-left" />Все приложения</a>
+      {next.id !== app.id && <a href={`/ru/apps/${next.data.slug}/`}>{next.data.title}<Icon name="arrow-right" /></a>}
+    </nav>
+  </article>
+</BaseLayout>

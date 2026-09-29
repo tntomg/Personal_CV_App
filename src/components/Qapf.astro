@@ -1,0 +1,48 @@
+---
+/*
+  QAPF double triangle for plutonic rocks. Outline and the main IUGS field boundaries of the upper
+  (Q-A-P) triangle: Q = 90, 60, 20, 5 % and P/(A+P) = 10, 35, 65, 90 % below Q = 60 (Streckeisen, 1976;
+  Le Maitre, 2002). In the lower (A-P-F) triangle only the F = 10, 60, 90 % levels are drawn.
+  Vertex colours are the mineral tokens of the Rocksurv Classifier spec.
+*/
+interface Props {
+  size?: number;
+}
+const { size = 220 } = Astro.props;
+
+const W = 200;
+const H = (W * Math.sqrt(3)) / 2; // 173.2
+const Q: [number, number] = [W / 2, 0];
+const A: [number, number] = [0, H];
+const P: [number, number] = [W, H];
+const F: [number, number] = [W / 2, 2 * H];
+
+// Horizontal level at fraction f of the apex (Q above, F below).
+const level = (f: number, below = false) => {
+  const y = below ? H + f * H : H - f * H;
+  return `M${(f * W) / 2} ${y.toFixed(2)}H${(W - (f * W) / 2).toFixed(2)}`;
+};
+// Constant P/(A+P) ratio: a line through the Q apex, drawn from Q = 60 % down to the A-P base.
+const ratio = (r: number) => {
+  const base: [number, number] = [r * W, H];
+  const t = 0.4; // Q = 60 %
+  const top: [number, number] = [Q[0] + (base[0] - Q[0]) * t, Q[1] + (base[1] - Q[1]) * t];
+  return `M${top[0].toFixed(2)} ${top[1].toFixed(2)}L${base[0].toFixed(2)} ${base[1].toFixed(2)}`;
+};
+const pt = (p: [number, number]) => `${p[0]} ${p[1].toFixed(2)}`;
+---
+<svg class="diagram qapf" viewBox="-18 -18 236 400" width={size} height={(size * 400) / 236} role="img" aria-label="Двойной треугольник QAPF для плутонических пород с основными границами полей">
+  <path d={`M${pt(Q)}L${pt(A)}L${pt(F)}L${pt(P)}Z`} fill="#101812" stroke="#aebab1" stroke-width="1" stroke-linejoin="round" />
+  <g fill="none" stroke="#4a5d51" stroke-width="0.8">
+    {[0.9, 0.6, 0.2, 0.05].map((f) => <path d={level(f)} />)}
+    {[0.1, 0.35, 0.65, 0.9].map((r) => <path d={ratio(r)} />)}
+    {[0.1, 0.6, 0.9].map((f) => <path d={level(f, true)} />)}
+  </g>
+  <path d={`M${pt(A)}L${pt(P)}`} stroke="#aebab1" stroke-width="1" />
+  <g font-size="15" font-weight="600" text-anchor="middle">
+    <text x={Q[0]} y={Q[1] - 5} fill="var(--min-q)">Q</text>
+    <text x={A[0] - 10} y={A[1] + 5} fill="var(--min-a)">A</text>
+    <text x={P[0] + 10} y={P[1] + 5} fill="var(--min-p)">P</text>
+    <text x={F[0]} y={F[1] + 16} fill="var(--min-f)">F</text>
+  </g>
+</svg>

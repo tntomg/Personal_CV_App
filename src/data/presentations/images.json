@@ -1,0 +1,541 @@
+{
+  "field": {
+    "01": {
+      "kind": "screen-landscape",
+      "width": 2560,
+      "height": 1410,
+      "variants": [
+        800,
+        1280,
+        1920
+      ],
+      "color": "#cfd1ae"
+    },
+    "02": {
+      "kind": "screen-landscape",
+      "width": 2560,
+      "height": 1410,
+      "variants": [
+        800,
+        1280,
+        1920
+      ],
+      "color": "#cbceac"
+    },
+    "03": {
+      "kind": "screen-landscape",
+      "width": 2560,
+      "height": 1410,
+      "variants": [
+        800,
+        1280,
+        1920
+      ],
+      "color": "#cdd2b4"
+    },
+    "04": {
+      "kind": "screen-landscape",
+      "width": 2560,
+      "height": 1410,
+      "variants": [
+        800,
+        1280,
+        1920
+      ],
+      "color": "#d4d8be"
+    },
+    "05": {
+      "kind": "screen-portrait",
+      "width": 1600,
+      "height": 2392,
+      "variants": [
+        600,
+        1000,
+        1600
+      ],
+      "color": "#dde3df"
+    },
+    "06": {
+      "kind": "screen-portrait",
+      "width": 1600,
+      "height": 2392,
+      "variants": [
+        600,
+        1000,
+        1600
+      ],
+      "color": "#d9e0db"
+    },
+    "07": {
+      "kind": "photo",
+      "width": 1586,
+      "height": 992,
+      "variants": [
+        640,
+        1280
+      ],
+      "color": "#b1b6b4"
+    },
+    "08": {
+      "kind": "screen-landscape",
+      "width": 2560,
+      "height": 1410,
+      "variants": [
+        800,
+        1280,
+        1920
+      ],
+      "color": "#dde4df"
+    },
+    "09": {
+      "kind": "screen-landscape",
+      "width": 2560,
+      "height": 1410,
+      "variants": [
+        800,
+        1280,
+        1920
+      ],
+      "color": "#b0b6b1"
+    },
+    "10": {
+      "kind": "screen-landscape",
+      "width": 2560,
+      "height": 1410,
+      "variants": [
+        800,
+        1280,
+        1920
+      ],
+      "color": "#bcc2bd"
+    },
+    "11": {
+      "kind": "photo",
+      "width": 1672,
+      "height": 941,
+      "variants": [
+        640,
+        1280
+      ],
+      "color": "#958d83"
+    }
+  },
+  "classifier": {
+    "01": {
+      "kind": "screen-portrait",
+      "width": 1600,
+      "height": 2392,
+      "variants": [
+        600,
+        1000,
+        1600
+      ],
+      "color": "#f2f3ea"
+    },
+    "02": {
+      "kind": "screen-portrait",
+      "width": 1600,
+      "height": 2392,
+      "variants": [
+        600,
+        1000,
+        1600
+      ],
+      "color": "#a6a9a1"
+    },
+    "03": {
+      "kind": "screen-portrait",
+      "width": 1600,
+      "height": 2392,
+      "variants": [
+        600,
+        1000,
+        1600
+      ],
+      "color": "#edefe8"
+    },
+    "04": {
+      "kind": "screen-portrait",
+      "width": 1600,
+      "height": 2392,
+      "variants": [
+        600,
+        1000,
+        1600
+      ],
+      "color": "#f0f3ec"
+    },
+    "05": {
+      "kind": "screen-portrait",
+      "width": 1600,
+      "height": 2392,
+      "variants": [
+        600,
+        1000,
+        1600
+      ],
+      "color": "#eeede6"
+    },
+    "06": {
+      "kind": "screen-portrait",
+      "width": 1600,
+      "height": 2392,
+      "variants": [
+        600,
+        1000,
+        1600
+      ],
+      "color": "#c1c3bd"
+    },
+    "07": {
+      "kind": "screen-portrait",
+      "width": 1600,
+      "height": 2392,
+      "variants": [
+        600,
+        1000,
+        1600
+      ],
+      "color": "#f5f5f0"
+    },
+    "08": {
+      "kind": "screen-portrait",
+      "width": 1600,
+      "height": 2392,
+      "variants": [
+        600,
+        1000,
+        1600
+      ],
+      "color": "#f5f5f0"
+    },
+    "09": {
+      "kind": "screen-portrait",
+      "width": 1600,
+      "height": 2392,
+      "variants": [
+        600,
+        1000,
+        1600
+      ],
+      "color": "#f5f5f1"
+    },
+    "10": {
+      "kind": "screen-portrait",
+      "width": 1600,
+      "height": 2392,
+      "variants": [
+        600,
+        1000,
+        1600
+      ],
+      "color": "#f5f5f1"
+    },
+    "11": {
+      "kind": "screen-portrait",
+      "width": 1600,
+      "height": 2392,
+      "variants": [
+        600,
+        1000,
+        1600
+      ],
+      "color": "#e9ebe5"
+    },
+    "12": {
+      "kind": "screen-portrait",
+      "width": 1600,
+      "height": 2392,
+      "variants": [
+        600,
+        1000,
+        1600
+      ],
+      "color": "#d9d7d0"
+    },
+    "13": {
+      "kind": "screen-portrait",
+      "width": 1600,
+      "height": 2392,
+      "variants": [
+        600,
+        1000,
+        1600
+      ],
+      "color": "#e9ebe5"
+    },
+    "14": {
+      "kind": "screen-portrait",
+      "width": 1600,
+      "height": 2392,
+      "variants": [
+        600,
+        1000,
+        1600
+      ],
+      "color": "#e9ebe5"
+    },
+    "15": {
+      "kind": "screen-portrait",
+      "width": 1600,
+      "height": 2392,
+      "variants": [
+        600,
+        1000,
+        1600
+      ],
+      "color": "#eaeee7"
+    },
+    "16": {
+      "kind": "screen-portrait",
+      "width": 1600,
+      "height": 2392,
+      "variants": [
+        600,
+        1000,
+        1600
+      ],
+      "color": "#d5d6d1"
+    },
+    "17": {
+      "kind": "screen-portrait",
+      "width": 1600,
+      "height": 2392,
+      "variants": [
+        600,
+        1000,
+        1600
+      ],
+      "color": "#eaeee7"
+    },
+    "18": {
+      "kind": "screen-portrait",
+      "width": 1600,
+      "height": 2392,
+      "variants": [
+        600,
+        1000,
+        1600
+      ],
+      "color": "#eaeee7"
+    },
+    "19": {
+      "kind": "screen-portrait",
+      "width": 1600,
+      "height": 2392,
+      "variants": [
+        600,
+        1000,
+        1600
+      ],
+      "color": "#d0ccc3"
+    },
+    "20": {
+      "kind": "screen-portrait",
+      "width": 1600,
+      "height": 2392,
+      "variants": [
+        600,
+        1000,
+        1600
+      ],
+      "color": "#d6d2c8"
+    },
+    "21": {
+      "kind": "screen-portrait",
+      "width": 1600,
+      "height": 2392,
+      "variants": [
+        600,
+        1000,
+        1600
+      ],
+      "color": "#e7e7df"
+    },
+    "22": {
+      "kind": "screen-portrait",
+      "width": 1600,
+      "height": 2392,
+      "variants": [
+        600,
+        1000,
+        1600
+      ],
+      "color": "#f5f5ed"
+    },
+    "23": {
+      "kind": "screen-portrait",
+      "width": 1600,
+      "height": 2392,
+      "variants": [
+        600,
+        1000,
+        1600
+      ],
+      "color": "#e9eae2"
+    },
+    "24": {
+      "kind": "screen-portrait",
+      "width": 1600,
+      "height": 2392,
+      "variants": [
+        600,
+        1000,
+        1600
+      ],
+      "color": "#f2f2eb"
+    },
+    "25": {
+      "kind": "screen-portrait",
+      "width": 1600,
+      "height": 2392,
+      "variants": [
+        600,
+        1000,
+        1600
+      ],
+      "color": "#dce2d6"
+    },
+    "26": {
+      "kind": "screen-portrait",
+      "width": 1600,
+      "height": 2392,
+      "variants": [
+        600,
+        1000,
+        1600
+      ],
+      "color": "#e8eae0"
+    },
+    "27": {
+      "kind": "screen-portrait",
+      "width": 1600,
+      "height": 2392,
+      "variants": [
+        600,
+        1000,
+        1600
+      ],
+      "color": "#e7e9e0"
+    },
+    "28": {
+      "kind": "screen-portrait",
+      "width": 1600,
+      "height": 2392,
+      "variants": [
+        600,
+        1000,
+        1600
+      ],
+      "color": "#f2f3ea"
+    },
+    "29": {
+      "kind": "screen-portrait",
+      "width": 1600,
+      "height": 2392,
+      "variants": [
+        600,
+        1000,
+        1600
+      ],
+      "color": "#dadad3"
+    },
+    "30": {
+      "kind": "screen-portrait",
+      "width": 1600,
+      "height": 2392,
+      "variants": [
+        600,
+        1000,
+        1600
+      ],
+      "color": "#dad9d2"
+    },
+    "31": {
+      "kind": "screen-portrait",
+      "width": 1600,
+      "height": 2392,
+      "variants": [
+        600,
+        1000,
+        1600
+      ],
+      "color": "#f1f1e9"
+    },
+    "32": {
+      "kind": "screen-portrait",
+      "width": 1600,
+      "height": 2392,
+      "variants": [
+        600,
+        1000,
+        1600
+      ],
+      "color": "#ebece4"
+    },
+    "33": {
+      "kind": "screen-portrait",
+      "width": 1600,
+      "height": 2392,
+      "variants": [
+        600,
+        1000,
+        1600
+      ],
+      "color": "#ebebe3"
+    },
+    "34": {
+      "kind": "screen-portrait",
+      "width": 1600,
+      "height": 2392,
+      "variants": [
+        600,
+        1000,
+        1600
+      ],
+      "color": "#d7d6cd"
+    },
+    "35": {
+      "kind": "screen-portrait",
+      "width": 1600,
+      "height": 2392,
+      "variants": [
+        600,
+        1000,
+        1600
+      ],
+      "color": "#dad9d1"
+    },
+    "36": {
+      "kind": "photo",
+      "width": 848,
+      "height": 1264,
+      "variants": [
+        640
+      ],
+      "color": "#827a74"
+    },
+    "37": {
+      "kind": "screen-portrait",
+      "width": 1600,
+      "height": 2392,
+      "variants": [
+        600,
+        1000,
+        1600
+      ],
+      "color": "#f2f3ea"
+    },
+    "38": {
+      "kind": "screen-portrait",
+      "width": 1600,
+      "height": 2392,
+      "variants": [
+        600,
+        1000,
+        1600
+      ],
+      "color": "#a6a9a1"
+    }
+  }
+}

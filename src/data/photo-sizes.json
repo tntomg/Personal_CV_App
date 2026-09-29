@@ -1,0 +1,190 @@
+{
+  "gmas-tablet": {
+    "width": 1280,
+    "height": 960,
+    "smallWidth": 640,
+    "color": "#908d83"
+  },
+  "gmas-maps": {
+    "width": 1280,
+    "height": 720,
+    "smallWidth": 640,
+    "color": "#9491a2"
+  },
+  "gmas-umbrella": {
+    "width": 1280,
+    "height": 960,
+    "smallWidth": 640,
+    "color": "#877f71"
+  },
+  "gmas-roadside": {
+    "width": 964,
+    "height": 1280,
+    "smallWidth": 482,
+    "color": "#918478"
+  },
+  "gmas-mountains": {
+    "width": 1280,
+    "height": 960,
+    "smallWidth": 640,
+    "color": "#7e8185",
+    "fullWidth": 1920,
+    "fullHeight": 1440
+  },
+  "gmas-hat": {
+    "width": 960,
+    "height": 1280,
+    "smallWidth": 480,
+    "color": "#938882",
+    "fullWidth": 1440,
+    "fullHeight": 1920
+  },
+  "gmas-vehicle": {
+    "width": 1280,
+    "height": 960,
+    "smallWidth": 640,
+    "color": "#86847f",
+    "fullWidth": 1920,
+    "fullHeight": 1440
+  },
+  "vsegei-talk-mongolia": {
+    "width": 1280,
+    "height": 960,
+    "smallWidth": 640,
+    "color": "#61686a",
+    "fullWidth": 1920,
+    "fullHeight": 1440
+  },
+  "mongolia-meeting": {
+    "width": 1280,
+    "height": 853,
+    "smallWidth": 640,
+    "color": "#a7a4a8",
+    "fullWidth": 1920,
+    "fullHeight": 1280
+  },
+  "mongolia-steppe": {
+    "width": 960,
+    "height": 1280,
+    "smallWidth": 480,
+    "color": "#7f7764"
+  },
+  "mongolia-site": {
+    "width": 960,
+    "height": 1280,
+    "smallWidth": 480,
+    "color": "#969186"
+  },
+  "mongolia-outcrop": {
+    "width": 1120,
+    "height": 1280,
+    "smallWidth": 560,
+    "color": "#6c6457",
+    "fullWidth": 1680,
+    "fullHeight": 1920
+  },
+  "china-baijianfen": {
+    "width": 1280,
+    "height": 853,
+    "smallWidth": 640,
+    "color": "#707070",
+    "fullWidth": 1920,
+    "fullHeight": 1280
+  },
+  "china-granite-block": {
+    "width": 1280,
+    "height": 900,
+    "smallWidth": 640,
+    "color": "#837565",
+    "fullWidth": 1920,
+    "fullHeight": 1350
+  },
+  "practice-route": {
+    "width": 1280,
+    "height": 960,
+    "smallWidth": 640,
+    "color": "#737779",
+    "fullWidth": 1920,
+    "fullHeight": 1440
+  },
+  "practice-bridge": {
+    "width": 1280,
+    "height": 960,
+    "smallWidth": 640,
+    "color": "#5f6c3b",
+    "fullWidth": 1600,
+    "fullHeight": 1200
+  },
+  "practice-geolfest": {
+    "width": 1280,
+    "height": 853,
+    "smallWidth": 640,
+    "color": "#878391",
+    "fullWidth": 1920,
+    "fullHeight": 1280
+  },
+  "china-emeishan": {
+    "width": 1280,
+    "height": 956,
+    "smallWidth": 640,
+    "color": "#8b8b7e",
+    "fullWidth": 1920,
+    "fullHeight": 1434
+  },
+  "china-gear": {
+    "width": 1280,
+    "height": 714,
+    "smallWidth": 640,
+    "color": "#8a6869",
+    "fullWidth": 1920,
+    "fullHeight": 1072
+  },
+  "zunkholba-gallery": {
+    "width": 1280,
+    "height": 960,
+    "smallWidth": 640,
+    "color": "#574d3d",
+    "fullWidth": 1920,
+    "fullHeight": 1440
+  },
+  "zunkholba-team": {
+    "width": 1280,
+    "height": 960,
+    "smallWidth": 640,
+    "color": "#1f1c18",
+    "fullWidth": 1920,
+    "fullHeight": 1440
+  },
+  "monche-map": {
+    "width": 1280,
+    "height": 960,
+    "smallWidth": 640,
+    "color": "#4d4f51",
+    "fullWidth": 1920,
+    "fullHeight": 1440
+  },
+  "monche-sampling": {
+    "width": 960,
+    "height": 1280,
+    "smallWidth": 480,
+    "color": "#4d4c45",
+    "fullWidth": 1440,
+    "fullHeight": 1920
+  },
+  "monche-boulders": {
+    "width": 1280,
+    "height": 960,
+    "smallWidth": 640,
+    "color": "#898f94",
+    "fullWidth": 1920,
+    "fullHeight": 1440
+  },
+  "monche-group": {
+    "width": 1280,
+    "height": 960,
+    "smallWidth": 640,
+    "color": "#84858d",
+    "fullWidth": 1920,
+    "fullHeight": 1440
+  }
+}

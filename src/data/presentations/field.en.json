@@ -1,0 +1,251 @@
+{
+  "deck": "field",
+  "lang": "en",
+  "source": "materials/Rocksurv_Field_Presentation_Kit_EN_RU_v13.zip: rocksurv_field/Rocksurv_Field_Presentation_EN.html",
+  "slides": [
+    {
+      "kind": "cover",
+      "chapter": "",
+      "title": "",
+      "brand": [
+        ""
+      ],
+      "lead": "",
+      "note": "",
+      "points": [],
+      "caption": "",
+      "cta": "",
+      "media": [
+        {
+          "alt": "Rocksurv Field",
+          "state": "",
+          "image": "01"
+        }
+      ],
+      "languages": [],
+      "platforms": []
+    },
+    {
+      "kind": "feature",
+      "chapter": "",
+      "title": "",
+      "lead": "",
+      "note": "",
+      "points": [],
+      "caption": "",
+      "cta": "",
+      "media": [
+        {
+          "alt": "English map interface with geological layers and visibility controls",
+          "state": "",
+          "image": "02"
+        }
+      ],
+      "languages": [],
+      "platforms": []
+    },
+    {
+      "kind": "feature",
+      "chapter": "",
+      "title": "",
+      "lead": "",
+      "note": "",
+      "points": [],
+      "caption": "",
+      "cta": "",
+      "media": [
+        {
+          "alt": "Active Session with Point Observation, Structures and Alt Mineral controls",
+          "state": "",
+          "image": "03"
+        }
+      ],
+      "languages": [],
+      "platforms": []
+    },
+    {
+      "kind": "feature",
+      "chapter": "",
+      "title": "",
+      "lead": "",
+      "note": "",
+      "points": [],
+      "caption": "",
+      "cta": "",
+      "media": [
+        {
+          "alt": "Live compass and ruler with a profile line and segment distance labels on a geological map",
+          "state": "",
+          "image": "04"
+        }
+      ],
+      "languages": [],
+      "platforms": []
+    },
+    {
+      "kind": "feature",
+      "chapter": "",
+      "title": "",
+      "lead": "",
+      "note": "",
+      "points": [],
+      "caption": "",
+      "cta": "",
+      "media": [
+        {
+          "alt": "Actual tablet screen with intrusive QAPF rock components and the calculated Monzogranite name",
+          "state": "",
+          "image": "05"
+        }
+      ],
+      "languages": [],
+      "platforms": []
+    },
+    {
+      "kind": "feature",
+      "chapter": "",
+      "title": "",
+      "lead": "",
+      "note": "",
+      "points": [],
+      "caption": "",
+      "cta": "",
+      "media": [
+        {
+          "alt": "Current tablet screen: planar contact measurement, calculated strike and linked photo reference PH01",
+          "state": "",
+          "image": "06"
+        }
+      ],
+      "languages": [],
+      "platforms": []
+    },
+    {
+      "kind": "feature",
+      "chapter": "",
+      "title": "",
+      "lead": "",
+      "note": "",
+      "points": [],
+      "caption": "",
+      "cta": "",
+      "media": [
+        {
+          "alt": "Presentation composite: tablet photo editor with an enlarged geological photograph on the left and its description on the right",
+          "state": "",
+          "image": "07"
+        }
+      ],
+      "languages": [],
+      "platforms": []
+    },
+    {
+      "kind": "feature",
+      "chapter": "",
+      "title": "",
+      "lead": "",
+      "note": "",
+      "points": [],
+      "caption": "",
+      "cta": "",
+      "media": [
+        {
+          "alt": "Alteration and mineralization editor showing type, intensity and form fields",
+          "state": "",
+          "image": "08"
+        }
+      ],
+      "languages": [],
+      "platforms": []
+    },
+    {
+      "kind": "feature",
+      "chapter": "",
+      "title": "",
+      "lead": "",
+      "note": "",
+      "points": [],
+      "caption": "",
+      "cta": "",
+      "media": [
+        {
+          "alt": "Current tablet screen for choosing Copernicus GLO-30 and defining DEM coverage",
+          "state": "",
+          "image": "09"
+        }
+      ],
+      "languages": [],
+      "platforms": []
+    },
+    {
+      "kind": "feature",
+      "chapter": "",
+      "title": "",
+      "lead": "",
+      "note": "",
+      "points": [],
+      "caption": "",
+      "cta": "",
+      "media": [
+        {
+          "alt": "Field session export dialog in the Android app",
+          "state": "",
+          "image": "10"
+        }
+      ],
+      "languages": [],
+      "platforms": []
+    },
+    {
+      "kind": "languages",
+      "chapter": "",
+      "title": "",
+      "lead": "",
+      "note": "",
+      "points": [],
+      "caption": "",
+      "cta": "",
+      "media": [],
+      "languages": [
+        {
+          "code": "",
+          "name": "",
+          "lang": "",
+          "dir": "ltr"
+        },
+        {
+          "code": "",
+          "name": "",
+          "lang": "",
+          "dir": "ltr"
+        },
+        {
+          "code": "",
+          "name": "",
+          "lang": "",
+          "dir": "ltr"
+        }
+      ],
+      "platforms": []
+    },
+    {
+      "kind": "closing",
+      "chapter": "",
+      "title": "",
+      "lead": "",
+      "note": "",
+      "points": [],
+      "caption": "",
+      "cta": "",
+      "media": [
+        {
+          "alt": "AI-edited field photograph based on the author’s photo: geologist seen from behind using RS Field on a tablet.",
+          "state": "",
+          "image": "11"
+        }
+      ],
+      "languages": [],
+      "platforms": []
+    }
+  ]
+}

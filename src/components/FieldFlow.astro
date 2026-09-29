@@ -1,0 +1,53 @@
+---
+/*
+  Work cycle from the FieldScan spec (office -> field -> office) over a schematic contour map.
+  The relief and the route are illustrative; this is not an app screen and not real data.
+*/
+interface Props {
+  compact?: boolean;
+}
+const { compact = false } = Astro.props;
+
+const hill = (cx: number, cy: number, steps: number, gap: number, seed: number) =>
+  Array.from({ length: steps }, (_, k) => {
+    const r0 = (k + 1) * gap;
+    const pts = Array.from({ length: 73 }, (_, i) => {
+      const t = (i / 72) * Math.PI * 2;
+      const r = r0 * (1 + 0.13 * Math.sin(2 * t + seed) + 0.07 * Math.sin(3 * t + seed * 2.1) * (1 - k / steps / 1.4));
+      return `${(cx + r * Math.cos(t) * 1.25).toFixed(1)} ${(cy + r * Math.sin(t)).toFixed(1)}`;
+    });
+    return { d: `M${pts.join('L')}Z`, index: (k + 1) % 5 === 0 };
+  });
+
+const contours = [...hill(210, 175, 7, 19, 0.6), ...hill(540, 250, 6, 20, 2.2)];
+const route: [number, number][] = [
+  [40, 372], [150, 318], [262, 300], [352, 238], [420, 176], [520, 128], [640, 92], [700, 40],
+];
+const points = [route[1], route[3], route[4], route[6]];
+const line = route.map(([x, y], i) => `${i ? 'L' : 'M'}${x} ${y}`).join('');
+---
+<div class="flow">
+  <svg class="flow-map diagram" viewBox="0 0 720 405" role="img" aria-label="Схематическая карта рельефа с маршрутом и точками наблюдения">
+    <rect width="720" height="405" fill="#101812" />
+    <g fill="none" stroke="#33443a">
+      {contours.map((c) => <path d={c.d} stroke-width={c.index ? 1.4 : 0.7} />)}
+    </g>
+    <path d={line} fill="none" stroke="#9fd3a2" stroke-width="2" stroke-dasharray="7 6" stroke-linecap="round" />
+    {points.map(([x, y]) => (
+      <g>
+        <circle cx={x} cy={y} r="9" fill="#9fd3a2" opacity="0.18" />
+        <circle cx={x} cy={y} r="4.5" fill="#101812" stroke="#9fd3a2" stroke-width="2" />
+      </g>
+    ))}
+    <g fill="#aebab1" font-size="13">
+      <text x={points[1][0] + 14} y={points[1][1] + 4}>точка наблюдения</text>
+    </g>
+  </svg>
+  {!compact && (
+    <ol class="flow-steps">
+      <li><small>Офис</small><strong>Проект в ArcGIS Pro</strong><span>Картооснова, стили и словари упакованы в GeoPackage.</span></li>
+      <li><small>Поле</small><strong>Работа без сети</strong><span>Карта, журнал, фото, GPS и компас на планшете.</span></li>
+      <li><small>Офис</small><strong>Камеральная обработка</strong><span>Excel, фото и validation_report.json в одном ZIP.</span></li>
+    </ol>
+  )}
+</div>

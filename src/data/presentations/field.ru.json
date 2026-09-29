@@ -1,0 +1,251 @@
+{
+  "deck": "field",
+  "lang": "ru",
+  "source": "materials/Rocksurv_Field_Presentation_Kit_EN_RU_v13.zip: rocksurv_field/Rocksurv_Field_Presentation_RU.html",
+  "slides": [
+    {
+      "kind": "cover",
+      "chapter": "",
+      "title": "",
+      "brand": [
+        ""
+      ],
+      "lead": "",
+      "note": "",
+      "points": [],
+      "caption": "",
+      "cta": "",
+      "media": [
+        {
+          "alt": "Rocksurv Field",
+          "state": "",
+          "image": "01"
+        }
+      ],
+      "languages": [],
+      "platforms": []
+    },
+    {
+      "kind": "feature",
+      "chapter": "",
+      "title": "",
+      "lead": "",
+      "note": "",
+      "points": [],
+      "caption": "",
+      "cta": "",
+      "media": [
+        {
+          "alt": "Карта с геологическими слоями и управлением видимостью",
+          "state": "",
+          "image": "02"
+        }
+      ],
+      "languages": [],
+      "platforms": []
+    },
+    {
+      "kind": "feature",
+      "chapter": "",
+      "title": "",
+      "lead": "",
+      "note": "",
+      "points": [],
+      "caption": "",
+      "cta": "",
+      "media": [
+        {
+          "alt": "Active Session with Point Observation, Structures and Alt Mineral controls",
+          "state": "",
+          "image": "03"
+        }
+      ],
+      "languages": [],
+      "platforms": []
+    },
+    {
+      "kind": "feature",
+      "chapter": "",
+      "title": "",
+      "lead": "",
+      "note": "",
+      "points": [],
+      "caption": "",
+      "cta": "",
+      "media": [
+        {
+          "alt": "Live compass and ruler with a profile line and segment distance labels on a geological map",
+          "state": "",
+          "image": "04"
+        }
+      ],
+      "languages": [],
+      "platforms": []
+    },
+    {
+      "kind": "feature",
+      "chapter": "",
+      "title": "",
+      "lead": "",
+      "note": "",
+      "points": [],
+      "caption": "",
+      "cta": "",
+      "media": [
+        {
+          "alt": "Текущий экран планшета: компоненты интрузивной породы QAPF и рассчитанное название Monzogranite",
+          "state": "",
+          "image": "05"
+        }
+      ],
+      "languages": [],
+      "platforms": []
+    },
+    {
+      "kind": "feature",
+      "chapter": "",
+      "title": "",
+      "lead": "",
+      "note": "",
+      "points": [],
+      "caption": "",
+      "cta": "",
+      "media": [
+        {
+          "alt": "Текущий экран планшета: замер плоскости контакта, расчёт простирания и ссылка на фото PH01",
+          "state": "",
+          "image": "06"
+        }
+      ],
+      "languages": [],
+      "platforms": []
+    },
+    {
+      "kind": "feature",
+      "chapter": "",
+      "title": "",
+      "lead": "",
+      "note": "",
+      "points": [],
+      "caption": "",
+      "cta": "",
+      "media": [
+        {
+          "alt": "Презентационный монтаж: редактор фото на планшете, увеличенная геологическая фотография слева и описание справа",
+          "state": "",
+          "image": "07"
+        }
+      ],
+      "languages": [],
+      "platforms": []
+    },
+    {
+      "kind": "feature",
+      "chapter": "",
+      "title": "",
+      "lead": "",
+      "note": "",
+      "points": [],
+      "caption": "",
+      "cta": "",
+      "media": [
+        {
+          "alt": "Форма изменений и минерализации с полями типа, интенсивности и формы",
+          "state": "",
+          "image": "08"
+        }
+      ],
+      "languages": [],
+      "platforms": []
+    },
+    {
+      "kind": "feature",
+      "chapter": "",
+      "title": "",
+      "lead": "",
+      "note": "",
+      "points": [],
+      "caption": "",
+      "cta": "",
+      "media": [
+        {
+          "alt": "Текущий экран планшета: выбор Copernicus GLO-30 и задание области DEM",
+          "state": "",
+          "image": "09"
+        }
+      ],
+      "languages": [],
+      "platforms": []
+    },
+    {
+      "kind": "feature",
+      "chapter": "",
+      "title": "",
+      "lead": "",
+      "note": "",
+      "points": [],
+      "caption": "",
+      "cta": "",
+      "media": [
+        {
+          "alt": "Диалог экспорта полевой сессии",
+          "state": "",
+          "image": "10"
+        }
+      ],
+      "languages": [],
+      "platforms": []
+    },
+    {
+      "kind": "languages",
+      "chapter": "",
+      "title": "",
+      "lead": "",
+      "note": "",
+      "points": [],
+      "caption": "",
+      "cta": "",
+      "media": [],
+      "languages": [
+        {
+          "code": "",
+          "name": "",
+          "lang": "",
+          "dir": "ltr"
+        },
+        {
+          "code": "",
+          "name": "",
+          "lang": "",
+          "dir": "ltr"
+        },
+        {
+          "code": "",
+          "name": "",
+          "lang": "",
+          "dir": "ltr"
+        }
+      ],
+      "platforms": []
+    },
+    {
+      "kind": "closing",
+      "chapter": "",
+      "title": "",
+      "lead": "",
+      "note": "",
+      "points": [],
+      "caption": "",
+      "cta": "",
+      "media": [
+        {
+          "alt": "Фото автора, отредактированное ИИ: геолог со стороны спины работает с RS Field на планшете.",
+          "state": "",
+          "image": "11"
+        }
+      ],
+      "languages": [],
+      "platforms": []
+    }
+  ]
+}

@@ -1,0 +1,38 @@
+# Dependencies
+/node_modules/
+
+# Production build output
+/dist/
+
+# Astro cache & generated types
+/.astro/
+
+# Scratch analysis & review screenshots
+/.analysis/
+/review/
+review-*.png
+review-contact.jpg
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Raw source assets (excluded from GitHub repo: ~406 MB)
+/certificate/
+/CV/
+/materials/
+/photo/
+
+# IDE & Editor files
+/.idea/
+/.vscode/
+*.sublime-project
+*.sublime-workspace
+
+# OS-generated files
+.DS_Store
+Thumbs.db
+desktop.ini

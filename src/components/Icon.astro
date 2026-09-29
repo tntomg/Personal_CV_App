@@ -1,0 +1,57 @@
+---
+// Phosphor Icons, regular weight. One family for the whole site.
+import arrowLeft from '@phosphor-icons/core/regular/arrow-left.svg?raw';
+import arrowRight from '@phosphor-icons/core/regular/arrow-right.svg?raw';
+import arrowUpRight from '@phosphor-icons/core/regular/arrow-up-right.svg?raw';
+import arrowsOut from '@phosphor-icons/core/regular/arrows-out-simple.svg?raw';
+import article from '@phosphor-icons/core/regular/article.svg?raw';
+import caretLeft from '@phosphor-icons/core/regular/caret-left.svg?raw';
+import caretRight from '@phosphor-icons/core/regular/caret-right.svg?raw';
+import certificate from '@phosphor-icons/core/regular/certificate.svg?raw';
+import code from '@phosphor-icons/core/regular/code.svg?raw';
+import compass from '@phosphor-icons/core/regular/compass.svg?raw';
+import listChecks from '@phosphor-icons/core/regular/list-checks.svg?raw';
+import download from '@phosphor-icons/core/regular/download-simple.svg?raw';
+import envelope from '@phosphor-icons/core/regular/envelope-simple.svg?raw';
+import filePdf from '@phosphor-icons/core/regular/file-pdf.svg?raw';
+import graduation from '@phosphor-icons/core/regular/graduation-cap.svg?raw';
+import mapTrifold from '@phosphor-icons/core/regular/map-trifold.svg?raw';
+import medal from '@phosphor-icons/core/regular/medal.svg?raw';
+import microscope from '@phosphor-icons/core/regular/microscope.svg?raw';
+import presentation from '@phosphor-icons/core/regular/presentation-chart.svg?raw';
+import close from '@phosphor-icons/core/regular/x.svg?raw';
+
+const icons = {
+  'arrow-left': arrowLeft,
+  'arrow-right': arrowRight,
+  'arrow-up-right': arrowUpRight,
+  'arrows-out': arrowsOut,
+  article,
+  'caret-left': caretLeft,
+  'caret-right': caretRight,
+  certificate,
+  code,
+  compass,
+  'list-checks': listChecks,
+  download,
+  envelope,
+  'file-pdf': filePdf,
+  graduation,
+  map: mapTrifold,
+  medal,
+  microscope,
+  presentation,
+  close,
+};
+
+export type IconName = keyof typeof icons;
+
+interface Props {
+  name: IconName;
+  class?: string;
+}
+
+const { name, class: className } = Astro.props;
+const svg = icons[name].trim().replace('<svg ', `<svg class="icon${className ? ` ${className}` : ''}" aria-hidden="true" focusable="false" `);
+---
+<Fragment set:html={svg} />

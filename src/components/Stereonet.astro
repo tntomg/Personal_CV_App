@@ -1,0 +1,70 @@
+---
+/*
+  Equal-area (Schmidt) net, lower hemisphere, computed at build time with the projection
+  from the Rocksurv Classifier spec: r = sqrt(2) * sin((90 - plunge) / 2), x = r sin(trend), y = r cos(trend).
+  The highlighted plane (dip direction 120, dip 45), its pole and a lineation in it are an example, not field data.
+*/
+interface Props {
+  size?: number;
+  label?: string;
+}
+const { size = 420, label = 'Сетка Шмидта с примером плоскости, её полюса и линейности' } = Astro.props;
+
+const R = 100;
+const rad = (deg: number) => (deg * Math.PI) / 180;
+type Vec = [number, number, number]; // east, north, down
+
+const project = ([e, n, d]: Vec): [number, number] => {
+  const len = Math.hypot(e, n, d) || 1;
+  const plunge = Math.asin(Math.max(-1, Math.min(1, d / len)));
+  const trend = Math.atan2(e, n);
+  const r = R * Math.SQRT2 * Math.sin((Math.PI / 2 - plunge) / 2);
+  return [r * Math.sin(trend), -r * Math.cos(trend)];
+};
+
+const path = (points: [number, number][]) => points.map(([x, y], i) => `${i ? 'L' : 'M'}${x.toFixed(2)} ${y.toFixed(2)}`).join('');
+const range = (from: number, to: number, step: number) => Array.from({ length: Math.round((to - from) / step) + 1 }, (_, i) => from + i * step);
+
+// Great circle of a plane: lines in the plane from strike (beta = 0) through dip direction to the opposite strike.
+const greatCircle = (dipDir: number, dip: number) => {
+  const s: Vec = [Math.sin(rad(dipDir - 90)), Math.cos(rad(dipDir - 90)), 0];
+  const dv: Vec = [Math.sin(rad(dipDir)) * Math.cos(rad(dip)), Math.cos(rad(dipDir)) * Math.cos(rad(dip)), Math.sin(rad(dip))];
+  return path(range(0, 180, 3).map((b) => project([Math.cos(rad(b)) * s[0] + Math.sin(rad(b)) * dv[0], Math.cos(rad(b)) * s[1] + Math.sin(rad(b)) * dv[1], Math.cos(rad(b)) * s[2] + Math.sin(rad(b)) * dv[2]])));
+};
+
+// Small circles about the horizontal north-south axis.
+const smallCircle = (rho: number, sign: 1 | -1) =>
+  path(range(0, 180, 3).map((phi) => project([Math.sin(rad(rho)) * Math.cos(rad(phi)), sign * Math.cos(rad(rho)), Math.sin(rad(rho)) * Math.sin(rad(phi))])));
+
+const meridians = range(10, 80, 10).flatMap((dip) => [greatCircle(90, dip), greatCircle(270, dip)]);
+const parallels = range(10, 80, 10).flatMap((rho) => [smallCircle(rho, 1), smallCircle(rho, -1)]);
+
+// Example: plane 120/45, its pole, and a lineation 50 degrees from strike inside the plane.
+const exDir = 120;
+const exDip = 45;
+const example = greatCircle(exDir, exDip);
+const pole = project([Math.sin(rad(exDir + 180)) * Math.cos(rad(90 - exDip)), Math.cos(rad(exDir + 180)) * Math.cos(rad(90 - exDip)), Math.sin(rad(90 - exDip))]);
+const s: Vec = [Math.sin(rad(exDir - 90)), Math.cos(rad(exDir - 90)), 0];
+const dv: Vec = [Math.sin(rad(exDir)) * Math.cos(rad(exDip)), Math.cos(rad(exDir)) * Math.cos(rad(exDip)), Math.sin(rad(exDip))];
+const beta = 50;
+const lineation = project([Math.cos(rad(beta)) * s[0] + Math.sin(rad(beta)) * dv[0], Math.cos(rad(beta)) * s[1] + Math.sin(rad(beta)) * dv[1], Math.cos(rad(beta)) * s[2] + Math.sin(rad(beta)) * dv[2]]);
+const [lx, ly] = lineation;
+---
+<svg class="diagram stereonet" viewBox="-118 -118 236 236" width={size} height={size} role="img" aria-label={label}>
+  <circle r={R} fill="#101812" stroke="none" />
+  <g fill="none" stroke="#3b4c42" stroke-width="0.45">
+    {meridians.map((d) => <path d={d} />)}
+    {parallels.map((d) => <path d={d} />)}
+    <path d={`M${-R} 0H${R}M0 ${-R}V${R}`} />
+  </g>
+  <circle r={R} fill="none" stroke="#aebab1" stroke-width="0.9" />
+  <g fill="#aebab1" font-size="8" text-anchor="middle">
+    <text x="0" y="-106">N</text>
+    <text x="108" y="3">E</text>
+    <text x="0" y="112">S</text>
+    <text x="-108" y="3">W</text>
+  </g>
+  <path d={example} fill="none" stroke="#9fd3a2" stroke-width="1.6" stroke-linecap="round" />
+  <circle cx={pole[0].toFixed(2)} cy={pole[1].toFixed(2)} r="3" fill="#9fd3a2" />
+  <path d={`M${lx.toFixed(2)} ${(ly - 4.2).toFixed(2)}L${(lx + 3.8).toFixed(2)} ${(ly + 2.6).toFixed(2)}L${(lx - 3.8).toFixed(2)} ${(ly + 2.6).toFixed(2)}Z`} fill="#ffb74d" />
+</svg>

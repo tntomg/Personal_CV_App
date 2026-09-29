@@ -1,0 +1,389 @@
+---
+import { getCollection } from 'astro:content';
+import talkSizes from '../../data/talk-sizes.json';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Icon, { type IconName } from '../../components/Icon.astro';
+import Lightbox from '../../components/Lightbox.astro';
+import PhotoCarousel from '../../components/PhotoCarousel.astro';
+
+const published = <T extends { data: { publicationState: string } }>(entry: T) => entry.data.publicationState === 'published';
+const experience = (await getCollection('experience', published)).sort((a, b) => a.data.order - b.data.order);
+const apps = (await getCollection('apps', published)).sort((a, b) => a.data.order - b.data.order);
+const products = apps.filter((app) => app.data.kind === 'product');
+const practice = apps.filter((app) => app.data.kind === 'practice');
+const credentials = await getCollection('credentials', published);
+const byKind = (kind: string) => credentials.filter((item) => item.data.kind === kind).sort((a, b) => b.data.year.localeCompare(a.data.year));
+const awards = byKind('award');
+const certificates = byKind('certificate');
+const education = byKind('education');
+const papers = byKind('publication');
+const talks = byKind('talk');
+
+const cv = '/cv/Alexey-Pakhalko-CV-RU-2026.docx';
+
+// "Pakhalko A. G." + detail -> one period between them, never two.
+const joinSentences = (lead: string, detail?: string) => (detail ? `${lead}${lead.endsWith('.') ? '' : '.'} ${detail}` : lead);
+
+// Presentations are published whole as PDFs; scripts/export_talks.py writes their sizes to talk-sizes.json.
+const fileSize = (file: string) => {
+  const bytes = (talkSizes as Record<string, number>)[file];
+  if (!bytes) throw new Error(`Нет PDF ${file}. Запустите scripts/export_talks.py`);
+  return `${(bytes / 1048576).toFixed(1).replace('.', ',')} МБ`;
+};
+
+const skills: { icon: IconName; title: string; text: string }[] = [
+  { icon: 'microscope', title: 'Геология и петрография', text: 'Картирование масштабов 1:100 000 и 1:50 000, структурная геология, микроскопия пород и руд в проходящем и отражённом свете, прикладная геохимия, изотопные данные, оценка минерагенического потенциала.' },
+  { icon: 'list-checks', title: 'Полевые данные и QA/QC', text: 'Маршруты, литологическое и структурное описание, минерализация, отбор проб, документация керна. Проверяю журналы наблюдений на полноту и непротиворечивость.' },
+  { icon: 'compass', title: 'Руководство полевыми работами', text: 'Планирую маршруты, распределяю задачи, обучаю сотрудников. Координирую сроки, бюджеты и связь с участниками тематических и международных проектов.' },
+  { icon: 'code', title: 'ГИС и разработка', text: 'ArcGIS (2D и 3D, базы геоданных), VBA и Excel, Kotlin и Android, SQL, тестирование API. Также STATISTICA, AutoCAD и CorelDraw.' },
+];
+
+const figureCaption: Record<string, string> = {
+  'field-flow': 'Рабочий интерфейс Rocksurv Field на полевом защищённом планшете: геопривязанные слои GeoPackage, активная сессия с точками наблюдения и спутниковая навигация.',
+  stereonet: 'Рабочие экраны Rocksurv Classifier: равноплощадная проекция Шмидта с расчётом оси пересечения плоскостей (β-ось) и двойной треугольник QAPF Штрекайзена по стандарту IUGS.',
+};
+---
+<BaseLayout
+  title="Алексей Пахалко, геолог: картирование, петрография, полевые данные и приложения"
+  description="Геолог с опытом с 2008 года: картирование Аравийского щита, Институт Карпинского, петрография, QA/QC полевых данных и собственные геологические приложения."
+  active="profile"
+>
+  <section id="profile" aria-labelledby="hero-title">
+    <div class="shell hero">
+      <div class="hero-copy">
+        <p class="hero-kicker">Ведущий инженер Института Карпинского. Руковожу полевой партией на проекте GMAS в Саудовской Аравии.</p>
+        <h1 class="hero-title" id="hero-title"><span class="line"><span>Алексей</span></span><span class="line"><span>Пахалко</span></span></h1>
+        <p class="hero-lead">Геолог. Картирую, изучаю породы под микроскопом и пишу программы, которые проверяют полевые данные.</p>
+        <div class="hero-actions">
+          <a class="button button-primary" href="#apps">Смотреть приложения</a>
+          <a class="button button-ghost" href={cv} download><Icon name="download" class="icon-down" />Скачать CV</a>
+        </div>
+      </div>
+      <figure class="hero-visual">
+        <div class="portrait">
+          <img src="/images/portrait-960.webp" srcset="/images/portrait-480.webp 480w, /images/portrait-960.webp 960w" sizes="(max-width: 900px) 88vw, 40vw" width="960" height="1440" alt="Алексей Пахалко на набережной в Санкт-Петербурге" fetchpriority="high" />
+        </div>
+        <div class="scope">
+          <img class="thin" src="/images/scope-gabbronorite-960.webp" srcset="/images/scope-gabbronorite-480.webp 480w, /images/scope-gabbronorite-960.webp 826w" sizes="(max-width: 900px) 60vw, 26vw" width="826" height="579" alt="Шлиф изменённого габбронорита под поляризационным микроскопом, николи скрещены" decoding="async" />
+          <span class="scope-ring" aria-hidden="true"></span>
+        </div>
+        <figcaption>В круге: шлиф изменённого габбронорита, Мончегорский плутон, николи скрещены. Из доклада 2019 года.</figcaption>
+      </figure>
+    </div>
+
+    <div class="shell profile">
+      <div>
+        <h2 data-reveal>Что я делаю</h2>
+        <p class="profile-about" data-reveal style="--i:1">С 2008 года работаю в поле: уран в Карелии, платиноиды Мончегорского плутона, золото «Павлика» и «Зун-Холбы», металлогения Азии, теперь картирование Аравийского щита. В Институте Карпинского пишу отчёты и изучаю породы и руды под микроскопом. На проекте GMAS написал VBA-проверки журналов наблюдений и Android-приложение для ввода полевых данных.</p>
+        <dl class="profile-facts" data-reveal style="--i:2">
+          <div><dt>В поле</dt><dd>с 2008 года</dd></div>
+          <div><dt>Страны</dt><dd>Россия, Китай, Монголия, Саудовская Аравия</dd></div>
+          <div><dt>Языки</dt><dd>русский, английский (Upper-Intermediate), китайский (HSK 3)</dd></div>
+          <div><dt>Образование</dt><dd>Горный институт, 2010; аспирантура Института Карпинского (ВСЕГЕИ), 2010-2014</dd></div>
+        </dl>
+      </div>
+      <ul class="skills">
+        {skills.map((skill, index) => (
+          <li class="skill" data-reveal style={`--i:${index}`}>
+            <Icon name={skill.icon} />
+            <div><h3>{skill.title}</h3><p>{skill.text}</p></div>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <section class="section" id="experience" aria-labelledby="experience-title">
+    <div class="shell">
+      <div class="section-head">
+        <h2 id="experience-title" data-reveal>С 2008 года: от Карелии до Аравийского щита</h2>
+        <p data-reveal style="--i:1">Семь этапов, от нынешнего к первому. Фото из личного архива разложены по годам, дата съёмки на снимке взята из данных файла.</p>
+      </div>
+      <div class="strata">
+        <nav class="column" aria-label="Этапы опыта">
+          <p class="column-title">Разрез по годам</p>
+          <ol>
+            {experience.map((entry) => (
+              <li>
+                <a class={`layer pat-${entry.data.pattern}`} href={`#stage-${entry.id}`} data-layer={entry.id}>
+                  <span class="layer-swatch" aria-hidden="true"></span>
+                  <span class="layer-text"><small>{entry.data.period}</small><span>{entry.data.short}</span></span>
+                </a>
+              </li>
+            ))}
+          </ol>
+          <p class="column-note">Знаки слоёв взяты по породам этапов: граниты Аравийского щита, базальты Эмэйшаня, золотоносные кварцевые жилы, габбро Мончегорского плутона, гнейсы Карелии.</p>
+        </nav>
+        <div class="stages">
+          {experience.map((entry) => {
+            const { data } = entry;
+            return (
+              <article class:list={['stage', `pat-${data.pattern}`, { 'no-photos': data.photos.length === 0 }]} id={`stage-${entry.id}`} data-stage={entry.id} aria-labelledby={`stage-title-${entry.id}`}>
+                <span class="stage-band" aria-hidden="true"></span>
+                <p class="stage-meta" data-reveal><span class="num">{data.period}</span><span>{data.place}</span></p>
+                <h3 id={`stage-title-${entry.id}`} data-reveal style="--i:1">{data.title}</h3>
+                <p class="stage-org" data-reveal style="--i:2">{data.organization}</p>
+                {data.role && <p class="stage-role" data-reveal style="--i:2">{data.role}</p>}
+                <div class="stage-body">
+                  {data.photos.length > 0 && <PhotoCarousel id={entry.id} label={`Фотографии: ${data.title}`} photos={data.photos} note={data.photoNote} />}
+                  <div class="stage-text" data-reveal style="--i:3">
+                    <p class="stage-summary">{data.summary}</p>
+                    <ul class="stage-points">{data.highlights.map((item) => <li>{item}</li>)}</ul>
+                    {data.materials.length > 0 && (
+                      <div class="stage-docs">
+                        <h4><Icon name="certificate" />Документы и доклады</h4>
+                        <ul>{data.materials.map((item) => <li>{item}</li>)}</ul>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </article>
+            );
+          })}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="apps" id="apps" aria-labelledby="apps-title" data-scene-night>
+    <div class="shell">
+      <div class="section-head">
+        <h2 id="apps-title" data-reveal>Цифровые инструменты для поля и петрографии</h2>
+        <p data-reveal style="--i:1">Собственные программные комплексы, разработанные на базе реального экспедиционного опыта картирования. Устраняют риски потери геоданных, автоматизируют строгую классификацию по стандартам IUGS и экономят недели камеральной обработки. Ниже представлены рабочие интерфейсы и интерактивные презентации.</p>
+      </div>
+
+      <ol class="route" data-reveal style="--i:2" aria-label="Этапы работы и приложения">
+        {products.map((app, index) => (
+          <li><a href={`#app-${app.id}`}><span class="route-node">{String(index + 1).padStart(2, '0')}</span><small>{app.data.stage}</small><strong>{app.data.title}</strong></a></li>
+        ))}
+      </ol>
+
+      {products.map((app, index) => {
+        const isField = (app.data.slug ?? '').includes('field');
+        return (
+          <article class:list={['app', { 'app-reverse': index % 2 === 1 }]} id={`app-${app.id}`} aria-labelledby={`app-title-${app.id}`}>
+            {app.id === 'rocksurv-field' && <span id="app-fieldscan" class="visually-hidden"></span>}
+            <figure class="app-visual" data-reveal="scale" style={`view-transition-name: figure-${app.data.slug}`}>
+              {isField ? (
+                <a href="/ru/presentations/field/" class="app-showcase-link" aria-label="Открыть интерактивную презентацию Rocksurv Field">
+                  <div class="showcase-device showcase-tablet">
+                    <div class="device-bezel">
+                      <div class="device-camera-dot"></div>
+                      <div class="device-screen">
+                        <img
+                          src="/presentations/field/01-1280.webp"
+                          srcset="/presentations/field/01-800.webp 800w, /presentations/field/01-1280.webp 1280w, /presentations/field/01-1920.webp 1920w"
+                          sizes="(max-width: 900px) 92vw, 560px"
+                          width="1280"
+                          height="705"
+                          alt="Интерфейс Rocksurv Field на полевом защищённом планшете: геопривязанные слои GeoPackage, активная сессия и навигация"
+                          loading="lazy"
+                          decoding="async"
+                          class="tablet-screen-img"
+                        />
+                        <div class="device-screen-overlay"></div>
+                      </div>
+                      <div class="showcase-chip-photo">
+                        <img
+                          src="/presentations/field/11-640.webp"
+                          width="140"
+                          height="90"
+                          alt="Полевая работа с планшетом на обнажении"
+                          loading="lazy"
+                          decoding="async"
+                        />
+                        <div class="chip-text">
+                          <span class="chip-title">В полевом маршруте</span>
+                          <span class="chip-sub">100% Offline-First</span>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="showcase-badge-cta">
+                      <span class="cta-pill">
+                        <Icon name="presentation" />
+                        Интерактивная презентация: 12 слайдов &rarr;
+                      </span>
+                    </div>
+                  </div>
+                </a>
+              ) : (
+                <a href="/ru/presentations/classifier/" class="app-showcase-link" aria-label="Открыть интерактивную презентацию Rocksurv Classifier">
+                  <div class="showcase-device showcase-dual">
+                    <div class="device-phone phone-primary">
+                      <div class="phone-screen-wrap">
+                        <span class="phone-tag">Сетка Шмидта (β-ось)</span>
+                        <img
+                          src="/presentations/classifier/08-1000.webp"
+                          srcset="/presentations/classifier/08-600.webp 600w, /presentations/classifier/08-1000.webp 1000w, /presentations/classifier/08-1600.webp 1600w"
+                          sizes="(max-width: 900px) 46vw, 280px"
+                          width="600"
+                          height="1200"
+                          alt="Rocksurv Classifier: равноплощадная сетка Шмидта с пересечением плоскостей S0 и Fault, полюсами и расчётом бета-оси"
+                          loading="lazy"
+                          decoding="async"
+                        />
+                      </div>
+                    </div>
+                    <div class="device-phone phone-secondary">
+                      <div class="phone-screen-wrap">
+                        <span class="phone-tag">IUGS QAPF (Плутониты)</span>
+                        <img
+                          src="/presentations/classifier/11-1000.webp"
+                          srcset="/presentations/classifier/11-600.webp 600w, /presentations/classifier/11-1000.webp 1000w, /presentations/classifier/11-1600.webp 1600w"
+                          sizes="(max-width: 900px) 46vw, 280px"
+                          width="600"
+                          height="1200"
+                          alt="Rocksurv Classifier: классификационный двойной треугольник QAPF Штрекайзена с полем монцогранита"
+                          loading="lazy"
+                          decoding="async"
+                        />
+                      </div>
+                    </div>
+                    <div class="showcase-badge-cta">
+                      <span class="cta-pill cta-pill-cyan">
+                        <Icon name="presentation" />
+                        Интерактивная презентация: 10 слайдов &rarr;
+                      </span>
+                    </div>
+                  </div>
+                </a>
+              )}
+              <figcaption>{figureCaption[isField ? 'field-flow' : 'stereonet']}</figcaption>
+            </figure>
+            <div class="app-copy">
+              <p class="app-stage" data-reveal>{String(index + 1).padStart(2, '0')}. {app.data.area}</p>
+              <h3 id={`app-title-${app.id}`} data-reveal style={`--i:1; view-transition-name: app-${app.data.slug}`}>{app.data.title}</h3>
+              <p class="app-summary" data-reveal style="--i:2">{app.data.summary}</p>
+              <ul class="app-points">
+                {app.data.highlights.map((item, k) => <li data-reveal style={`--i:${k + 2}`}>{item}</li>)}
+              </ul>
+              <div class="app-meta" data-reveal style="--i:5">
+                {app.data.specVersion && <span class="chip">Спецификация {app.data.specVersion}</span>}
+                {app.data.stack && <span class="chip">{app.data.stack}</span>}
+                <span class="chip chip-accent">100% Offline-First</span>
+              </div>
+              <div class="app-actions" data-reveal style="--i:6">
+                <a class="app-pres-cta" href={`/ru/presentations/${isField ? 'field' : 'classifier'}/`}>
+                  <div class="app-pres-cta-content">
+                    <div class="app-pres-cta-top">
+                      <span class="app-pres-cta-badge">Интерактивный разбор</span>
+                      <span class="app-pres-cta-slides">{isField ? '12 слайдов' : '10 слайдов · Карусели'}</span>
+                    </div>
+                    <div class="app-pres-cta-title">
+                      <Icon name="presentation" />
+                      <strong>Узнай больше о реальных возможностях приложения</strong>
+                      <span class="app-pres-cta-arrow" aria-hidden="true">&rarr;</span>
+                    </div>
+                    <p class="app-pres-cta-desc">
+                      {isField
+                        ? 'Исследуйте офлайн-карты GeoPackage, журнал точек, полевые замеры и экспорт сессий'
+                        : 'Исследуйте проекцию Шмидта, двойной треугольник IUGS QAPF и контроль геометрических ошибок'}
+                    </p>
+                  </div>
+                </a>
+                <a class="app-link" href={`/ru/apps/${app.data.slug}/`}>
+                  <span>Подробная спецификация и архитектура {app.data.title}</span>
+                  <Icon name="arrow-up-right" />
+                </a>
+              </div>
+            </div>
+          </article>
+        );
+      })}
+
+      <div class="practice" data-reveal>
+        <div class="practice-photo">
+          <img src="/images/experience/gmas-tablet-1280.webp" srcset="/images/experience/gmas-tablet-640.webp 640w, /images/experience/gmas-tablet-1280.webp 1280w" sizes="(max-width: 900px) 90vw, 40vw" width="1280" height="960" loading="lazy" decoding="async" alt="Геолог с защищённым планшетом на маршруте в Саудовской Аравии" />
+        </div>
+        <div>
+          <h3>Из практики GMAS</h3>
+          <p>Два инструмента, написанных на проекте картирования Аравийского щита.</p>
+          <ul class="practice-list">
+            {practice.map((tool) => (
+              <li><strong>{tool.data.title}</strong><small>{tool.data.area}</small><p>{tool.data.summary}</p></li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="achievements" aria-labelledby="achievements-title">
+    <div class="shell">
+      <div class="section-head">
+        <h2 id="achievements-title" data-reveal>Документы, публикации, доклады</h2>
+        <p data-reveal style="--i:1">Благодарность, аккредитация, диплом и сертификаты сверены с копиями документов. Публикации и аспирантура указаны по резюме. Презентации докладов можно открыть целиком.</p>
+      </div>
+      <div class="ach-grid">
+        {awards.map((item, index) => (
+          <article class:list={['ach-tile', { 'is-lead': index === 0 }]} data-reveal style={`--i:${index}`}>
+            <header><Icon name={index === 0 ? 'medal' : 'certificate'} /><span class="num">{item.data.year}</span></header>
+            <div>
+              <h3>{item.data.title}</h3>
+              <p>{item.data.organization}</p>
+            </div>
+          </article>
+        ))}
+
+        <div class="ach-block ach-papers" data-reveal>
+          <h3><Icon name="article" />Публикации</h3>
+          {papers.map((item) => (
+            <div class="paper">
+              <span class="paper-year num">{item.data.year}</span>
+              <strong>{item.data.title}</strong>
+              <p>{joinSentences(item.data.authors ?? '', item.data.organization).replace(/([^.])$/, '$1.')}</p>
+              {item.data.url && (
+                <a class="doi" href={item.data.url} target="_blank" rel="noopener">DOI<Icon name="arrow-up-right" /><span class="visually-hidden">: {item.data.title}, откроется в новой вкладке</span></a>
+              )}
+            </div>
+          ))}
+        </div>
+
+        <div class="ach-block ach-edu" data-reveal style="--i:1">
+          <h3><Icon name="graduation" />Образование</h3>
+          {education.map((item) => (
+            <div class="edu-item">
+              <span class="paper-year num">{item.data.year}</span>
+              <strong>{item.data.title}</strong>
+              <p>{item.data.organization}</p>
+              {item.data.detail && <p>{item.data.detail}</p>}
+            </div>
+          ))}
+        </div>
+
+        <div class="ach-block ach-certs" data-reveal>
+          <h3><Icon name="certificate" />Сертификаты и курсы</h3>
+          <div class="cert-row">
+            {certificates.map((item) => (
+              <div class="cert">
+                <span class="num">{item.data.year}</span>
+                <strong>{item.data.title}</strong>
+                <p>{item.data.organization}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div class="ach-block ach-talks" data-reveal>
+          <h3><Icon name="presentation" />Доклады и лекции</h3>
+          <ol class="talks">
+            {talks.map((item) => (
+              <li class="talk">
+                <span class="num">{item.data.year}{item.data.place ? `, ${item.data.place}` : ''}</span>
+                <strong>{item.data.title}</strong>
+                <p>{joinSentences(item.data.authors ?? item.data.organization, item.data.detail)}</p>
+                {item.data.file && (
+                  <a class="talk-file" href={item.data.file} target="_blank" rel="noopener">
+                    <Icon name="file-pdf" /><span>Презентация</span><small>PDF, {fileSize(item.data.file)}</small>
+                    <span class="visually-hidden">: {item.data.title}, откроется в новой вкладке</span>
+                  </a>
+                )}
+              </li>
+            ))}
+          </ol>
+        </div>
+      </div>
+    </div>
+  </section>
+  <Lightbox />
+</BaseLayout>
